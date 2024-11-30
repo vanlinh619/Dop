@@ -1,0 +1,16 @@
+services:
+
+  postgres-blog-auth:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: auth
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: auth
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-blog-auth-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-blog-auth-db:
