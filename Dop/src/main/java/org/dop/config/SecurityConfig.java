@@ -1,4 +1,4 @@
-package org.blog.auth.config;
+package org.dop.config;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

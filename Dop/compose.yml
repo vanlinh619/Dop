@@ -1,16 +1,16 @@
 services:
 
-  postgres-blog-auth:
+  postgres-dop:
     image: postgres
     restart: on-failure
     environment:
-      POSTGRES_USER: auth
+      POSTGRES_USER: dop
       POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: auth
+      POSTGRES_DB: dop
     ports:
       - "5433:5432"
     volumes:
-      - postgres-blog-auth-db:/var/lib/postgresql/data
+      - postgres-dop-db:/var/lib/postgresql/data
 
 volumes:
-  postgres-blog-auth-db:
+  postgres-dop-db:

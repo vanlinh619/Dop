@@ -1,10 +1,10 @@
-package org.blog.auth;
+package org.dop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BlogAuthApplicationTests {
+class DopApplicationTests {
 
     @Test
     void contextLoads() {

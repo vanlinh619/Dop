@@ -1,4 +1,4 @@
-package org.blog.auth.entity;
+package org.dop.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

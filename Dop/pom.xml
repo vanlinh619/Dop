@@ -8,11 +8,11 @@
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.blog.auth</groupId>
-    <artifactId>BlogAuth</artifactId>
+    <groupId>org.dop</groupId>
+    <artifactId>Dop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>BlogAuth</name>
-    <description>BlogAuth</description>
+    <name>Dop</name>
+    <description>Dop</description>
     <url/>
     <licenses>
         <license/>
