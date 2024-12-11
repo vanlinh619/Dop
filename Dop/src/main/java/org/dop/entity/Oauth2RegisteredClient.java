@@ -3,6 +3,7 @@ package org.dop.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
@@ -18,6 +19,7 @@ import java.time.Instant;
  * and therefore MUST be defined in the database schema.
  */
 @Entity
+@Table(name = "oauth2_registered_client")
 @Getter
 @Setter
 public class Oauth2RegisteredClient {
@@ -28,13 +30,12 @@ public class Oauth2RegisteredClient {
     @Column(length = 100, nullable = false)
     private String clientId;
 
-    @Column(length = 100, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(length = 100, nullable = false)
     private Instant clientIdIssuedAt;
 
     @Column(length = 200)
     private String clientSecret;
 
-    @Column(columnDefinition = "TIMESTAMP")
     private Instant clientSecretExpiresAt;
 
     @Column(length = 200, nullable = false)
