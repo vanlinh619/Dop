@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
@@ -24,13 +26,15 @@ import java.time.Instant;
 @Setter
 public class Oauth2RegisteredClient {
     @Id
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String id;
 
-    @Column(length = 100, nullable = false)
+    @NotBlank
+    @Column(length = 100)
     private String clientId;
 
-    @Column(length = 100, nullable = false)
+    @NotNull
+    @Column(length = 100)
     private Instant clientIdIssuedAt;
 
     @Column(length = 200)
@@ -38,13 +42,16 @@ public class Oauth2RegisteredClient {
 
     private Instant clientSecretExpiresAt;
 
-    @Column(length = 200, nullable = false)
+    @NotBlank
+    @Column(length = 200)
     private String clientName;
 
-    @Column(length = 1000, nullable = false)
+    @NotBlank
+    @Column(length = 1000)
     private String clientAuthenticationMethods;
 
-    @Column(length = 1000, nullable = false)
+    @NotBlank
+    @Column(length = 1000)
     private String authorizationGrantTypes;
 
     @Column(length = 1000)
@@ -53,12 +60,15 @@ public class Oauth2RegisteredClient {
     @Column(length = 1000)
     private String postLogoutRedirectUris;
 
-    @Column(length = 1000, nullable = false)
+    @NotBlank
+    @Column(length = 1000)
     private String scopes;
 
-    @Column(length = 2000, nullable = false)
+    @NotBlank
+    @Column(length = 2000)
     private String clientSettings;
 
-    @Column(length = 2000, nullable = false)
+    @NotBlank
+    @Column(length = 2000)
     private String tokenSettings;
 }

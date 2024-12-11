@@ -6,13 +6,13 @@ import lombok.experimental.FieldNameConstants;
 import org.dop.entity.state.StartupName;
 
 @Entity
-@Table(indexes = @Index(name = "index_startup_name", columnList = Startup.Fields.name))
 @Getter
 @Setter
 @Builder
 @FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(indexes = @Index(name = "index_startup_name", columnList = Startup.Fields.name))
 public class Startup {
 
     @Id

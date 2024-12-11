@@ -3,7 +3,6 @@ package org.dop.module.startup.registeredclient;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.state.StartupName;
 import org.dop.module.startup.Starter;
-import org.dop.repository.Oauth2RegisteredClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @Service(StartupName.Fields.REGISTERED_CLIENT)
 @RequiredArgsConstructor
-public class Oauth2RegisteredClientStartup implements Starter {
+public class Oauth2RegisteredClientStarter implements Starter {
 
     public static final String MASTER_CLIENT = "master-client";
 
