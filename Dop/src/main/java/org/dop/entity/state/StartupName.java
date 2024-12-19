@@ -6,4 +6,5 @@ import lombok.experimental.FieldNameConstants;
 public enum StartupName {
     @FieldNameConstants.Include REGISTERED_CLIENT,
     @FieldNameConstants.Include LANGUAGE_SUPPORT,
+    @FieldNameConstants.Include ADMIN_USER,
 }

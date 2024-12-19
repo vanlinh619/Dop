@@ -2,6 +2,7 @@ package org.dop.module.startup.language;
 
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.Language;
+import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.StartupName;
 import org.dop.module.startup.Starter;
 import org.dop.repository.LanguageRepository;
@@ -18,8 +19,8 @@ public class LanguageSupportStarter implements Starter {
     @Override
     public void start() {
         List<Language> languages = List.of(
-                new Language("vi", "Việt Nam"),
-                new Language("en", "English")
+                new Language(LanguageCode.vi, "Việt Nam"),
+                new Language(LanguageCode.en, "English")
         );
         languageRepository.saveAll(languages);
     }

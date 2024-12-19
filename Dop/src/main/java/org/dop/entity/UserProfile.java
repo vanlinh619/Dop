@@ -5,12 +5,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
+import org.dop.entity.embeded.AddressEmbedded;
+import org.dop.entity.embeded.PhoneEmbedded;
+import org.dop.entity.state.Gender;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Locale;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,26 +26,32 @@ import java.util.Locale;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class UserProfile {
+    /**
+     * This is User primary id
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(length = 50)
     private String familyName;
+
+    @Column(length = 50)
+    private String middleName;
 
     @NotNull
     @Column(length = 50)
     private String givenName;
 
     @NotNull
-    @Column(length = 101)
     private String fullName;
 
-    private Instant dateOfBirth;
+    private Instant birthDate;
 
-    @Column(length = 15)
-    @Pattern(regexp = "^[0-9+]{10,15}$")
-    private String phoneNumber;
+    private Gender gender;
+
+    private PhoneEmbedded phone;
+
+    private AddressEmbedded address;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,13 +60,13 @@ public class UserProfile {
     @OneToOne(fetch = FetchType.LAZY)
     private Image avatar;
 
-    private Locale country;
+    private Locale locale;
 
     private String story;
 
     @CreatedDate
-    private Instant created;
+    private Instant createdDate;
 
     @LastModifiedDate
-    private Instant lastModified;
+    private Instant lastModifiedDate;
 }

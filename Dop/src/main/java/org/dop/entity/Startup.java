@@ -21,6 +21,5 @@ public class Startup {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-
     private StartupName name;
 }

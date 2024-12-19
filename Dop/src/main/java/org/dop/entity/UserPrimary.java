@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
+import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.state.UserPrimaryRole;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.springframework.data.annotation.CreatedDate;
@@ -36,11 +37,9 @@ public class UserPrimary {
     @NotBlank
     private String password;
 
-    @NotBlank
-    @Column(unique = true)
-    private String email;
-
-    private Boolean emailVerified;
+    @NotNull
+    @Embedded
+    private EmailEmbedded email;
 
     @NotNull
     @Enumerated(EnumType.STRING)
