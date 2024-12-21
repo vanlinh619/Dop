@@ -37,6 +37,8 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    public static final String ROLE_PREFIX = "ROLE_";
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(HttpSecurity http) throws Exception {

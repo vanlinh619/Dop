@@ -15,9 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PhoneEmbedded {
 
-    @Column(length = 15)
+    @Column(name = "phone_number", length = 15)
     @Pattern(regexp = "^[0-9+]{10,15}$")
-    private String phoneNumber;
+    private String number;
 
-    private Boolean phoneVerified;
+    @Column(name = "phone_verified")
+    private Boolean verified;
 }

@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 
 import java.time.Instant;
-import java.util.List;
 
 /**
  * See document {@link JdbcRegisteredClientRepository} for detail create this entity.
@@ -69,10 +68,4 @@ public class Oauth2RegisteredClient {
     @NotBlank
     @Column(length = 2000)
     private String tokenSettings;
-
-    /**
-     * Relationship
-     */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = ClientRole.Fields.client, cascade = CascadeType.REMOVE)
-    private List<ClientRole> clientRoles;
 }

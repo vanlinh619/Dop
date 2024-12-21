@@ -37,7 +37,6 @@ public class UserPrimary {
     @NotBlank
     private String password;
 
-    @NotNull
     @Embedded
     private EmailEmbedded email;
 
@@ -54,8 +53,8 @@ public class UserPrimary {
     /**
      * Relationship
      */
-    @OneToMany(mappedBy = UserPrimaryClientRole.Fields.user, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<UserPrimaryClientRole> roles;
+    @OneToMany(mappedBy = UserPrimaryRole.Fields.user, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<UserPrimaryRole> roles;
 
     @OneToMany(mappedBy = Image.Fields.owner, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> images;

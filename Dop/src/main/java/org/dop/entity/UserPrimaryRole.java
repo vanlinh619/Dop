@@ -15,7 +15,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPrimaryClientRole {
+public class UserPrimaryRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,5 +24,5 @@ public class UserPrimaryClientRole {
     private UserPrimary user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private ClientRole role;
+    private Role role;
 }

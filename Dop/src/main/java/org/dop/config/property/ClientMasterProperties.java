@@ -5,6 +5,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Default config for master client, which interact with authorization server to manage user
+ * */
 @Getter
 @Setter
 @Component
@@ -13,7 +16,4 @@ public class ClientMasterProperties {
 
     private String redirectUrl;
     private String clientId = "master-client";
-    private String roleMaster = "MASTER";
-    private String roleAdmin = "ADMIN";
-    private String roleUser = "USER";
 }
