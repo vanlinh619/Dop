@@ -1,26 +1,28 @@
 package org.dop.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
-import org.dop.entity.state.StartupName;
 
+/**
+ * User has clientRole at client
+ */
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}))
 @Getter
 @Setter
 @Builder
 @FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = @Index(name = "index_startup_name", columnList = Startup.Fields.name))
-public class Startup {
-
+public class UserPrimaryClientRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserPrimary user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ClientRole role;
 }

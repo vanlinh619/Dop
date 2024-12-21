@@ -7,13 +7,13 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.dop.entity.embeded.EmailEmbedded;
-import org.dop.entity.state.UserPrimaryRole;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -43,10 +43,6 @@ public class UserPrimary {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UserPrimaryRole role;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
     private UserPrimaryStatus status;
 
     @CreatedDate
@@ -54,4 +50,13 @@ public class UserPrimary {
 
     @LastModifiedDate
     private Instant lastModifiedDate;
+
+    /**
+     * Relationship
+     */
+    @OneToMany(mappedBy = UserPrimaryClientRole.Fields.user, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<UserPrimaryClientRole> roles;
+
+    @OneToMany(mappedBy = Image.Fields.owner, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Image> images;
 }

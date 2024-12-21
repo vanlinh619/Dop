@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface StartupRepository extends CrudRepository<Startup, Long> {
-    Optional<Startup> findByName(StartupName name);
+    Optional<Startup> findByName(String name);
 }

@@ -1,9 +1,6 @@
 package org.dop.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -11,6 +8,7 @@ import lombok.Setter;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * See document {@link JdbcRegisteredClientRepository} for detail create this entity.
@@ -71,4 +69,10 @@ public class Oauth2RegisteredClient {
     @NotBlank
     @Column(length = 2000)
     private String tokenSettings;
+
+    /**
+     * Relationship
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = ClientRole.Fields.client, cascade = CascadeType.REMOVE)
+    private List<ClientRole> clientRoles;
 }

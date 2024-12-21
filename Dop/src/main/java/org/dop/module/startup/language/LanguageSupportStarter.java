@@ -6,11 +6,14 @@ import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.StartupName;
 import org.dop.module.startup.Starter;
 import org.dop.repository.LanguageRepository;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service(StartupName.Fields.LANGUAGE_SUPPORT)
+@Service(StartupName.LANGUAGE_SUPPORT)
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
 public class LanguageSupportStarter implements Starter {
 

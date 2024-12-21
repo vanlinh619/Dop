@@ -19,9 +19,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldNameConstants
 @EntityListeners(AuditingEntityListener.class)
 public class Image {
     @Id

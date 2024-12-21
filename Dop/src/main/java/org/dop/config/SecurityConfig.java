@@ -73,17 +73,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("admin")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
-
     /**
      * Register an {@link RegisteredClientRepository} with a default {@link RegisteredClient} to test
      * @return {@link RegisteredClientRepository}
