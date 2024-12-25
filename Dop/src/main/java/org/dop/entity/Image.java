@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
+import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.state.ImageExtension;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;

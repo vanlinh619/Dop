@@ -5,7 +5,9 @@ import org.dop.module.user.pojo.projection.UserAuthorityProjection;
 import org.dop.repository.UserPrimaryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +18,10 @@ public class UserPrimaryServiceImpl implements UserPrimaryService {
     @Override
     public Optional<UserAuthorityProjection> findUserAuthority(String identifier) {
         return userPrimaryRepository.findUserAuthority(identifier);
+    }
+
+    @Override
+    public List<String> findRoles(UUID userId) {
+        return userPrimaryRepository.findRoles(userId);
     }
 }

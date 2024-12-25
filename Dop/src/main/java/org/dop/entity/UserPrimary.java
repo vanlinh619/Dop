@@ -53,8 +53,13 @@ public class UserPrimary {
     /**
      * Relationship
      */
-    @OneToMany(mappedBy = UserPrimaryRole.Fields.user, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<UserPrimaryRole> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_primary_role",
+            joinColumns = @JoinColumn(name = "user_primary_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
 
     @OneToMany(mappedBy = Image.Fields.owner, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> images;

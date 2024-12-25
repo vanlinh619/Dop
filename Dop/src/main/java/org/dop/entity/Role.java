@@ -20,13 +20,8 @@ public class Role {
     private Long id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     private String description;
-
-    /**
-     * Relationship
-     */
-    @OneToMany(mappedBy = UserPrimaryRole.Fields.role, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<UserPrimaryRole> userPrimaryRoles;
 }
