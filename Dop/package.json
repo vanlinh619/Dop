@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "build": "tailwindcss -i ./style.css -o ./src/main/resources/public/css/main.css",
+    "watch": "tailwindcss -i ./style.css -o ./src/main/resources/public/css/main.css --watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  }
+}
