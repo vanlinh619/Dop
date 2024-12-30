@@ -56,7 +56,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
-                        // Enable OpenID Connect 1.0
+                        /// Enable OpenID Connect 1.0
                         .oidc(Customizer.withDefaults())
                 )
                 // Redirect to the login page when not authenticated from the authorization endpoint
@@ -80,7 +80,6 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .securityMatcher(
-                        "/",
                         "/login"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
