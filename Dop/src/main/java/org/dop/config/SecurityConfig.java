@@ -25,6 +25,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -53,7 +55,7 @@ public class SecurityConfig {
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
                         /// Enable OpenID Connect 1.0
@@ -84,7 +86,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .csrf(Customizer.withDefaults())
                 .cors(corsConfigurer -> corsConfigurer
@@ -132,7 +134,7 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer
@@ -168,6 +170,16 @@ public class SecurityConfig {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 
+//    @Bean
+//    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
+//        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+//    }
+
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         KeyPair keyPair = generateRsaKey();
@@ -191,11 +203,6 @@ public class SecurityConfig {
             throw new IllegalStateException(ex);
         }
         return keyPair;
-    }
-
-    @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
     @Bean

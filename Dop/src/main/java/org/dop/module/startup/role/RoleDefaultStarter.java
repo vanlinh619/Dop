@@ -25,12 +25,10 @@ public class RoleDefaultStarter implements Starter {
     @Transactional
     @Override
     public void start() {
-
-        Role roleAdmin = Role.builder()
-                .name(roleDefaultProperties.getRoleAdmin())
-                .build();
         List<Role> roles = List.of(
-                roleAdmin,
+                Role.builder()
+                        .name(roleDefaultProperties.getRoleAdmin())
+                        .build(),
                 Role.builder()
                         .name(roleDefaultProperties.getRoleUser())
                         .build()

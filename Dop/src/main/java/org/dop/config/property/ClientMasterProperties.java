@@ -16,4 +16,5 @@ public class ClientMasterProperties {
 
     private String redirectUrl;
     private String clientId = "master-client";
+    private String scopeMaster = "master";
 }

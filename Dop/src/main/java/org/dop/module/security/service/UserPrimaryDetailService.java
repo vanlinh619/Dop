@@ -26,7 +26,7 @@ public class UserPrimaryDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
         Collection<? extends GrantedAuthority> roles = userPrimaryService.findRoles(userAuthority.id()).stream()
-                .map((role) -> new SimpleGrantedAuthority(SecurityConfig.ROLE_PREFIX + role))
+                .map(SimpleGrantedAuthority::new)
                 .toList();
         return new DopUserDetails(identifier, userAuthority.password(), userAuthority.status(), roles);
     }
