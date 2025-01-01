@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
                         /// Enable OpenID Connect 1.0
@@ -86,7 +86,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(Customizer.withDefaults())
                 .cors(corsConfigurer -> corsConfigurer
@@ -119,9 +119,7 @@ public class SecurityConfig {
      */
     @Bean
     @Order(3)
-    public SecurityFilterChain securityFilterChainApi(
-            HttpSecurity http
-    ) throws Exception {
+    public SecurityFilterChain securityFilterChainApi(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(
                         "/api/v1/**",
@@ -134,7 +132,7 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**"
                         ).permitAll()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer
@@ -147,15 +145,15 @@ public class SecurityConfig {
                 )
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                        })
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(HttpStatus.FORBIDDEN.value());
-                        })
                 );
+//                .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//                        })
+//                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                            response.setStatus(HttpStatus.FORBIDDEN.value());
+//                        })
+//                );
 //                .addFilterBefore(oncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -170,10 +168,10 @@ public class SecurityConfig {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 
-//    @Bean
-//    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-//        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-//    }
+    @Bean
+    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+    }
 
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {

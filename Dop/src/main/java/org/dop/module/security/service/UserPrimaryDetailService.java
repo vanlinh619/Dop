@@ -1,12 +1,12 @@
 package org.dop.module.security.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dop.config.SecurityConfig;
-import org.dop.module.security.pojo.DopUserDetails;
+import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.user.pojo.projection.UserAuthorityProjection;
 import org.dop.module.user.service.UserPrimaryService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,9 +25,18 @@ public class UserPrimaryDetailService implements UserDetailsService {
         UserAuthorityProjection userAuthority = userPrimaryService.findUserAuthority(identifier)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
-        Collection<? extends GrantedAuthority> roles = userPrimaryService.findRoles(userAuthority.id()).stream()
+        Collection<? extends GrantedAuthority> authorities = userPrimaryService.findRoles(userAuthority.id()).stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-        return new DopUserDetails(identifier, userAuthority.password(), userAuthority.status(), roles);
+        boolean enabled = userAuthority.status() == UserPrimaryStatus.ENABLED;
+        return new User(
+                userAuthority.id().toString(),
+                userAuthority.password(),
+                enabled,
+                true,
+                true,
+                true,
+                authorities
+        );
     }
 }
