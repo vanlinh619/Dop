@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 @Service(StartupName.ADMIN_USER)
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -46,8 +45,8 @@ public class AdminUserStarter implements Starter {
     @Override
     public void start() {
         /// Create user
-        Role role = roleRepository.findByName(roleDefaultProperties.getRoleAdmin())
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Role %s not found", roleDefaultProperties.getRoleAdmin())));
+        Role role = roleRepository.findByName(roleDefaultProperties.getRoleSuper())
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Role %s not found", roleDefaultProperties.getRoleSuper())));
         UserPrimary userPrimary = UserPrimary.builder()
                 .username(userAdminProperties.getUsername())
                 .password(passwordEncoder.encode(userAdminProperties.getPassword()))

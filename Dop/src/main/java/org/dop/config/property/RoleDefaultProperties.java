@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "dop.manage.master.role")
 public class RoleDefaultProperties {
 
-    private String roleAdmin = "ADMIN";
+    private String roleSuper = "SUPER";
     private String roleUser = "USER";
 
-    public String getRoleAdmin() {
-        return SecurityConfig.ROLE_PREFIX + roleAdmin;
+    public String getRawRoleSuper() {
+        return roleSuper;
+    }
+
+    public String getRoleSuper() {
+        return SecurityConfig.ROLE_PREFIX + roleSuper;
     }
 
     public String getRoleUser() {

@@ -27,7 +27,7 @@ public class RoleDefaultStarter implements Starter {
     public void start() {
         List<Role> roles = List.of(
                 Role.builder()
-                        .name(roleDefaultProperties.getRoleAdmin())
+                        .name(roleDefaultProperties.getRoleSuper())
                         .build(),
                 Role.builder()
                         .name(roleDefaultProperties.getRoleUser())
