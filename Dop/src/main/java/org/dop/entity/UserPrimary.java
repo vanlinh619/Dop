@@ -53,7 +53,7 @@ public class UserPrimary {
     /**
      * Relationship
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_primary_role",
             joinColumns = @JoinColumn(name = "user_primary_id"),

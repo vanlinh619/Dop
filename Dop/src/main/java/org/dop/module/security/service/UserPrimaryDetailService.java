@@ -1,6 +1,7 @@
 package org.dop.module.security.service;
 
 import lombok.RequiredArgsConstructor;
+import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.user.pojo.projection.UserAuthorityProjection;
 import org.dop.module.user.service.UserPrimaryService;
@@ -19,6 +20,7 @@ import java.util.Collection;
 public class UserPrimaryDetailService implements UserDetailsService {
 
     private final UserPrimaryService userPrimaryService;
+    private final RoleDefaultProperties roleDefaultProperties;
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
@@ -26,7 +28,7 @@ public class UserPrimaryDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
         Collection<? extends GrantedAuthority> authorities = userPrimaryService.findRoles(userAuthority.id()).stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(role -> new SimpleGrantedAuthority(roleDefaultProperties.addPrefix(role)))
                 .toList();
         boolean enabled = userAuthority.status() == UserPrimaryStatus.ENABLED;
         return new User(

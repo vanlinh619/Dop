@@ -35,6 +35,7 @@ public class Oauth2RegisteredClientStarter implements Starter {
                 .clientId(clientMasterProperties.getClientId())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .scope(clientMasterProperties.getScopeMaster())
                 .scope(OidcScopes.OPENID)
                 .redirectUri(clientMasterProperties.getRedirectUrl())
                 .clientSettings(ClientSettings.builder()

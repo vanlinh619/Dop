@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "dop.manage.master.client")
 public class ClientMasterProperties {
 
+    private String scopePrefix = "SCOPE_";
+
     private String redirectUrl;
     private String clientId = "master-client";
     private String scopeMaster = "master";
