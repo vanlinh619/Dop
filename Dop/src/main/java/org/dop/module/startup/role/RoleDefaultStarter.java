@@ -27,10 +27,10 @@ public class RoleDefaultStarter implements Starter {
     public void start() {
         List<Role> roles = List.of(
                 Role.builder()
-                        .name(roleDefaultProperties.getRoleSuper())
+                        .id(roleDefaultProperties.getRoleSuper())
                         .build(),
                 Role.builder()
-                        .name(roleDefaultProperties.getRoleUser())
+                        .id(roleDefaultProperties.getRoleUser())
                         .build()
         );
         roleRepository.saveAll(roles);

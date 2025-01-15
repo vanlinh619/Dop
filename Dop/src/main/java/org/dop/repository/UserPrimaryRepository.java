@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserPrimaryRepository extends JpaRepository<UserPrimary, Integer> {
+public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> {
 
     @Query("""
     select new org.dop.module.user.pojo.projection.UserAuthorityProjection(u.id, u.password, u.status)
@@ -28,7 +28,7 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, Intege
     Optional<UUID> findUserIdByIdentifier(String identifier);
 
     @Query("""
-    select r.name
+    select r.id
     from UserPrimary u
     join u.roles r
     where u.id = :userId

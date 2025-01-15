@@ -34,7 +34,6 @@ public class UserPrimary {
     @Column(unique = true, length = 50)
     private String username;
 
-    @NotBlank
     private String password;
 
     @Embedded

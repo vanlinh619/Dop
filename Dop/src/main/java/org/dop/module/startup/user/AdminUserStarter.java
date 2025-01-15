@@ -45,7 +45,7 @@ public class AdminUserStarter implements Starter {
     @Override
     public void start() {
         /// Create user
-        Role role = roleRepository.findByName(roleDefaultProperties.getRoleSuper())
+        Role role = roleRepository.findById(roleDefaultProperties.getRoleSuper())
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Role %s not found", roleDefaultProperties.getRoleSuper())));
         UserPrimary userPrimary = UserPrimary.builder()
                 .username(userAdminProperties.getUsername())

@@ -16,12 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank
-    @Column(unique = true)
-    private String name;
+    private String id;
 
     private String description;
 }
