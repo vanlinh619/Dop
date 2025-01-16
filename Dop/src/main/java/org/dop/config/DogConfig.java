@@ -1,5 +1,6 @@
 package org.dop.config;
 
+import com.nimbusds.jose.shaded.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -15,5 +16,10 @@ public class DogConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public Gson gson(){
+        return new Gson();
     }
 }
