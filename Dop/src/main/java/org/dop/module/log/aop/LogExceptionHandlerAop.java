@@ -1,4 +1,4 @@
-package org.dop.module.global.aop;
+package org.dop.module.log.aop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

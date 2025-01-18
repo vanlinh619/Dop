@@ -1,4 +1,4 @@
-package org.dop.module.global.pojo;
+package org.dop.module.exceptionhadler.pojo;
 
 public enum ErrorCode {
     ARGUMENT_INVALID,

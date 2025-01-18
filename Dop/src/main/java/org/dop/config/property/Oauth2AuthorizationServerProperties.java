@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "dop.oauth2.authorization.server")
 public class Oauth2AuthorizationServerProperties {
 
+    /// Endpoint authorization server
     private String authorizationEndpoint = "/oauth2/authorize";
     private String deviceAuthorizationEndpoint = "/oauth2/device-authorization";
     private String deviceVerificationEndpoint = "/oauth2/device-verification";

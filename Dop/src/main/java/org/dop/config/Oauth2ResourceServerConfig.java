@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class Oauth2ResourceServerConfig {
     public JwtAuthenticationConverter jwtAuthenticationConverter(
             RoleDefaultProperties roleDefaultProperties
     ) {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         Converter<Jwt, Collection<GrantedAuthority>> delegateConverter = jwt -> {
             /// Extract scope authorities from JWT
             Collection<GrantedAuthority> scopeAuthorities = new ArrayList<>();

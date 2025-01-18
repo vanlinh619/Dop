@@ -1,15 +1,16 @@
-package org.dop.module.global.advice;
+package org.dop.module.exceptionhadler.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.dop.module.global.pojo.ErrorCode;
-import org.dop.module.global.pojo.ErrorResponse;
+import org.dop.module.exceptionhadler.pojo.ErrorCode;
+import org.dop.module.exceptionhadler.pojo.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 @RequiredArgsConstructor
 public class DopExceptionAdvice {
 
