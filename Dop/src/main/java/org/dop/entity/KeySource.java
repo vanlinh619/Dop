@@ -19,6 +19,7 @@ public class KeySource {
     private Long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private AlgorithmKey algorithm;
 
     @NotNull

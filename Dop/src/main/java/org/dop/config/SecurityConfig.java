@@ -1,6 +1,8 @@
 package org.dop.config;
 
 import java.util.List;
+
+import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +30,10 @@ public class SecurityConfig {
      */
     @Bean
     @Order(1)
-    public SecurityFilterChain authorizationServerSecurityFilterChainCustom(HttpSecurity http) throws Exception {
+    public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
+            HttpSecurity http,
+            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties
+    ) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
 
         http
@@ -39,6 +44,9 @@ public class SecurityConfig {
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
                         /// Enable OpenID Connect 1.0
                         .oidc(Customizer.withDefaults())
+                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+                        )
                 )
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions

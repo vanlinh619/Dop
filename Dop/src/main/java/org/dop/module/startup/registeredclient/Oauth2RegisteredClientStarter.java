@@ -40,6 +40,7 @@ public class Oauth2RegisteredClientStarter implements Starter {
                 .redirectUri(clientMasterProperties.getRedirectUrl())
                 .clientSettings(ClientSettings.builder()
                         .requireProofKey(true)
+                        .requireAuthorizationConsent(true)
                         .build())
                 .build();
 
