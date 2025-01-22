@@ -7,9 +7,9 @@ import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.role.service.RoleService;
-import org.dop.module.security.service.AuthenticationService;
 import org.dop.module.user.mapper.UserInfoMapper;
 import org.dop.module.user.pojo.request.UserInfoRequest;
+import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,5 +68,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         userProviderRepository.save(userProvider);
 
         return userInfoMapper.toUserInfoResponse(userPrimary, userProfile, userProvider);
+    }
+
+    @Override
+    public UserConsentProjection getUserConsentInfo(String uuid) {
+        UUID id = UUID.fromString(uuid);
+        return userProfileRepository.getUserConsentInfo(id);
     }
 }

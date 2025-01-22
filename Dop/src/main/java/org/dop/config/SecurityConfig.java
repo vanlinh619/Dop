@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
@@ -65,13 +66,16 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(
             HttpSecurity http,
-            SecurityRememberMeProperties securityRememberMeProperties
+            SecurityRememberMeProperties securityRememberMeProperties,
+            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties
     ) throws Exception {
         http
                 .securityMatcher(
+                        oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
                         "/login"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers(oauth2AuthorizationServerProperties.getConsentPageEndpoint()).authenticated()
                         .requestMatchers("/login").permitAll()
                         .anyRequest().denyAll()
                 )

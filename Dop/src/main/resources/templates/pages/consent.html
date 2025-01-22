@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <title>Consent required</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<div>
+  <div>
+    <h1 th:text="#{consent.grant-access}"></h1>
+  </div>
+  <div>
+    <div>
+      <p>
+        <span th:text="#{consent.application}"></span>
+        <span th:text="${clientName}"></span>
+        <span th:text="#{consent.want-to-access-account}"></span>
+        <span th:text="${userConsent.fullName()}"></span>
+      </p>
+    </div>
+  </div>
+  <div>
+    <div>
+      <p th:text="#{consent.description-consent-1}"></p>
+      <p th:text="#{consent.description-consent-2}"></p>
+    </div>
+  </div>
+  <div>
+    <div>
+      <form name="consent_form" method="post" action="/oauth2/authorize">
+        <input type="hidden" name="client_id" th:value="${clientId}">
+        <input type="hidden" name="state" th:value="${state}">
+
+        <div th:each="scope: ${needApproveScopes}">
+          <input class="form-check-input"
+                 type="checkbox"
+                 name="scope"
+                 th:value="${scope.scope}"
+                 th:id="${scope.scope}">
+          <label th:for="${scope.scope}" th:text="${scope.scope}"></label>
+          <p th:text="${scope.description}"></p>
+        </div>
+
+        <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
+        <div th:each="scope: ${approvedScopes}">
+          <input
+                 type="checkbox"
+                 th:id="${scope.scope}"
+                 disabled
+                 checked>
+          <label th:for="${scope.scope}" th:text="${scope.scope}"></label>
+          <p th:text="${scope.description}"></p>
+        </div>
+
+        <div>
+          <button type="submit" id="submit-consent" th:text="#{consent.button-grant-access}">
+          </button>
+        </div>
+        <div class="form-group">
+          <button type="button" id="cancel-consent" th:text="#{consent.button-cancel}">
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div>
+    <div>
+      <p>
+        <small>
+          <span th:text="#{consent.description-for-scope-1}"></span>
+          <span th:text="#{consent.description-for-scope-2}"></span>
+        </small>
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

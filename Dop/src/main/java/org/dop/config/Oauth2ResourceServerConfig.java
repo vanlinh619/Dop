@@ -17,8 +17,8 @@ import java.util.Collections;
 
 @Configuration
 public class Oauth2ResourceServerConfig {
-    private static final String DEFAULT_AUTHORITIES_CLAIM_DELIMITER = " ";
-    private static final Collection<String> WELL_KNOWN_AUTHORITIES_CLAIM_NAMES = Arrays.asList("scope", "scp");
+    public static final String DEFAULT_AUTHORITIES_CLAIM_DELIMITER = " ";
+    public static final Collection<String> WELL_KNOWN_AUTHORITIES_CLAIM_NAMES = Arrays.asList("scope", "scp");
 
     /**
      * Convert JWT to Authentication include roles and scopes
