@@ -7,74 +7,86 @@
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
-<div>
-  <div>
-    <h1 th:text="#{consent.grant-access}"></h1>
-  </div>
-  <div>
+<main class="mt-10">
+  <section class="max-w-8xl mx-auto px-4 text-slate-700">
     <div>
-      <p>
-        <span th:text="#{consent.application}"></span>
-        <span th:text="${clientName}"></span>
-        <span th:text="#{consent.want-to-access-account}"></span>
-        <span th:text="${userConsent.fullName()}"></span>
-      </p>
-    </div>
-  </div>
-  <div>
-    <div>
-      <p th:text="#{consent.description-consent-1}"></p>
-      <p th:text="#{consent.description-consent-2}"></p>
-    </div>
-  </div>
-  <div>
-    <div>
-      <form name="consent_form" method="post" action="/oauth2/authorize">
-        <input type="hidden" name="client_id" th:value="${clientId}">
-        <input type="hidden" name="state" th:value="${state}">
-
-        <div th:each="scope: ${needApproveScopes}">
-          <input class="form-check-input"
-                 type="checkbox"
-                 name="scope"
-                 th:value="${scope.scope}"
-                 th:id="${scope.scope}">
-          <label th:for="${scope.scope}" th:text="${scope.scope}"></label>
-          <p th:text="${scope.description}"></p>
+      <div class="flex justify-center">
+        <h1 class="text-2xl font-bold" th:text="#{consent.grant-access}"></h1>
+      </div>
+      <div class="mt-14">
+        <div class="flex justify-center whitespace-pre">
+          <span th:text="#{consent.application} + ' '"></span>
+          <a class="font-medium text-emerald-700 hover:text-emerald-600 cursor-pointer"
+             th:text="${clientName} + ' '"></a>
+          <span th:text="#{consent.want-to-access-account} + ' '"></span>
+          <a class="font-medium text-emerald-700 hover:text-emerald-600 cursor-pointer flex">
+            <img class="w-5" th:src="@{/svg/user-circle-svgrepo-com.svg}" alt="User Icon">
+            <span th:text="' ' + ${userConsent.fullName()}"></span>
+          </a>
         </div>
-
-        <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
-        <div th:each="scope: ${approvedScopes}">
-          <input
-                 type="checkbox"
-                 th:id="${scope.scope}"
-                 disabled
-                 checked>
-          <label th:for="${scope.scope}" th:text="${scope.scope}"></label>
-          <p th:text="${scope.description}"></p>
-        </div>
-
+      </div>
+      <div class="mt-20">
         <div>
-          <button type="submit" id="submit-consent" th:text="#{consent.button-grant-access}">
-          </button>
+          <p th:text="#{consent.description-consent-1}"></p>
+          <p th:text="#{consent.description-consent-2}"></p>
         </div>
-        <div class="form-group">
-          <button type="button" id="cancel-consent" th:text="#{consent.button-cancel}">
-          </button>
+      </div>
+      <div class="mt-4">
+        <div>
+          <form name="consent_form" method="post" action="/oauth2/authorize">
+            <input type="hidden" name="client_id" th:value="${clientId}">
+            <input type="hidden" name="state" th:value="${state}">
+
+            <div th:each="scope: ${needApproveScopes}">
+              <label>
+                <input class="accent-emerald-700"
+                       type="checkbox"
+                       name="scope"
+                       th:value="${scope.scope}"
+                       th:id="${scope.scope}">
+                <span th:text="${scope.scope}"></span>
+              </label>
+              <p th:text="${scope.description}"></p>
+            </div>
+
+            <div class="mt-8">
+              <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
+              <div class="mt-4" th:each="scope: ${approvedScopes}">
+                <label>
+                  <input
+                      type="checkbox"
+                      th:id="${scope.scope}"
+                      disabled
+                      checked>
+                  <span th:text="${scope.scope}"></span>
+                </label>
+                <p th:text="${scope.description}"></p>
+              </div>
+            </div>
+
+
+            <div class="flex justify-center mt-8">
+              <button
+                  class="border-0 py-2 px-4 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-700 rounded-md text-white font-semibold"
+                  type="submit" id="submit-consent"
+                  th:text="#{consent.button-grant-access}">
+              </button>
+              <button
+                  class="ml-5 border-0 py-2 px-4 bg-slate-400 hover:bg-slate-300 active:bg-slate-400 rounded-md text-white font-semibold"
+                  type="button" id="cancel-consent" th:text="#{consent.button-cancel}">
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
-  </div>
-  <div>
-    <div>
-      <p>
-        <small>
+      </div>
+      <div class="mt-8 flex justify-center">
+        <small class="flex flex-col">
           <span th:text="#{consent.description-for-scope-1}"></span>
           <span th:text="#{consent.description-for-scope-2}"></span>
         </small>
-      </p>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
+</main>
 </body>
 </html>

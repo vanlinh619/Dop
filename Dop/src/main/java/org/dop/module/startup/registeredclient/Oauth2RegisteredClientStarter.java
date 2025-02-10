@@ -33,6 +33,7 @@ public class Oauth2RegisteredClientStarter implements Starter {
     public void start() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientMasterProperties.getClientId())
+                .clientName(clientMasterProperties.getClientName())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope(clientMasterProperties.getScopeMaster())

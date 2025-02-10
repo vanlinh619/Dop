@@ -115,13 +115,15 @@ public class SecurityConfig {
                 .securityMatcher(
                         "/api/v1/**",
                         "/css/**",
-                        "/js/**"
+                        "/js/**",
+                        "/svg/**"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/v1/manage/**").authenticated()
                         .requestMatchers(
                                 "/css/**",
-                                "/js/**"
+                                "/js/**",
+                                "/svg/**"
                         ).permitAll()
                         .anyRequest().denyAll()
                 )
