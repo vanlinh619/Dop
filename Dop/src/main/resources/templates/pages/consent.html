@@ -8,7 +8,7 @@
 </head>
 <body>
 <main class="mt-10">
-  <section class="max-w-8xl mx-auto px-4 text-slate-700">
+  <section class="max-w-5xl mx-auto px-4 text-slate-700">
     <div>
       <div class="flex justify-center">
         <h1 class="text-2xl font-bold" th:text="#{consent.grant-access}"></h1>
@@ -20,7 +20,7 @@
              th:text="${clientName} + ' '"></a>
           <span th:text="#{consent.want-to-access-account} + ' '"></span>
           <a class="font-medium text-emerald-700 hover:text-emerald-600 cursor-pointer flex">
-            <img class="w-5" th:src="@{/svg/user-circle-svgrepo-com.svg}" alt="User Icon">
+            <span class="w-5" th:insert="~{/svg/user-circle}"></span>
             <span th:text="' ' + ${userConsent.fullName()}"></span>
           </a>
         </div>
@@ -38,32 +38,32 @@
             <input type="hidden" name="state" th:value="${state}">
 
             <div th:each="scope: ${needApproveScopes}">
-              <label>
-                <input class="accent-emerald-700"
-                       type="checkbox"
-                       name="scope"
-                       th:value="${scope.scope}"
+              <label class="flex items-start">
+                <input class="accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
                        th:id="${scope.scope}">
-                <span th:text="${scope.scope}"></span>
+                <span class="ml-1">
+                  <span class="font-medium" th:text="${scope.scope}"></span>
+                  <small class="flex flex-col">
+                    <span th:text="${scope.description}"></span>
+                  </small>
+                </span>
               </label>
-              <p th:text="${scope.description}"></p>
             </div>
 
             <div class="mt-8">
               <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
               <div class="mt-4" th:each="scope: ${approvedScopes}">
-                <label>
-                  <input
-                      type="checkbox"
-                      th:id="${scope.scope}"
-                      disabled
-                      checked>
-                  <span th:text="${scope.scope}"></span>
+                <label class="flex items-start">
+                  <input class="mt-[0.4rem]" type="checkbox" th:id="${scope.scope}" disabled checked>
+                  <span class="ml-1">
+                    <span class="font-medium" th:text="${scope.scope}"></span>
+                    <small class="flex flex-col">
+                      <span th:text="${scope.description}"></span>
+                    </small>
+                  </span>
                 </label>
-                <p th:text="${scope.description}"></p>
               </div>
             </div>
-
 
             <div class="flex justify-center mt-8">
               <button
@@ -81,8 +81,14 @@
       </div>
       <div class="mt-8 flex justify-center">
         <small class="flex flex-col">
-          <span th:text="#{consent.description-for-scope-1}"></span>
-          <span th:text="#{consent.description-for-scope-2}"></span>
+          <span class="flex">
+            <span class="w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
+            <span class="ml-1" th:text="#{consent.description-for-scope-1}"></span>
+          </span>
+          <span class="flex">
+            <span class="w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
+            <span class="ml-1" th:text="#{consent.description-for-scope-2}"></span>
+          </span>
         </small>
       </div>
     </div>
