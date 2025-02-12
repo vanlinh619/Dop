@@ -1,4 +1,4 @@
-package org.dop.module.authorizationserver.controller;
+package org.dop.module.security.authorizationserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.dop.config.Oauth2ResourceServerConfig;

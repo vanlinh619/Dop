@@ -1,8 +1,8 @@
-package org.dop.module.security.service;
+package org.dop.module.security.login.service;
 
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
-import org.dop.module.security.pojo.UserAccess;
+import org.dop.module.security.login.pojo.UserAccess;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

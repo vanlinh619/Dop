@@ -1,4 +1,4 @@
-package org.dop.module.security.controller;
+package org.dop.module.security.login.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.SecurityRememberMeProperties;

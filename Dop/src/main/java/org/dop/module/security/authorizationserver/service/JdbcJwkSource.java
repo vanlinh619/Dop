@@ -1,4 +1,4 @@
-package org.dop.module.authorizationserver.service;
+package org.dop.module.security.authorizationserver.service;
 
 import com.nimbusds.jose.KeySourceException;
 import com.nimbusds.jose.jwk.JWK;

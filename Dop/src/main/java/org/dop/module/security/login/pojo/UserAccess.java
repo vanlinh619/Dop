@@ -1,4 +1,4 @@
-package org.dop.module.security.pojo;
+package org.dop.module.security.login.pojo;
 
 import java.util.List;
 

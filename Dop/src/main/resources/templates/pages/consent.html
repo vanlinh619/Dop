@@ -5,6 +5,12 @@
   <title>Consent required</title>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <script>
+      function cancelConsent() {
+          document.consent_form.reset();
+          document.consent_form.submit();
+      }
+  </script>
 </head>
 <body>
 <main class="mt-10">
@@ -39,7 +45,11 @@
 
             <div th:each="scope: ${needApproveScopes}">
               <label class="flex items-start">
-                <input class="accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
+                <input th:if="${scope.scope.equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)}"
+                       class="disabled:accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
+                       th:id="${scope.scope}" checked disabled>
+                <input th:unless="${scope.scope.equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)}"
+                       class="accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
                        th:id="${scope.scope}">
                 <span class="ml-1">
                   <span class="font-medium" th:text="${scope.scope}"></span>
@@ -73,7 +83,8 @@
               </button>
               <button
                   class="ml-5 border-0 py-2 px-4 bg-slate-400 hover:bg-slate-300 active:bg-slate-400 rounded-md text-white font-semibold"
-                  type="button" id="cancel-consent" th:text="#{consent.button-cancel}">
+                  type="button" id="cancel-consent" th:text="#{consent.button-cancel}"
+                  onclick="cancelConsent()">
               </button>
             </div>
           </form>
@@ -82,11 +93,11 @@
       <div class="mt-8 flex justify-center">
         <small class="flex flex-col">
           <span class="flex">
-            <span class="w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
+            <span class="w-4 min-w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
             <span class="ml-1" th:text="#{consent.description-for-scope-1}"></span>
           </span>
           <span class="flex">
-            <span class="w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
+            <span class="w-4 min-w-4 text-emerald-700" th:insert="~{/svg/info-circle}"></span>
             <span class="ml-1" th:text="#{consent.description-for-scope-2}"></span>
           </span>
         </small>
