@@ -8,7 +8,9 @@ import org.dop.entity.state.StartupName;
 import org.dop.module.constant.RedisKey;
 import org.dop.module.startup.Starter;
 import org.dop.repository.KeySourceRepository;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.security.KeyPair;
@@ -21,6 +23,7 @@ import java.util.UUID;
  * Generate key for authorization server
  */
 @Service(StartupName.KEY_SOURCE)
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequiredArgsConstructor
 public class KeySourceStarter implements Starter {
 

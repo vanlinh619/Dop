@@ -6,4 +6,5 @@ public class StartupName {
     public static final String ADMIN_USER = "ADMIN_USER";
     public static final String ROLE_DEFAULT = "ROLE_DEFAULT";
     public static final String KEY_SOURCE = "KEY_SOURCE";
+    public static final String SCOPE_DESCRIPTION = "SCOPE_DESCRIPTION";
 }
