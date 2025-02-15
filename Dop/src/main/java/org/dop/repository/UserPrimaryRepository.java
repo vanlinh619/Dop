@@ -28,13 +28,6 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> 
     Optional<UserAuthorityProjection> findUserAuthority(UUID identifier);
 
     @Query("""
-    select u.id
-    from UserPrimary u
-    where u.email.value = :identifier or u.username = :identifier
-    """)
-    Optional<UUID> findUserIdByIdentifier(String identifier);
-
-    @Query("""
     select r.id
     from UserPrimary u
     join u.roles r
