@@ -1,7 +1,9 @@
 package org.dop.module.security.authorizationserver.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.Oauth2ResourceServerConfig;
+import org.dop.module.security.authorizationserver.service.ConsentService;
 import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.service.UserInfoService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +31,8 @@ public class ConsentController {
     private final RegisteredClientRepository registeredClientRepository;
     private final OAuth2AuthorizationConsentService authorizationConsentService;
     private final UserInfoService userInfoService;
+    private final ConsentService consentService;
+
 
     @GetMapping
     public String consent(
@@ -36,11 +40,14 @@ public class ConsentController {
             @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
             @RequestParam(OAuth2ParameterNames.STATE) String state,
             Authentication authentication,
+            Locale locale,
             Model model
     ) {
 
         RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
-        assert registeredClient != null;
+        if (registeredClient == null) {
+            throw new EntityNotFoundException("Registered client master not found.");
+        }
 
         OAuth2AuthorizationConsent currentAuthorizationConsent = authorizationConsentService.findById(registeredClient.getId(), authentication.getName());
         Set<String> authorizedScopes = currentAuthorizationConsent != null
@@ -64,46 +71,10 @@ public class ConsentController {
         model.addAttribute("clientName", registeredClient.getClientName());
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
-        model.addAttribute("needApproveScopes", withDescription(needApproveScopes));
-        model.addAttribute("approvedScopes", withDescription(approvedScopes));
+        model.addAttribute("needApproveScopes", consentService.withDescription(needApproveScopes, locale));
+        model.addAttribute("approvedScopes", consentService.withDescription(approvedScopes, locale));
         model.addAttribute("userConsent", userConsent);
 
         return "consent";
-    }
-
-    private static Set<ScopeWithDescription> withDescription(Set<String> scopes) {
-        Set<ScopeWithDescription> scopeWithDescriptions = new HashSet<>();
-        for (String scope : scopes) {
-            scopeWithDescriptions.add(new ScopeWithDescription(scope));
-
-        }
-        return scopeWithDescriptions;
-    }
-
-    public static class ScopeWithDescription {
-        private static final String DEFAULT_DESCRIPTION = "UNKNOWN SCOPE - We cannot provide information about this permission, use caution when granting this.";
-        private static final Map<String, String> scopeDescriptions = new HashMap<>();
-        static {
-            scopeDescriptions.put(
-                    "message.read",
-                    "This application will be able to read your message."
-            );
-            scopeDescriptions.put(
-                    "message.write",
-                    "This application will be able to add new messages. It will also be able to edit and delete existing messages."
-            );
-            scopeDescriptions.put(
-                    "other.scope",
-                    "This is another scope example of a scope description."
-            );
-        }
-
-        public final String scope;
-        public final String description;
-
-        ScopeWithDescription(String scope) {
-            this.scope = scope;
-            this.description = scopeDescriptions.getOrDefault(scope, DEFAULT_DESCRIPTION);
-        }
     }
 }

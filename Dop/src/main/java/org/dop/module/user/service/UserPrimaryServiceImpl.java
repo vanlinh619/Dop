@@ -17,7 +17,12 @@ public class UserPrimaryServiceImpl implements UserPrimaryService {
 
     @Override
     public Optional<UserAuthorityProjection> findUserAuthority(String identifier) {
-        return userPrimaryRepository.findUserAuthority(identifier);
+        try {
+            UUID uuid = UUID.fromString(identifier);
+            return userPrimaryRepository.findUserAuthority(uuid);
+        } catch (IllegalArgumentException ignore) {
+            return userPrimaryRepository.findUserAuthority(identifier);
+        }
     }
 
     @Override
