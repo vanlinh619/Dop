@@ -20,4 +20,5 @@ public class ClientMasterProperties {
     private String clientId = "master-client";
     private String clientName = "Master Client";
     private String scopeMaster = "master";
+    private String scopeMasterName = "Master";
 }

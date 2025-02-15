@@ -46,6 +46,7 @@ public class ScopeDescriptionStarter implements Starter {
         String masterEnDescription = messageSource.getMessage("scope.description.master", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeMaster = org.dop.entity.Scope.builder()
                 .id(clientMasterProperties.getScopeMaster())
+                .name(clientMasterProperties.getScopeMasterName())
                 .client(entityManager.getReference(Oauth2RegisteredClient.class, clientMasterId))
                 .description(masterViDescription)
                 .build();
@@ -56,6 +57,7 @@ public class ScopeDescriptionStarter implements Starter {
         String openIdEnDescription = messageSource.getMessage("scope.description.open-id", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeOpenId = org.dop.entity.Scope.builder()
                 .id(OidcScopes.OPENID)
+                .name("Open Id")
                 .description(openIdViDescription)
                 .build();
         scopeRepository.save(scopeOpenId);
@@ -65,6 +67,7 @@ public class ScopeDescriptionStarter implements Starter {
         String profileEnDescription = messageSource.getMessage("scope.description.profile", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeProfile = org.dop.entity.Scope.builder()
                 .id(OidcScopes.PROFILE)
+                .name("Profile")
                 .description(profileViDescription)
                 .build();
         scopeRepository.save(scopeProfile);
@@ -74,6 +77,7 @@ public class ScopeDescriptionStarter implements Starter {
         String emailEnDescription = messageSource.getMessage("scope.description.email", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeEmail = org.dop.entity.Scope.builder()
                 .id(OidcScopes.EMAIL)
+                .name("Email")
                 .description(emailViDescription)
                 .build();
         scopeRepository.save(scopeEmail);
@@ -83,6 +87,7 @@ public class ScopeDescriptionStarter implements Starter {
         String addressEnDescription = messageSource.getMessage("scope.description.address", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeAddress = org.dop.entity.Scope.builder()
                 .id(OidcScopes.ADDRESS)
+                .name("Address")
                 .description(addressViDescription)
                 .build();
         scopeRepository.save(scopeAddress);
@@ -92,6 +97,7 @@ public class ScopeDescriptionStarter implements Starter {
         String phoneEnDescription = messageSource.getMessage("scope.description.phone", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopePhone = org.dop.entity.Scope.builder()
                 .id(OidcScopes.PHONE)
+                .name("Phone")
                 .description(phoneViDescription)
                 .build();
         scopeRepository.save(scopePhone);

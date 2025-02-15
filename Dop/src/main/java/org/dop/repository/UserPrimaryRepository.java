@@ -21,6 +21,13 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> 
     Optional<UserAuthorityProjection> findUserAuthority(String identifier);
 
     @Query("""
+    select new org.dop.module.user.pojo.projection.UserAuthorityProjection(u.id, u.password, u.status)
+    from UserPrimary u
+    where u.username = cast(:identifier as string) or u.id = :identifier
+    """)
+    Optional<UserAuthorityProjection> findUserAuthority(UUID identifier);
+
+    @Query("""
     select u.id
     from UserPrimary u
     where u.email.value = :identifier or u.username = :identifier

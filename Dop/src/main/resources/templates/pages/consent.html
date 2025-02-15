@@ -7,7 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
   <script>
       function cancelConsent() {
-          document.consent_form.reset();
+          document.consent_form.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
           document.consent_form.submit();
       }
   </script>
@@ -44,17 +44,16 @@
             <input type="hidden" name="state" th:value="${state}">
 
             <div th:each="scope: ${needApproveScopes}">
-              <label class="flex items-start">
-                <input th:if="${scope.scope.equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)}"
-                       class="disabled:accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
-                       th:id="${scope.scope}" checked disabled>
-                <input th:unless="${scope.scope.equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)}"
-                       class="accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope" th:value="${scope.scope}"
-                       th:id="${scope.scope}">
+              <label class="flex items-start"
+                     th:classappend="${scope.id().equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)} ? 'pointer-events-none'">
+                <input class="accent-emerald-700 mt-[0.4rem]" type="checkbox" name="scope"
+                       th:value="${scope.id()}"
+                       th:id="${scope.id()}"
+                       th:checked="${scope.id().equals(T(org.springframework.security.oauth2.core.oidc.OidcScopes).OPENID)}">
                 <span class="ml-1">
-                  <span class="font-medium" th:text="${scope.scope}"></span>
+                  <span class="font-medium" th:text="${scope.name()}"></span>
                   <small class="flex flex-col">
-                    <span th:text="${scope.description}"></span>
+                    <span th:text="${scope.description()}"></span>
                   </small>
                 </span>
               </label>
@@ -64,11 +63,11 @@
               <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
               <div class="mt-4" th:each="scope: ${approvedScopes}">
                 <label class="flex items-start">
-                  <input class="mt-[0.4rem]" type="checkbox" th:id="${scope.scope}" disabled checked>
+                  <input class="mt-[0.4rem]" type="checkbox" th:id="${scope.id()}" disabled checked>
                   <span class="ml-1">
-                    <span class="font-medium" th:text="${scope.scope}"></span>
+                    <span class="font-medium" th:text="${scope.name()}"></span>
                     <small class="flex flex-col">
-                      <span th:text="${scope.description}"></span>
+                      <span th:text="${scope.description()}"></span>
                     </small>
                   </span>
                 </label>
@@ -82,7 +81,7 @@
                   th:text="#{consent.button-grant-access}">
               </button>
               <button
-                  class="ml-5 border-0 py-2 px-4 bg-slate-400 hover:bg-slate-300 active:bg-slate-400 rounded-md text-white font-semibold"
+                  class="ml-5 border-0 py-2 px-4 bg-slate-500 hover:bg-slate-400 active:bg-slate-400 rounded-md text-white font-semibold"
                   type="button" id="cancel-consent" th:text="#{consent.button-cancel}"
                   onclick="cancelConsent()">
               </button>

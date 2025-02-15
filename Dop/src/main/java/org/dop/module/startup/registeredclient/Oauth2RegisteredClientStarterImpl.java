@@ -54,6 +54,6 @@ public class Oauth2RegisteredClientStarterImpl implements Oauth2RegisteredClient
         if (registeredClient != null) {
             return registeredClient.getId();
         }
-        throw new EntityNotFoundException("Registered client master not found");
+        throw new EntityNotFoundException("Registered client master not found.");
     }
 }
