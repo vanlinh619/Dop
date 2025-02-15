@@ -34,8 +34,9 @@ public class LanguageConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames(
+                "language/consent",
                 "language/login",
-                "language/consent"
+                "language/internal"
         );
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
