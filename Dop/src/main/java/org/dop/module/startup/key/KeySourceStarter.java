@@ -40,6 +40,7 @@ public class KeySourceStarter implements Starter {
                 .keyID(UUID.randomUUID().toString())
                 .build();
 
+        int a = 0;
         String json = rsaKey.toJSONString();
 
         /// Save the key to the database
