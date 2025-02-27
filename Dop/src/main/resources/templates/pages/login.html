@@ -12,9 +12,9 @@
     <div class="flex justify-center m-10">
       <div class="w-full max-w-xs">
         <form method="post" th:action="@{/login}" class="bg-white shadow rounded px-8 pt-6 pb-8 mb-4">
-          <div class="flex">
+          <div th:if="${googleEnable}" class="flex">
             <a href="/oauth2/authorization/google"
-               class="py-2 px-4 border rounded bg-slate-100 hover:bg-slate-200 flex items-center w-full">
+               class="py-2 px-4 border rounded bg-slate-100 hover:bg-slate-200 flex items-center justify-center w-full">
               <label class="pr-1">
                 <span th:text="#{login.login-by-google}"></span>
               </label>
@@ -39,29 +39,29 @@
             </a>
           </div>
 
-          <div class="flex items-center my-2">
+          <div th:if="${anySocialEnable}" class="flex items-center my-2">
             <span class="border-t grow"></span><span class="mx-2" th:text="#{login.or}"></span><span
               class="border-t grow"></span>
           </div>
 
           <div class="mt-2">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="identifier">
+            <label class="block text-sm font-bold mb-2" for="identifier">
               <span th:text="#{logon.account}"></span>
             </label>
             <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none"
                 id="identifier" name="identifier" type="text" th:placeholder="#{login.identifier}">
           </div>
           <div class="mt-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+            <label class="block text-sm font-bold mb-2" for="password">
               <span th:text="#{login.password}"></span>
             </label>
             <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none"
+                class="shadow appearance-none border rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none"
                 id="password" name="password" type="password" th:placeholder="#{login.password}">
           </div>
           <div th:if="${rememberMeEnable}" class="mt-2">
-            <label class="flex items-center italic text-gray-700 text-sm mb-2" for="remember-me">
+            <label class="flex items-center italic text-sm mb-2" for="remember-me">
               <input class="mr-2 accent-emerald-600" id="remember-me" name="remember-me" type="checkbox">
               <span th:text="#{login.remember-me}"></span>
             </label>

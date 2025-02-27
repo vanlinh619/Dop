@@ -3,10 +3,13 @@ package org.dop.config;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
+import org.dop.entity.state.Provider;
+import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -74,16 +77,20 @@ public class SecurityConfig {
             SecurityRememberMeProperties securityRememberMeProperties,
             Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             Oauth2LoginProperties oauth2LoginProperties,
-            List<Supplier<ClientRegistration>> clientRegistrationSuppliers
+            List<Supplier<ClientRegistration>> clientRegistrationSuppliers,
+            Supplier<DopOidcUserService> dopOidcUserServiceSupplier
     ) throws Exception {
         http
-                .securityMatcher(
+                .securityMatcher(Stream.of(
                         oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
-                        "/login"
-                )
+                        "/login/**",
+                        oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)
+                                ? oauth2LoginProperties.getGoogleAuthorizationEndpoint()
+                                : null
+                ).filter(Objects::nonNull).toArray(String[]::new))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(oauth2AuthorizationServerProperties.getConsentPageEndpoint()).authenticated()
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .csrf(Customizer.withDefaults())
@@ -110,6 +117,9 @@ public class SecurityConfig {
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
                     .clientRegistrationRepository(new InMemoryClientRegistrationRepository(clientRegistrations))
                     .loginPage("/login")
+                    .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                            .oidcUserService(dopOidcUserServiceSupplier.get())
+                    )
             );
         }
         if (securityRememberMeProperties.isEnable()) {

@@ -4,8 +4,7 @@ import org.dop.entity.state.UserPrimaryStatus;
 
 import java.util.UUID;
 
-public record UserAuthorityProjection(
+public record Auth2UserCredentialProjection(
         UUID id,
-        String password,
         UserPrimaryStatus status
 ) {}

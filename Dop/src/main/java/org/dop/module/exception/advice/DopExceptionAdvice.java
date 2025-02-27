@@ -1,9 +1,9 @@
-package org.dop.module.exceptionhadler.advice;
+package org.dop.module.exception.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.dop.module.exceptionhadler.pojo.ErrorCode;
-import org.dop.module.exceptionhadler.pojo.ErrorResponse;
+import org.dop.module.exception.pojo.ErrorCode;
+import org.dop.module.exception.pojo.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
