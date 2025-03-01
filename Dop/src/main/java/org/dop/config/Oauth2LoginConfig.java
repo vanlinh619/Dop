@@ -1,6 +1,7 @@
 package org.dop.config;
 
 import org.dop.config.property.Oauth2LoginProperties;
+import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.dop.module.user.service.UserInfoService;
@@ -33,11 +34,12 @@ public class Oauth2LoginConfig {
     @Bean
     public Supplier<DopOidcUserService> dopOidcUserService(
             Oauth2LoginProperties oauth2LoginProperties,
-            UserInfoService userInfoService
+            UserInfoService userInfoService,
+            RoleDefaultProperties roleDefaultProperties
     ) {
         return () -> {
             if (oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)) {
-                return new DopOidcUserService(userInfoService);
+                return new DopOidcUserService(userInfoService, roleDefaultProperties);
             } else {
                 return null;
             }

@@ -17,8 +17,8 @@ import org.dop.module.language.service.LanguageService;
 import org.dop.module.role.service.RoleService;
 import org.dop.module.user.mapper.UserInfoMapper;
 import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.Auth2UserCredentialProjection;
-import org.dop.module.user.pojo.projection.UserCredentialProjection;
+import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
 import org.dop.module.user.pojo.request.UserInfoRequest;
 import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.pojo.response.UserInfoResponse;
@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,9 +61,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         userPrimary.setStatus(userInfoRequest.getStatus() == null ? UserPrimaryStatus.DISABLED : userInfoRequest.getStatus());
         /// Find user authority
         if (userInfoRequest.getRoles() != null) {
-            List<Role> verifiedRoles = roleService.verifyRole(userInfoRequest.getRoles()).stream()
+            Set<Role> verifiedRoles = roleService.verifyRole(userInfoRequest.getRoles()).stream()
                     .map(roleId -> entityManager.getReference(Role.class, roleId))
-                    .toList();
+                    .collect(Collectors.toSet());
             userPrimary.setRoles(verifiedRoles);
         }
         userPrimaryRepository.save(userPrimary);
@@ -96,7 +97,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserPrimary userPrimary = UserPrimary.builder()
                 .username(UUID.randomUUID().toString())
                 .status(UserPrimaryStatus.ENABLED)
-                .roles(List.of(entityManager.getReference(Role.class, roleDefaultProperties.getRoleUser())))
+                .roles(Set.of(entityManager.getReference(Role.class, roleDefaultProperties.getRoleUser())))
                 .build();
         String email = oidcUser.getEmail();
         if (StringUtils.hasText(email)) {
@@ -157,7 +158,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .id(userPrimary.getId())
                 .roles(userPrimary.getRoles().stream()
                         .map(Role::getId)
-                        .toList())
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -168,7 +169,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Optional<UserCredentialProjection> findUserCredential(String identifier) {
+    public Optional<UserAuthenticatedProjection> findUserCredential(String identifier) {
         try {
             UUID uuid = UUID.fromString(identifier);
             return userPrimaryRepository.findUserAuthority(uuid);
@@ -183,7 +184,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Optional<Auth2UserCredentialProjection> findAuth2UserCredential(String subject) {
+    public Optional<Auth2UserAuthenticatedProjection> findAuth2UserAuthenticated(String subject) {
         return userPrimaryRepository.findAuth2User(subject);
     }
 }

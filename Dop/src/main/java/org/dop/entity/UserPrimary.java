@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -58,7 +59,7 @@ public class UserPrimary {
             joinColumns = @JoinColumn(name = "user_primary_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = Image.Fields.owner, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Image> images;

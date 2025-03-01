@@ -6,6 +6,7 @@ import org.dop.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -15,9 +16,9 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public List<String> verifyRole(@Nullable List<String> roles) {
+    public Set<String> verifyRole(@Nullable List<String> roles) {
         if (roles == null || roles.isEmpty()) {
-            return List.of();
+            return Set.of();
         }
         return roleRepository.verifyRole(roles);
     }

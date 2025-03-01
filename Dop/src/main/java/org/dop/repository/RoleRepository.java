@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
@@ -16,5 +17,5 @@ public interface RoleRepository extends JpaRepository<Role, String> {
     from Role r
     where r.id in :roles
     """)
-    List<String> verifyRole(List<String> roles);
+    Set<String> verifyRole(List<String> roles);
 }

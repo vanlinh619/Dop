@@ -2,7 +2,7 @@ package org.dop.module.user.pojo.data;
 
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -11,5 +11,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserJitData {
     private UUID id;
-    List<String> roles;
+    Set<String> roles;
 }

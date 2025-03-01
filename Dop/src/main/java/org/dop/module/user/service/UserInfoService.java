@@ -1,8 +1,8 @@
 package org.dop.module.user.service;
 
 import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.Auth2UserCredentialProjection;
-import org.dop.module.user.pojo.projection.UserCredentialProjection;
+import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
 import org.dop.module.user.pojo.request.UserInfoRequest;
 import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.pojo.response.UserInfoResponse;
@@ -25,9 +25,9 @@ public interface UserInfoService {
      */
     UserConsentProjection getUserConsentInfo(String uuid);
 
-    Optional<UserCredentialProjection> findUserCredential(String identifier);
+    Optional<UserAuthenticatedProjection> findUserCredential(String identifier);
 
     Set<String> findRoles(UUID userId);
 
-    Optional<Auth2UserCredentialProjection> findAuth2UserCredential(String subject);
+    Optional<Auth2UserAuthenticatedProjection> findAuth2UserAuthenticated(String subject);
 }

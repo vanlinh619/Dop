@@ -3,7 +3,7 @@ package org.dop.module.security.login.service;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.UserPrimaryStatus;
-import org.dop.module.user.pojo.projection.UserCredentialProjection;
+import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
 import org.dop.module.user.service.UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +24,7 @@ public class UserPrimaryDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-        UserCredentialProjection userAuthority = userInfoService.findUserCredential(identifier)
+        UserAuthenticatedProjection userAuthority = userInfoService.findUserCredential(identifier)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
         Collection<? extends GrantedAuthority> authorities = userInfoService.findRoles(userAuthority.id()).stream()
