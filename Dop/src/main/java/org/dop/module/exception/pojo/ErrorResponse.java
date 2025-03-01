@@ -1,4 +1,4 @@
-package org.dop.module.exceptionhadler.pojo;
+package org.dop.module.exception.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

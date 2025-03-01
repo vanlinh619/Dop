@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 @Service(StartupName.ADMIN_USER)
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -52,7 +53,7 @@ public class AdminUserStarter implements Starter {
                 .password(passwordEncoder.encode(userAdminProperties.getPassword()))
                 .email(new EmailEmbedded(userAdminProperties.getEmail(), true))
                 .status(UserPrimaryStatus.ENABLED)
-                .roles(List.of(role))
+                .roles(Set.of(role))
                 .build();
         userPrimaryRepository.save(userPrimary);
 

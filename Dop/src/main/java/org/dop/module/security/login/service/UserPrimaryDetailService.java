@@ -3,8 +3,8 @@ package org.dop.module.security.login.service;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.UserPrimaryStatus;
-import org.dop.module.user.pojo.projection.UserAuthorityProjection;
-import org.dop.module.user.service.UserPrimaryService;
+import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
+import org.dop.module.user.service.UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,15 +19,15 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserPrimaryDetailService implements UserDetailsService {
 
-    private final UserPrimaryService userPrimaryService;
+    private final UserInfoService userInfoService;
     private final RoleDefaultProperties roleDefaultProperties;
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-        UserAuthorityProjection userAuthority = userPrimaryService.findUserAuthority(identifier)
+        UserAuthenticatedProjection userAuthority = userInfoService.findUserCredential(identifier)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
-        Collection<? extends GrantedAuthority> authorities = userPrimaryService.findRoles(userAuthority.id()).stream()
+        Collection<? extends GrantedAuthority> authorities = userInfoService.findRoles(userAuthority.id()).stream()
                 .map(role -> new SimpleGrantedAuthority(roleDefaultProperties.addPrefix(role)))
                 .toList();
         boolean enabled = userAuthority.status() == UserPrimaryStatus.ENABLED;
