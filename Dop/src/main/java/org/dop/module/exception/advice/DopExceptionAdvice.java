@@ -2,6 +2,7 @@ package org.dop.module.exception.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.dop.module.exception.DopException;
 import org.dop.module.exception.pojo.ErrorCode;
 import org.dop.module.exception.pojo.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,13 @@ public class DopExceptionAdvice {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({DopException.class})
+    public ErrorResponse handleValidationExceptions(DopException ex) {
+        return getErrorResponseBuilder()
+                .code()
+                .build();
+    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
