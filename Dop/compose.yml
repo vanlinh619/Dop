@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: dop
       POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: dop
+      POSTGRES_DB: dop_setting
     ports:
       - "5433:5432"
     volumes:

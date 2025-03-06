@@ -1,6 +1,7 @@
 package org.dop;
 
 import lombok.RequiredArgsConstructor;
+import org.dop.config.property.DopSettingProperties;
 import org.dop.module.startup.StartupManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.context.event.EventListener;
 @RequiredArgsConstructor
 public class DopApplication {
 
+    private final DopSettingProperties dopSettingProperties;
     private final StartupManager startupManager;
 
     public static void main(String[] args) {
@@ -19,7 +21,7 @@ public class DopApplication {
 
     @EventListener
     public void runAfterStartup(ApplicationReadyEvent event) {
-        startupManager.startAll();
+        startupManager.startNewDatasource(dopSettingProperties.getSchemaDefault());
     }
 
 }

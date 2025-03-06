@@ -47,7 +47,8 @@ public class DopExceptionAdvice {
     @ExceptionHandler({DopException.class})
     public ErrorResponse handleValidationExceptions(DopException ex) {
         return getErrorResponseBuilder()
-                .code()
+                .code(ex.getCode())
+                .detail(ex.getDetail())
                 .build();
     }
 

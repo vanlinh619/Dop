@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Service
-public class TenantPerIssuerComponentRegistryImpl implements TenantPerIssuerComponentRegistry {
+public class TenantRegistryImpl implements TenantRegistry {
     private final ConcurrentMap<String, Map<Class<?>, Object>> registry = new ConcurrentHashMap<>();
 
     @Override
@@ -31,7 +31,7 @@ public class TenantPerIssuerComponentRegistryImpl implements TenantPerIssuerComp
         if (context == null || context.getIssuer() == null) {
             throw new NoIssuerFoundException(
                     AuthorizationServerError.ISSUER_NOT_FOUND.name(),
-                    String.format("No issuer found for %s", componentClass.getName())
+                    "Not found issuer."
             );
         }
         for (Map.Entry<String, Map<Class<?>, Object>> entry : this.registry.entrySet()) {
