@@ -4,4 +4,6 @@ public interface StartupManager {
     void startAll();
 
     void startNewDatasource(String schema);
+
+    void startDataDefault();
 }

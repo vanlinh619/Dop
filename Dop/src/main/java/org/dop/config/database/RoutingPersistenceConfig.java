@@ -3,17 +3,17 @@ package org.dop.config.database;
 import jakarta.persistence.EntityManagerFactory;
 import org.dop.config.property.DopSettingProperties;
 import org.dop.module.setting.database.DynamicSchemaRoutingDataSource;
+import org.dop.module.setting.service.DatasourceService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -26,41 +26,41 @@ public class RoutingPersistenceConfig {
     public static final String ROUTING_TRANSACTION_MANAGER = "routingTransactionManager";
     public static final String ROUTING_ENTITY_MANAGER_FACTORY = "routingEntityManagerFactory";
     public static final String ROUTING_DATASOURCE = "routingDatasource";
+    public static final String DEFAULT_DATASOURCE = "defaultDatasource";
+
+    @Bean(name = DEFAULT_DATASOURCE)
+    public DataSource defaultDataSource(
+            DopSettingProperties dopSettingProperties,
+            DatasourceService datasourceService
+    ) {
+        String schema = dopSettingProperties.getDatasource().getSchemaDefault();
+        return datasourceService.newDatasource(schema);
+    }
 
     @Primary
     @Bean(name = ROUTING_DATASOURCE)
     public DynamicSchemaRoutingDataSource routingDataSource(
-            @Qualifier(SettingPersistenceConfig.SETTING_DATASOURCE) DataSource dataSource,
+            @Qualifier(DEFAULT_DATASOURCE) DataSource dataSource,
             DopSettingProperties dopSettingProperties
     ) {
         DynamicSchemaRoutingDataSource schemaRoutingDataSource = new DynamicSchemaRoutingDataSource();
         schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
-        schemaRoutingDataSource.addSchema(dopSettingProperties.getSchemaDefault(), dataSource);
+        schemaRoutingDataSource.addSchema(dopSettingProperties.getDatasource().getSchemaDefault(), dataSource);
         return schemaRoutingDataSource;
     }
-
 
     @Primary
     @Bean(name = ROUTING_ENTITY_MANAGER_FACTORY)
     public LocalContainerEntityManagerFactoryBean routingEntityManager(
             DopSettingProperties dopSettingProperties,
+            EntityManagerFactoryBuilder builder,
             DataSource dataSource
     ) {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
-        em.setPackagesToScan("org.dop.entity");
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(hibernateProperties(dopSettingProperties));
-        return em;
-    }
-
-    private Properties hibernateProperties(DopSettingProperties dopSettingProperties) {
-        Properties properties = new Properties();
-        properties.put("hibernate.show_sql", dopSettingProperties.getHibernate().isShowSql());
-        properties.put("hibernate.format_sql", dopSettingProperties.getHibernate().isFormatSql());
-        properties.put("hibernate.hbm2ddl.auto", dopSettingProperties.getHibernate().getDdlAuto());
-        return properties;
+        return builder
+                .dataSource(dataSource)
+                .packages("org.dop.entity")
+                .properties(SettingPersistenceConfig.hibernateProperties(dopSettingProperties))
+                .build();
     }
 
     @Primary

@@ -21,7 +21,8 @@ public class DopApplication {
 
     @EventListener
     public void runAfterStartup(ApplicationReadyEvent event) {
-        startupManager.startNewDatasource(dopSettingProperties.getSchemaDefault());
+        startupManager.startDataDefault();
+        startupManager.startNewDatasource("test");
     }
 
 }

@@ -1,22 +1,22 @@
 package org.dop.config.database;
 
-import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import org.dop.config.property.DopSettingProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -30,34 +30,28 @@ public class SettingPersistenceConfig {
     public static final String SETTING_ENTITY_MANAGER_FACTORY = "settingEntityManagerFactory";
     public static final String SETTING_DATASOURCE = "settingDatasource";
 
-
     @Bean(name = SETTING_DATASOURCE)
     @ConfigurationProperties(prefix = "dop.setting.datasource")
-    public DataSource searchDataSource(DopSettingProperties dopSettingProperties) {
-        return DataSourceBuilder.create()
-                .url(dopSettingProperties.getDatasource().addSchema(dopSettingProperties.getSchema()))
-                .username(dopSettingProperties.getDatasource().getUsername())
-                .password(dopSettingProperties.getDatasource().getPassword())
-                .build();
+    public DataSource settingDataSource() {
+        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = SETTING_ENTITY_MANAGER_FACTORY)
-    public LocalContainerEntityManagerFactoryBean searchEntityManagerFactory(
+    public LocalContainerEntityManagerFactoryBean settingEntityManagerFactory(
             DopSettingProperties dopSettingProperties,
-            @Qualifier(SETTING_DATASOURCE) DataSource dataSource
+            @Qualifier(SETTING_DATASOURCE) DataSource dataSource,
+            EntityManagerFactoryBuilder builder
     ) {
 
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
-        em.setPackagesToScan("org.dop.module.setting.entity");
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(hibernateProperties(dopSettingProperties));
-        return em;
+        return builder
+                .dataSource(dataSource)
+                .packages("org.dop.module.setting.entity")
+                .properties(hibernateProperties(dopSettingProperties))
+                .build();
     }
 
-    private Properties hibernateProperties(DopSettingProperties dopSettingProperties) {
-        Properties properties = new Properties();
+    public static Map<String, ?> hibernateProperties(DopSettingProperties dopSettingProperties) {
+        Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.show_sql", dopSettingProperties.getHibernate().isShowSql());
         properties.put("hibernate.format_sql", dopSettingProperties.getHibernate().isFormatSql());
         properties.put("hibernate.hbm2ddl.auto", dopSettingProperties.getHibernate().getDdlAuto());
@@ -65,7 +59,7 @@ public class SettingPersistenceConfig {
     }
 
     @Bean(name = SETTING_TRANSACTION_MANAGER)
-    public PlatformTransactionManager searchTransactionManager(
+    public PlatformTransactionManager settingTransactionManager(
             @Qualifier(SETTING_ENTITY_MANAGER_FACTORY) EntityManagerFactory searchEntityManagerFactory
     ) {
         return new JpaTransactionManager(searchEntityManagerFactory);

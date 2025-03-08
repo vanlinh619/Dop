@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "dop.setting")
 public class DopSettingProperties {
-    private String schema = "dop_setting";
-    private String schemaDefault = "dop";
     private DatasourceProperties datasource;
-    private String schemaPattern = "[a-z0-9-]+";
     private HibernateProperties hibernate;
 
 
@@ -23,12 +20,12 @@ public class DopSettingProperties {
         private String jdbcUrl;
         private String username;
         private String password;
+        private String schemaPattern = "[a-z0-9_]+";
+        private String database = "dop";
+        private String schemaDefault = "dop";
 
-        public String addSchema(String schema) {
-            if (jdbcUrl.endsWith("/")) {
-                return jdbcUrl + schema;
-            }
-            return String.format( "%s/%s", jdbcUrl, schema);
+        public String generateUrl(String schema) {
+            return jdbcUrl.replaceAll("/[^/]+$", String.format("/%s?currentSchema=%s", database, schema));
         }
     }
 
