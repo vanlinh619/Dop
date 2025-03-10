@@ -45,7 +45,7 @@ public class RoutingPersistenceConfig {
             DopSettingProperties dopSettingProperties
     ) {
         DynamicSchemaRoutingDataSource schemaRoutingDataSource = new DynamicSchemaRoutingDataSource();
-//        schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
+        schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
         String schema = dopSettingProperties.getDatasource().getSchemaDefault();
         SchemaContext.setSchema(schema);
         schemaRoutingDataSource.addDataSource(schema, dataSource);

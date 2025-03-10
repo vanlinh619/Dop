@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("login")
+@RequestMapping("{issuer}/login")
 public class Oauth2Controller {
 
     private final SecurityRememberMeProperties securityRememberMeProperties;

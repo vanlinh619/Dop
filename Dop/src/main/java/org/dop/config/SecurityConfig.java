@@ -60,7 +60,7 @@ public class SecurityConfig {
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
+                                new LoginUrlAuthenticationEntryPoint("/{issuer}/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 );
@@ -83,14 +83,14 @@ public class SecurityConfig {
         http
                 .securityMatcher(Stream.of(
                         oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
-                        "/login/**",
+                        "/{issuer}/login/**",
                         oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)
                                 ? oauth2LoginProperties.getGoogleAuthorizationEndpoint()
                                 : null
                 ).filter(Objects::nonNull).toArray(String[]::new))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(oauth2AuthorizationServerProperties.getConsentPageEndpoint()).authenticated()
-                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/{issuer}/login/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .csrf(Customizer.withDefaults())
@@ -103,7 +103,7 @@ public class SecurityConfig {
                         })
                 )
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage("/{issuer}/login")
                         .usernameParameter("identifier")
                         .passwordParameter("password")
                 );
@@ -116,7 +116,7 @@ public class SecurityConfig {
 
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
                     .clientRegistrationRepository(new InMemoryClientRegistrationRepository(clientRegistrations))
-                    .loginPage("/login")
+                    .loginPage("/{issuer}/login")
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                             .oidcUserService(dopOidcUserServiceSupplier.get())
                     )
