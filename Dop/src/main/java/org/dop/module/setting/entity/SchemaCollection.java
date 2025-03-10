@@ -15,6 +15,4 @@ public class SchemaCollection {
     /// Schema name as an id
     @Id
     private String id;
-
-
 }

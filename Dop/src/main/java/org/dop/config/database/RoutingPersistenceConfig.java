@@ -3,7 +3,8 @@ package org.dop.config.database;
 import jakarta.persistence.EntityManagerFactory;
 import org.dop.config.property.DopSettingProperties;
 import org.dop.module.setting.database.DynamicSchemaRoutingDataSource;
-import org.dop.module.setting.service.DatasourceService;
+import org.dop.module.setting.database.SchemaContext;
+import org.dop.module.setting.service.DataSourceGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
@@ -31,10 +32,10 @@ public class RoutingPersistenceConfig {
     @Bean(name = DEFAULT_DATASOURCE)
     public DataSource defaultDataSource(
             DopSettingProperties dopSettingProperties,
-            DatasourceService datasourceService
+            DataSourceGenerator dataSourceGenerator
     ) {
         String schema = dopSettingProperties.getDatasource().getSchemaDefault();
-        return datasourceService.newDatasource(schema);
+        return dataSourceGenerator.newDatasource(schema);
     }
 
     @Primary
@@ -44,8 +45,10 @@ public class RoutingPersistenceConfig {
             DopSettingProperties dopSettingProperties
     ) {
         DynamicSchemaRoutingDataSource schemaRoutingDataSource = new DynamicSchemaRoutingDataSource();
-        schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
-        schemaRoutingDataSource.addSchema(dopSettingProperties.getDatasource().getSchemaDefault(), dataSource);
+//        schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
+        String schema = dopSettingProperties.getDatasource().getSchemaDefault();
+        SchemaContext.setSchema(schema);
+        schemaRoutingDataSource.addDataSource(schema, dataSource);
         return schemaRoutingDataSource;
     }
 

@@ -4,7 +4,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.KeySource;
 import org.dop.entity.state.AlgorithmKey;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.dop.module.constant.RedisKey;
 import org.dop.module.startup.Starter;
 import org.dop.repository.KeySourceRepository;
@@ -29,7 +29,7 @@ public class KeySourceStarter implements Starter {
 
     private final KeySourceRepository keySourceRepository;
 
-    @CacheEvict(RedisKey.CACHE_KEY_SOURCE)
+//    @CacheEvict(RedisKey.CACHE_KEY_SOURCE)
     @Override
     public void start() {
         KeyPair keyPair = generateRsaKey();

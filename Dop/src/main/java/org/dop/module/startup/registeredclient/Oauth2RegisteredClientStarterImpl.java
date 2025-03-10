@@ -3,7 +3,7 @@ package org.dop.module.startup.registeredclient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.ClientMasterProperties;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -28,7 +28,6 @@ public class Oauth2RegisteredClientStarterImpl implements Oauth2RegisteredClient
     /**
      * Create default public client, that can use by Single Page Application
      */
-    @Transactional
     @Override
     public void start() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())

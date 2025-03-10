@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Service
-public class TenantRegistryImpl implements TenantRegistry {
+public class TenantPerIssuerRegistryImpl implements TenantPerIssuerRegistry {
     private final ConcurrentMap<String, Map<Class<?>, Object>> registry = new ConcurrentHashMap<>();
 
     @Override

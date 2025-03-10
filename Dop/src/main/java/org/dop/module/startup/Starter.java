@@ -14,4 +14,8 @@ public interface Starter {
         Service service = this.getClass().getAnnotation(Service.class);
         return service.value();
     }
+
+    default boolean alwaysStart() {
+        return false;
+    }
 }

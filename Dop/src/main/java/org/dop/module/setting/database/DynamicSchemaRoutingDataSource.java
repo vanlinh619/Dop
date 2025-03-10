@@ -20,7 +20,8 @@ public class DynamicSchemaRoutingDataSource extends AbstractRoutingDataSource im
     }
 
     @Override
-    public void addSchema(String schema, DataSource dataSource) {
+    public void addDataSource(String schema, DataSource dataSource) {
         dataSourceMap.put(schema, dataSource);
+        initialize();
     }
 }

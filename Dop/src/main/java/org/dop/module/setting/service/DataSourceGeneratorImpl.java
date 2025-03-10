@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 @Service
 @RequiredArgsConstructor
-public class DatasourceServiceImpl implements DatasourceService {
+public class DataSourceGeneratorImpl implements DataSourceGenerator {
 
     private final DopSettingProperties dopSettingProperties;
     private final @Qualifier(SettingPersistenceConfig.SETTING_DATASOURCE) DataSource dataSource;

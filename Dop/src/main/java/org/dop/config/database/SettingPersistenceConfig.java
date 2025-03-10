@@ -55,6 +55,7 @@ public class SettingPersistenceConfig {
         properties.put("hibernate.show_sql", dopSettingProperties.getHibernate().isShowSql());
         properties.put("hibernate.format_sql", dopSettingProperties.getHibernate().isFormatSql());
         properties.put("hibernate.hbm2ddl.auto", dopSettingProperties.getHibernate().getDdlAuto());
+//        properties.put("open-in-view", false);
         return properties;
     }
 
