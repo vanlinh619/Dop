@@ -25,7 +25,7 @@ import java.util.*;
 @Controller
 @PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
-@RequestMapping("/oauth2/consent")
+@RequestMapping("{issuer}/oauth2/consent")
 public class ConsentController {
 
     private final RegisteredClientRepository registeredClientRepository;

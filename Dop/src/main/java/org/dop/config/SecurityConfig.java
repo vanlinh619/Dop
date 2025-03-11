@@ -141,12 +141,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChainApi(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(
-                        "/api/v1/**",
+                        "/{issuer}/api/v1/**",
                         "/css/**",
                         "/js/**"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/manage/**").authenticated()
+                        .requestMatchers("/{issuer}/api/v1/manage/**").authenticated()
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**"

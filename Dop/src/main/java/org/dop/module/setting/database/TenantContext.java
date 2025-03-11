@@ -1,13 +1,13 @@
 package org.dop.module.setting.database;
 
-public class SchemaContext {
+public class TenantContext {
     private static final ThreadLocal<String> schemaContext = new ThreadLocal<>();
 
-    public static void setSchema(String schema) {
+    public static void setCurrent(String schema) {
         schemaContext.set(schema);
     }
 
-    public static String getSchema() {
+    public static String getTenant() {
         return schemaContext.get();
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("hasRole(@roleDefaultProperties.roleSuper) and hasAuthority(@clientMasterProperties.scopeMaster)")
-@RequestMapping("/api/v1/manage/user-info")
+@RequestMapping("{issuer}/api/v1/manage/user-info")
 @RequiredArgsConstructor
 public class UserInfoController {
 

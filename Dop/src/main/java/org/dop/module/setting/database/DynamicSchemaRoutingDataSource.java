@@ -16,12 +16,13 @@ public class DynamicSchemaRoutingDataSource extends AbstractRoutingDataSource im
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return SchemaContext.getSchema();
+        return TenantContext.getTenant();
     }
 
     @Override
     public void addDataSource(String schema, DataSource dataSource) {
         dataSourceMap.put(schema, dataSource);
+        /// Apply the new data source to the routing data source
         initialize();
     }
 }

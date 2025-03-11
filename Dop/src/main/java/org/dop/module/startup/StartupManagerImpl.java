@@ -5,7 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.dop.config.database.SettingPersistenceConfig;
 import org.dop.config.property.DopSettingProperties;
 import org.dop.module.setting.entity.Startup;
-import org.dop.module.setting.database.SchemaContext;
+import org.dop.module.setting.database.TenantContext;
 import org.dop.module.setting.service.DataSourceGenerator;
 import org.dop.module.setting.service.DataSourceService;
 import org.dop.module.setting.repository.StartupRepository;
@@ -40,12 +40,12 @@ public class StartupManagerImpl implements StartupManager {
                 .forEach((starter) -> {
                     if (starter.alwaysStart()) {
                         starter.start();
-                    } else if (startupRepository.findByNameAndSchema(starter.getName(), SchemaContext.getSchema()).isEmpty()) {
-                        log.info("Startup with name {}, schema {}", starter.getName(), SchemaContext.getSchema());
+                    } else if (startupRepository.findByNameAndSchema(starter.getName(), TenantContext.getTenant()).isEmpty()) {
+                        log.info("Startup with name {}, schema {}", starter.getName(), TenantContext.getTenant());
                         starter.start();
                         Startup startup = Startup.builder()
                                 .name(starter.getName())
-                                .schema(SchemaContext.getSchema())
+                                .schema(TenantContext.getTenant())
                                 .build();
                         startupRepository.save(startup);
                     }
@@ -64,7 +64,7 @@ public class StartupManagerImpl implements StartupManager {
         em.afterPropertiesSet();
         datasourceService.addDataSource(schema, dataSource);
         /// Change schema context and start all data
-        SchemaContext.setSchema(schema);
+        TenantContext.setCurrent(schema);
         startAll();
         schemaCollectionService.save(schema);
     }
@@ -73,14 +73,15 @@ public class StartupManagerImpl implements StartupManager {
     public void startDataDefault() {
         /// Init data source
         Set<String> schemas = schemaCollectionService.getSchemas();
-        schemas.remove(dopSettingProperties.getDatasource().getSchemaDefault());
-        schemas.forEach(datasourceService::addDataSource);
-
-        String schema = dopSettingProperties.getDatasource().getSchemaDefault();
-        /// Change schema context and start all data
-        SchemaContext.setSchema(schema);
-        startAll();
-        schemaCollectionService.save(schema);
+        String schemaDefault = dopSettingProperties.getDatasource().getSchemaDefault();
+        schemas.forEach(schema -> {
+            if (!schema.equals(schemaDefault)) {
+                datasourceService.addDataSource(schema);
+            }
+            /// Change schema context and start all data
+            TenantContext.setCurrent(schema);
+            startAll();
+        });
     }
 
 }
