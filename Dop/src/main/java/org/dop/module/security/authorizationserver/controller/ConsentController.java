@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,7 +42,8 @@ public class ConsentController {
             @RequestParam(OAuth2ParameterNames.STATE) String state,
             Authentication authentication,
             Locale locale,
-            Model model
+            Model model,
+            @PathVariable String issuer
     ) {
 
         RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
@@ -74,6 +76,7 @@ public class ConsentController {
         model.addAttribute("needApproveScopes", consentService.withDescription(needApproveScopes, locale));
         model.addAttribute("approvedScopes", consentService.withDescription(approvedScopes, locale));
         model.addAttribute("userConsent", userConsent);
+        model.addAttribute("issuer", issuer);
 
         return "consent";
     }

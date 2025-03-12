@@ -21,7 +21,6 @@ public class RoutingDataSourceRequestFilter extends OncePerRequestFilter {
                 String tenantId = parts[1];
                 TenantContext.setCurrent(tenantId);
             }
-
             filterChain.doFilter(request, response);
         } finally {
             TenantContext.clear();
