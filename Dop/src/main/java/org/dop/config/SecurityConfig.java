@@ -55,13 +55,12 @@ public class SecurityConfig {
                         /// Add custom consent page
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                                /// TODO: Add custom consent page with multiple tenant
                         )
                 )
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new TenantLoginUrlAuthenticationEntryPoint("/login"),
+                                new TenantLoginUrlAuthenticationEntryPoint("/{issuer}/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 );

@@ -15,6 +15,7 @@ public class TenantLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticati
 
     @Override
     public String getLoginFormUrl() {
-        return String.format("/%s%s", TenantContext.getTenant(), super.getLoginFormUrl());
+        String tenant = TenantContext.getTenant();
+        return super.getLoginFormUrl().replaceFirst("\\{[a-z]+}", tenant);
     }
 }
