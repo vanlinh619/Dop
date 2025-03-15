@@ -1,10 +1,14 @@
 package org.dop.module.log.aop;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.dop.module.setting.database.TenantContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,13 +18,15 @@ import org.springframework.stereotype.Service;
 @Aspect
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class LogDebugRepositoryAop {
 
     @Pointcut("execution(* org.dop.repository.*.*(..))")
-    public void logPointcut() {}
+    public void logPointcut() {
+    }
 
     @Before("logPointcut()")
     public void logBefore(JoinPoint joinPoint) {
-        log.debug("[Dop - Execute query] {}", joinPoint.getSignature().toString());
+        log.debug("[Dop - Execute query] tenant: {} signature {}", TenantContext.getTenant(), joinPoint.getSignature().toString());
     }
 }

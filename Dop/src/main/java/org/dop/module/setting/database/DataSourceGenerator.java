@@ -1,4 +1,4 @@
-package org.dop.module.setting.service;
+package org.dop.module.setting.database;
 
 import javax.sql.DataSource;
 

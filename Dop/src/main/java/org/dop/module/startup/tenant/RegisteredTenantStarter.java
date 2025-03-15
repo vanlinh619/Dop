@@ -1,6 +1,18 @@
 package org.dop.module.startup.tenant;
 
-public class RegisteredTenantStarter {
+import org.dop.module.startup.Starter;
+import org.springframework.stereotype.Service;
 
-    /// Todo: Implement this class
-}
+//@Service
+//public class RegisteredTenantStarter extends Starter {
+//    @Override
+//    public void start() {
+//
+//
+//    }
+//
+//    @Override
+//    public boolean alwaysStart() {
+//        return true;
+//    }
+//}

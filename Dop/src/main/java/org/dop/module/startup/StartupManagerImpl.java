@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.dop.config.database.SettingPersistenceConfig;
 import org.dop.config.property.DopSettingProperties;
+import org.dop.module.setting.database.DatabaseStructure;
 import org.dop.module.setting.entity.Startup;
 import org.dop.module.setting.database.TenantContext;
-import org.dop.module.setting.service.DataSourceGenerator;
+import org.dop.module.setting.database.DataSourceGenerator;
 import org.dop.module.setting.service.DataSourceService;
 import org.dop.module.setting.repository.StartupRepository;
 import org.dop.module.setting.service.SchemaCollectionService;
@@ -32,6 +33,7 @@ public class StartupManagerImpl implements StartupManager {
     private final EntityManagerFactoryBuilder entityManagerFactoryBuilder;
     private final DopSettingProperties dopSettingProperties;
     private final SchemaCollectionService schemaCollectionService;
+    private final DatabaseStructure databaseStructure;
 
     @Override
     public void startAll() {
@@ -65,8 +67,10 @@ public class StartupManagerImpl implements StartupManager {
         datasourceService.addDataSource(schema, dataSource);
         /// Change schema context and start all data
         TenantContext.setCurrent(schema);
+        databaseStructure.generateJdbcSessionStructure(dataSource);
         startAll();
         schemaCollectionService.save(schema);
+        TenantContext.clear();
     }
 
     @Override
@@ -74,6 +78,7 @@ public class StartupManagerImpl implements StartupManager {
         /// Init data source
         Set<String> schemas = schemaCollectionService.getSchemas();
         String schemaDefault = dopSettingProperties.getDatasource().getSchemaDefault();
+        schemas.add(schemaDefault);
         schemas.forEach(schema -> {
             if (!schema.equals(schemaDefault)) {
                 datasourceService.addDataSource(schema);
@@ -81,6 +86,8 @@ public class StartupManagerImpl implements StartupManager {
             /// Change schema context and start all data
             TenantContext.setCurrent(schema);
             startAll();
+            schemaCollectionService.save(schema);
+            TenantContext.clear();
         });
     }
 

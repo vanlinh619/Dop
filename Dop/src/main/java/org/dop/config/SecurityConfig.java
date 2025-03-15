@@ -53,9 +53,10 @@ public class SecurityConfig {
                         /// Enable OpenID Connect 1.0
                         .oidc(Customizer.withDefaults())
                         /// Add custom consent page
-                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                                .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                        )
+                        ///.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+                        /// Todo: using default consent page
+                        ///)
                 )
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions

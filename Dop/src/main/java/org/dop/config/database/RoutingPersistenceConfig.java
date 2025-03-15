@@ -3,8 +3,7 @@ package org.dop.config.database;
 import jakarta.persistence.EntityManagerFactory;
 import org.dop.config.property.DopSettingProperties;
 import org.dop.module.setting.database.DynamicSchemaRoutingDataSource;
-import org.dop.module.setting.database.TenantContext;
-import org.dop.module.setting.service.DataSourceGenerator;
+import org.dop.module.setting.database.DataSourceGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.*;
@@ -47,7 +46,6 @@ public class RoutingPersistenceConfig {
         DynamicSchemaRoutingDataSource schemaRoutingDataSource = new DynamicSchemaRoutingDataSource();
         schemaRoutingDataSource.setDefaultTargetDataSource(dataSource);
         String schema = dopSettingProperties.getDatasource().getSchemaDefault();
-//        TenantContext.setCurrent(schema);
         schemaRoutingDataSource.addDataSource(schema, dataSource);
         return schemaRoutingDataSource;
     }
