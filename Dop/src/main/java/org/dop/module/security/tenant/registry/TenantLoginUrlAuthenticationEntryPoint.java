@@ -1,4 +1,4 @@
-package org.dop.module.security.authorizationserver.service;
+package org.dop.module.security.tenant.registry;
 
 import org.dop.module.setting.database.TenantContext;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;

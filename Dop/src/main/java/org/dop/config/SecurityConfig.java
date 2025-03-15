@@ -1,16 +1,11 @@
 package org.dop.config;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
 import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
-import org.dop.module.security.authorizationserver.service.TenantLoginUrlAuthenticationEntryPoint;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
+import org.dop.module.security.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -27,6 +22,11 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Configuration
 @EnableMethodSecurity

@@ -27,4 +27,6 @@ public class Startup {
 
     @NotBlank
     private String schema;
+
+    private Integer priority;
 }

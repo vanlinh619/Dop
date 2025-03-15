@@ -1,4 +1,4 @@
-package org.dop.module.security.authorizationserver.service;
+package org.dop.module.security.tenant.registry;
 
 public interface TenantPerIssuerRegistry {
     <T> void register(String tenantId, Class<T> componentClass, T component);

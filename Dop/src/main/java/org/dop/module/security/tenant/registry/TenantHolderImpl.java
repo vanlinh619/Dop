@@ -1,4 +1,4 @@
-package org.dop.module.security.authorizationserver.service;
+package org.dop.module.security.tenant.registry;
 
 import lombok.RequiredArgsConstructor;
 import org.dop.module.setting.service.SchemaCollectionService;

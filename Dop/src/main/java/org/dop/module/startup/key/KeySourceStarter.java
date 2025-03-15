@@ -4,9 +4,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.KeySource;
 import org.dop.entity.state.AlgorithmKey;
-import org.dop.module.startup.StartupName;
 import org.dop.module.constant.RedisKey;
 import org.dop.module.startup.Starter;
+import org.dop.module.startup.StartupName;
 import org.dop.repository.KeySourceRepository;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,7 +29,7 @@ public class KeySourceStarter implements Starter {
 
     private final KeySourceRepository keySourceRepository;
 
-//    @CacheEvict(RedisKey.CACHE_KEY_SOURCE)
+    @CacheEvict(RedisKey.CACHE_KEY_SOURCE)
     @Override
     public void start() {
         KeyPair keyPair = generateRsaKey();

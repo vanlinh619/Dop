@@ -1,4 +1,4 @@
-package org.dop.module.security.authorizationserver.service;
+package org.dop.module.security.tenant.registry;
 
 import org.dop.module.security.authorizationserver.pojo.error.AuthorizationServerError;
 import org.dop.module.security.authorizationserver.pojo.exception.ClassNotFoundException;
