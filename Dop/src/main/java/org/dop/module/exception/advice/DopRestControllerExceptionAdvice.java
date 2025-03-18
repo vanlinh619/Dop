@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.dop.module.exception.DopException;
 import org.dop.module.exception.pojo.ErrorCode;
 import org.dop.module.exception.pojo.ErrorResponse;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -20,8 +22,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestControllerAdvice(annotations = RestController.class)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RequiredArgsConstructor
-public class DopExceptionAdvice {
+public class DopRestControllerExceptionAdvice {
 
     private final HttpServletRequest request;
 

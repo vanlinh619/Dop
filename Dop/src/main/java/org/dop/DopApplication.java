@@ -22,7 +22,7 @@ public class DopApplication {
     @EventListener
     public void runAfterStartup(ApplicationReadyEvent event) {
         startupManager.startDataDefault();
-        startupManager.startNewDatasource("test");
+//        startupManager.startNewDatasource("test");
     }
 
 }

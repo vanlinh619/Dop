@@ -1,4 +1,4 @@
-package org.dop.module.security.filter;
+package org.dop.module.security.tenant.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,7 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-public class RoutingDataSourceRequestFilter extends OncePerRequestFilter {
+public class TenantContextRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

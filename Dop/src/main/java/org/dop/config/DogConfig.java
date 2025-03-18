@@ -3,7 +3,7 @@ package org.dop.config;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
 import org.dop.module.helper.InstantTypeAdapter;
-import org.dop.module.security.filter.RoutingDataSourceRequestFilter;
+import org.dop.module.security.tenant.filter.TenantContextRequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +31,9 @@ public class DogConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<RoutingDataSourceRequestFilter> routingDataSourceRequestFilter() {
-        FilterRegistrationBean<RoutingDataSourceRequestFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new RoutingDataSourceRequestFilter());
+    public FilterRegistrationBean<TenantContextRequestFilter> routingDataSourceRequestFilter() {
+        FilterRegistrationBean<TenantContextRequestFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new TenantContextRequestFilter());
         registrationBean.addUrlPatterns("/*");
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registrationBean;
