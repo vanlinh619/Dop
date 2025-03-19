@@ -29,7 +29,7 @@ public class KeySourceStarter implements Starter {
 
     private final KeySourceRepository keySourceRepository;
 
-    @CacheEvict(RedisKey.CACHE_KEY_SOURCE)
+    @CacheEvict(value = RedisKey.CACHE_KEY_SOURCE, key = "T(org.dop.module.tenant.context.TenantContext).getTenant()")
     @Override
     public void start() {
         KeyPair keyPair = generateRsaKey();

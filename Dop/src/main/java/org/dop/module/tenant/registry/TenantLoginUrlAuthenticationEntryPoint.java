@@ -1,6 +1,6 @@
-package org.dop.module.security.tenant.registry;
+package org.dop.module.tenant.registry;
 
-import org.dop.module.setting.database.TenantContext;
+import org.dop.module.tenant.context.TenantContext;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 public class TenantLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {

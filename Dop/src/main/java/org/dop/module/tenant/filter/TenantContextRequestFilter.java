@@ -1,10 +1,10 @@
-package org.dop.module.security.tenant.filter;
+package org.dop.module.tenant.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.dop.module.setting.database.TenantContext;
+import org.dop.module.tenant.context.TenantContext;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -17,10 +17,11 @@ public class TenantContextRequestFilter extends OncePerRequestFilter {
         try {
             String path = request.getRequestURI();
             String[] parts = path.split("/");
+            String tenantId = "";
             if (parts.length > 1) {
-                String tenantId = parts[1];
-                TenantContext.setCurrent(tenantId);
+                tenantId = parts[1];
             }
+            TenantContext.setCurrent(tenantId);
             filterChain.doFilter(request, response);
         } finally {
             TenantContext.clear();

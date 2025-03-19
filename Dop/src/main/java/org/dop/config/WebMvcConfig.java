@@ -2,8 +2,8 @@ package org.dop.config;
 
 import org.dop.config.property.LanguageProperties;
 import org.dop.entity.state.LanguageCode;
-import org.dop.module.security.tenant.interceptor.TenantExistInterceptor;
 import org.dop.module.setting.service.SchemaCollectionService;
+import org.dop.module.tenant.interceptor.TenantExistInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

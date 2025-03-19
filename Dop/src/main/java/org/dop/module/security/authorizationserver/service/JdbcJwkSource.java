@@ -20,7 +20,7 @@ public class JdbcJwkSource implements JWKSource<SecurityContext> {
 
     private final KeySourceRepository keySourceRepository;
 
-    @Cacheable(value = RedisKey.CACHE_KEY_SOURCE, key = "1")
+    @Cacheable(value = RedisKey.CACHE_KEY_SOURCE, key = "T(org.dop.module.tenant.context.TenantContext).getTenant()")
     @Override
     public List<JWK> get(JWKSelector jwkSelector, SecurityContext context) throws KeySourceException {
         try {

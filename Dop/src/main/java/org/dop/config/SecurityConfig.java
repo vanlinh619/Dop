@@ -5,7 +5,7 @@ import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
-import org.dop.module.security.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
+import org.dop.module.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

@@ -1,14 +1,12 @@
 package org.dop.module.log.aop;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.dop.module.setting.database.TenantContext;
+import org.dop.module.tenant.context.TenantContext;
 import org.springframework.stereotype.Service;
 
 /**
