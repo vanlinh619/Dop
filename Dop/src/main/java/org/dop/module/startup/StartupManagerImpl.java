@@ -8,7 +8,7 @@ import org.dop.module.setting.database.DataSourceGenerator;
 import org.dop.module.setting.entity.Startup;
 import org.dop.module.setting.repository.StartupRepository;
 import org.dop.module.setting.service.DataSourceService;
-import org.dop.module.setting.service.SchemaCollectionService;
+import org.dop.module.setting.service.TenantCollectionService;
 import org.dop.module.tenant.context.TenantContext;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -33,7 +33,7 @@ public class StartupManagerImpl implements StartupManager {
     private final DataSourceService datasourceService;
     private final EntityManagerFactoryBuilder entityManagerFactoryBuilder;
     private final DopSettingProperties dopSettingProperties;
-    private final SchemaCollectionService schemaCollectionService;
+    private final TenantCollectionService tenantCollectionService;
 
     @Override
     public void startAll() {
@@ -69,14 +69,14 @@ public class StartupManagerImpl implements StartupManager {
         /// Change schema context and start all data
         TenantContext.setCurrent(schema);
         startAll();
-        schemaCollectionService.save(schema);
+        tenantCollectionService.save(schema);
         TenantContext.clear();
     }
 
     @Override
     public void startDataDefault() {
         /// Init data source
-        Set<String> schemas = schemaCollectionService.getSchemas();
+        Set<String> schemas = tenantCollectionService.getTenants();
         String schemaDefault = dopSettingProperties.getDatasource().getSchemaDefault();
         schemas.add(schemaDefault);
         schemas.forEach(schema -> {
@@ -86,7 +86,7 @@ public class StartupManagerImpl implements StartupManager {
             /// Change schema context and start all data
             TenantContext.setCurrent(schema);
             startAll();
-            schemaCollectionService.save(schema);
+            tenantCollectionService.save(schema);
             TenantContext.clear();
         });
     }

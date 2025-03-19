@@ -3,6 +3,7 @@ package org.dop.config;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
 import org.dop.module.helper.InstantTypeAdapter;
+import org.dop.module.setting.service.TenantCollectionService;
 import org.dop.module.tenant.filter.TenantContextRequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,8 @@ import java.time.Instant;
 @Configuration
 public class DogConfig {
 
+
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -31,9 +34,9 @@ public class DogConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<TenantContextRequestFilter> routingDataSourceRequestFilter() {
+    public FilterRegistrationBean<TenantContextRequestFilter> routingDataSourceRequestFilter(TenantCollectionService tenantCollectionService) {
         FilterRegistrationBean<TenantContextRequestFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new TenantContextRequestFilter());
+        registrationBean.setFilter(new TenantContextRequestFilter(tenantCollectionService));
         registrationBean.addUrlPatterns("/*");
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registrationBean;

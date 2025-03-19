@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SchemaCollection {
+public class TenantCollection {
 
     /// Schema name as an id
     @Id
