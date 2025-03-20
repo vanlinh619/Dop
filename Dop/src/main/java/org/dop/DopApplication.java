@@ -21,7 +21,7 @@ public class DopApplication {
 
     @EventListener
     public void runAfterStartup(ApplicationReadyEvent event) {
-        startupManager.startDataDefault();
+        startupManager.startTenantDefault();
 //        startupManager.startNewDatasource("test");
     }
 

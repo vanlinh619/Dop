@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.dop.config.database.SettingPersistenceConfig;
 import org.dop.config.property.DopSettingProperties;
+import org.dop.module.exception.BadRequestException;
 import org.dop.module.setting.database.DataSourceGenerator;
 import org.dop.module.setting.entity.Startup;
 import org.dop.module.setting.repository.StartupRepository;
 import org.dop.module.setting.service.DataSourceService;
 import org.dop.module.setting.service.TenantCollectionService;
 import org.dop.module.tenant.context.TenantContext;
+import org.dop.module.tenant.filter.ByPassFilterUrl;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Scope;
@@ -56,8 +58,11 @@ public class StartupManagerImpl implements StartupManager {
     }
 
     @Override
-    public void startNewDatasource(String schema) {
-        DataSource dataSource = dataSourceGenerator.newDatasource(schema);
+    public void startNewTenant(String tenant) {
+        if (ByPassFilterUrl.blackListTenant.contains(tenant)) {
+            throw new BadRequestException(StarterError.TENANT_IN_BLACK_LIST.name(), "tenant is in black list.");
+        }
+        DataSource dataSource = dataSourceGenerator.newDatasource(tenant);
         /// Init entity manager factory to create tables
         LocalContainerEntityManagerFactoryBean em = entityManagerFactoryBuilder
                 .dataSource(dataSource)
@@ -65,21 +70,21 @@ public class StartupManagerImpl implements StartupManager {
                 .properties(SettingPersistenceConfig.hibernateProperties(dopSettingProperties))
                 .build();
         em.afterPropertiesSet();
-        datasourceService.addDataSource(schema, dataSource);
+        datasourceService.addDataSource(tenant, dataSource);
         /// Change schema context and start all data
-        TenantContext.setCurrent(schema);
+        TenantContext.setCurrent(tenant);
         startAll();
-        tenantCollectionService.save(schema);
+        tenantCollectionService.save(tenant);
         TenantContext.clear();
     }
 
     @Override
-    public void startDataDefault() {
+    public void startTenantDefault() {
         /// Init data source
-        Set<String> schemas = tenantCollectionService.getTenants();
+        Set<String> tenant = tenantCollectionService.getTenants();
         String schemaDefault = dopSettingProperties.getDatasource().getSchemaDefault();
-        schemas.add(schemaDefault);
-        schemas.forEach(schema -> {
+        tenant.add(schemaDefault);
+        tenant.forEach(schema -> {
             if (!schema.equals(schemaDefault)) {
                 datasourceService.addDataSource(schema);
             }

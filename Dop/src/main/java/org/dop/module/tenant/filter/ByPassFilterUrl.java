@@ -1,5 +1,7 @@
 package org.dop.module.tenant.filter;
 
+import org.mapstruct.ap.internal.util.Collections;
+
 import java.util.List;
 
 public class ByPassFilterUrl {
@@ -7,5 +9,10 @@ public class ByPassFilterUrl {
             "css", "js", "error", "favicon.ico"
     );
 
+    public static final List<String> blackListTenant = Collections.join(
+            whiteList, List.of(
+                    "default", "system"
+            )
+    );
 
 }

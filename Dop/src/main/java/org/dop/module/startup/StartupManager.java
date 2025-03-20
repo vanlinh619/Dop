@@ -3,7 +3,7 @@ package org.dop.module.startup;
 public interface StartupManager {
     void startAll();
 
-    void startNewDatasource(String schema);
+    void startNewTenant(String schema);
 
-    void startDataDefault();
+    void startTenantDefault();
 }
