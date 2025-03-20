@@ -17,7 +17,7 @@ import java.time.Instant;
 
 @EnableJpaAuditing
 @Configuration
-public class DogConfig {
+public class DopConfig {
 
 
 
