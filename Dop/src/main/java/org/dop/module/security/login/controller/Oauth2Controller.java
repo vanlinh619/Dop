@@ -7,11 +7,12 @@ import org.dop.entity.state.Provider;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("login")
+@RequestMapping("{issuer}/login")
 public class Oauth2Controller {
 
     private final SecurityRememberMeProperties securityRememberMeProperties;
@@ -19,10 +20,11 @@ public class Oauth2Controller {
 
 
     @GetMapping
-    public String login(Model model) {
+    public String login(Model model, @PathVariable String issuer) {
         model.addAttribute("rememberMeEnable", securityRememberMeProperties.isEnable());
         model.addAttribute("anySocialEnable", oauth2LoginProperties.anySocialEnable());
         model.addAttribute("googleEnable", oauth2LoginProperties.isSocialEnable(Provider.GOOGLE));
+        model.addAttribute("issuer", issuer);
 
         return "login";
     }

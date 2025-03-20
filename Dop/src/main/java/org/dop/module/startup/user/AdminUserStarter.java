@@ -8,7 +8,7 @@ import org.dop.config.property.UserAdminProperties;
 import org.dop.entity.*;
 import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.state.Provider;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.startup.Starter;
 import org.dop.repository.*;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 

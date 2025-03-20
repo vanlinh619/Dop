@@ -19,7 +19,7 @@ public class LogExceptionHandlerAop {
     private final FormatHelper formatHelper;
 
     @Pointcut("""
-            execution(* org.dop.module.global.advice.DopExceptionAdvice.*(..))
+            execution(* org.dop.module.exception.advice.DopExceptionAdvice.*(..))
             && @annotation(org.springframework.web.bind.annotation.ExceptionHandler)
             """
     )

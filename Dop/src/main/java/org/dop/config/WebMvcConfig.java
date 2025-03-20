@@ -16,7 +16,8 @@ import java.util.Arrays;
 import java.util.Locale;
 
 @Configuration
-public class LanguageConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
+
 
     @Bean
     public LocaleResolver localeResolver(LanguageProperties languageProperties) {
@@ -35,6 +36,7 @@ public class LanguageConfig implements WebMvcConfigurer {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames(
                 "language/consent",
+                "language/error",
                 "language/login",
                 "language/internal"
         );
@@ -51,6 +53,7 @@ public class LanguageConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        /// For language
         registry.addInterceptor(localeChangeInterceptor());
     }
 }

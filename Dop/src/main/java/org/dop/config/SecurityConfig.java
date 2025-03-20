@@ -1,15 +1,11 @@
 package org.dop.config;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
 import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
+import org.dop.module.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -20,18 +16,29 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
     /**
      * Config authentication server
@@ -53,14 +60,15 @@ public class SecurityConfig {
                         /// Enable OpenID Connect 1.0
                         .oidc(Customizer.withDefaults())
                         /// Add custom consent page
-                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                                .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                        )
+                        ///.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+                        /// Todo: using default consent page
+                        ///)
                 )
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
+                                new TenantLoginUrlAuthenticationEntryPoint("/{issuer}/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 );
@@ -83,14 +91,14 @@ public class SecurityConfig {
         http
                 .securityMatcher(Stream.of(
                         oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
-                        "/login/**",
+                        "/{issuer}/login/**",
                         oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)
                                 ? oauth2LoginProperties.getGoogleAuthorizationEndpoint()
                                 : null
                 ).filter(Objects::nonNull).toArray(String[]::new))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(oauth2AuthorizationServerProperties.getConsentPageEndpoint()).authenticated()
-                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/{issuer}/login/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .csrf(Customizer.withDefaults())
@@ -103,7 +111,7 @@ public class SecurityConfig {
                         })
                 )
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage("/{issuer}/login")
                         .usernameParameter("identifier")
                         .passwordParameter("password")
                 );
@@ -116,7 +124,7 @@ public class SecurityConfig {
 
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
                     .clientRegistrationRepository(new InMemoryClientRegistrationRepository(clientRegistrations))
-                    .loginPage("/login")
+                    .loginPage("/{issuer}/login")
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                             .oidcUserService(dopOidcUserServiceSupplier.get())
                     )
@@ -141,12 +149,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChainApi(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(
-                        "/api/v1/**",
+                        "/{issuer}/api/v1/**",
                         "/css/**",
                         "/js/**"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/manage/**").authenticated()
+                        .requestMatchers("/{issuer}/api/v1/manage/**").authenticated()
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**"

@@ -1,4 +1,4 @@
-package org.dop.module.helper;
+package org.dop.module.helper.gsonadapter;
 
 import com.nimbusds.jose.shaded.gson.*;
 
@@ -8,11 +8,11 @@ import java.time.Instant;
 public class InstantTypeAdapter implements JsonDeserializer<Instant>, JsonSerializer<Instant> {
     @Override
     public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return Instant.ofEpochMilli(json.getAsLong());
+        return Instant.parse(json.getAsString());
     }
 
     @Override
     public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.toEpochMilli());
+        return new JsonPrimitive(src.toString());
     }
 }

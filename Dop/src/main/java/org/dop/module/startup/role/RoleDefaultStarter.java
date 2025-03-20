@@ -3,7 +3,7 @@ package org.dop.module.startup.role;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.Role;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.dop.module.startup.Starter;
 import org.dop.repository.RoleRepository;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

@@ -39,7 +39,7 @@
       </div>
       <div class="mt-4">
         <div>
-          <form name="consent_form" method="post" action="/oauth2/authorize">
+          <form name="consent_form" method="post" th:action="'/' + ${issuer} + '/oauth2/authorize'">
             <input type="hidden" name="client_id" th:value="${clientId}">
             <input type="hidden" name="state" th:value="${state}">
 

@@ -3,7 +3,7 @@ package org.dop.module.startup.language;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.Language;
 import org.dop.entity.state.LanguageCode;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.dop.module.startup.Starter;
 import org.dop.repository.LanguageRepository;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

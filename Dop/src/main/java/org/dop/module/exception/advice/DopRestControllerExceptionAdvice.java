@@ -2,8 +2,11 @@ package org.dop.module.exception.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.dop.module.exception.DopException;
 import org.dop.module.exception.pojo.ErrorCode;
 import org.dop.module.exception.pojo.ErrorResponse;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -19,8 +22,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestControllerAdvice(annotations = RestController.class)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RequiredArgsConstructor
-public class DopExceptionAdvice {
+public class DopRestControllerExceptionAdvice {
 
     private final HttpServletRequest request;
 
@@ -42,6 +46,14 @@ public class DopExceptionAdvice {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({DopException.class})
+    public ErrorResponse handleValidationExceptions(DopException ex) {
+        return getErrorResponseBuilder()
+                .code(ex.getCode())
+                .detail(ex.getDetail())
+                .build();
+    }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})

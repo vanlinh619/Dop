@@ -7,7 +7,7 @@ import org.dop.entity.Language;
 import org.dop.entity.Oauth2RegisteredClient;
 import org.dop.entity.ScopeDescription;
 import org.dop.entity.state.LanguageCode;
-import org.dop.entity.state.StartupName;
+import org.dop.module.startup.StartupName;
 import org.dop.module.startup.Starter;
 import org.dop.module.startup.language.LanguageSupportStarter;
 import org.dop.module.startup.registeredclient.Oauth2RegisteredClientStarter;
