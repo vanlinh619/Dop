@@ -2,7 +2,7 @@ package org.dop.config;
 
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
-import org.dop.module.helper.InstantTypeAdapter;
+import org.dop.module.helper.gsonadapter.InstantTypeAdapter;
 import org.dop.module.setting.service.TenantCollectionService;
 import org.dop.module.tenant.filter.TenantContextRequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
