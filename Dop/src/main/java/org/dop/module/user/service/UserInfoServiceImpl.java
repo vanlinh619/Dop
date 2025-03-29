@@ -17,10 +17,8 @@ import org.dop.module.language.service.LanguageService;
 import org.dop.module.role.service.RoleService;
 import org.dop.module.user.mapper.UserInfoMapper;
 import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
-import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.*;
 import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
@@ -187,4 +185,30 @@ public class UserInfoServiceImpl implements UserInfoService {
     public Optional<Auth2UserAuthenticatedProjection> findAuth2UserAuthenticated(String subject) {
         return userPrimaryRepository.findAuth2User(subject);
     }
+
+    @Override
+    public ProfileUserInfoProjection getProfileInfo(String identifier) {
+        UUID id = UUID.fromString(identifier);
+        return userProfileRepository.getProfileInfo(id);
+    }
+
+    @Override
+    public EmailUserInfoProjection getEmailInfo(String identifier) {
+        UUID id = UUID.fromString(identifier);
+        return userPrimaryRepository.getEmailInfo(id);
+    }
+
+    @Override
+    public AddressUserInfoProjection getAddressInfo(String identifier) {
+        UUID id = UUID.fromString(identifier);
+        return userProfileRepository.getAddressInfo(id);
+    }
+
+    @Override
+    public PhoneUserInfoProjection getPhoneInfo(String identifier) {
+        UUID id = UUID.fromString(identifier);
+        return userProfileRepository.getPhoneInfo(id);
+    }
+
+
 }

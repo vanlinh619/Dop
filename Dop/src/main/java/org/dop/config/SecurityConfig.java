@@ -4,6 +4,7 @@ import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
+import org.dop.module.security.authorizationserver.service.UserInfoEndpointService;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.dop.module.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +48,8 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
             HttpSecurity http,
-            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties
+            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
+            UserInfoEndpointService userInfoEndpointService
     ) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
 
@@ -58,7 +60,11 @@ public class SecurityConfig {
                 )
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
                         /// Enable OpenID Connect 1.0
-                        .oidc(Customizer.withDefaults())
+                        .oidc(oidc -> {
+                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
+                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
+                            });
+                        })
                         /// Add custom consent page
                         ///.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())

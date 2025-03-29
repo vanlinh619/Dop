@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface ScopeDescriptionRepository extends JpaRepository<ScopeDescription, String> {
+public interface ScopeDescriptionRepository extends JpaRepository<ScopeDescription, Long> {
 
     @Query("""
     select new org.dop.module.security.authorizationserver.pojo.projection.ScopeDescriptionProjection(sd.scope.id, sd.scope.name, sd.description)

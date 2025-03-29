@@ -1,10 +1,8 @@
 package org.dop.module.user.service;
 
 import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
-import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.*;
 import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
@@ -30,4 +28,15 @@ public interface UserInfoService {
     Set<String> findRoles(UUID userId);
 
     Optional<Auth2UserAuthenticatedProjection> findAuth2UserAuthenticated(String subject);
+
+    /**
+     * Get user info for authorization server
+     */
+    ProfileUserInfoProjection getProfileInfo(String identifier);
+
+    EmailUserInfoProjection getEmailInfo(String identifier);
+
+    AddressUserInfoProjection getAddressInfo(String identifier);
+
+    PhoneUserInfoProjection getPhoneInfo(String identifier);
 }

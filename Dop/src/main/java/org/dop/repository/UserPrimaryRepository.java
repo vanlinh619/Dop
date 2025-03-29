@@ -2,6 +2,7 @@ package org.dop.repository;
 
 import org.dop.entity.UserPrimary;
 import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
 import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +44,14 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> 
     where up.providerId = :subject
     """)
     Optional<Auth2UserAuthenticatedProjection> findAuth2User(String subject);
+
+    @Query("""
+    select new org.dop.module.user.pojo.projection.EmailUserInfoProjection(
+        u.email.value,
+        u.email.verified
+    )
+    from UserPrimary u
+    where u.id = :id
+    """)
+    EmailUserInfoProjection getEmailInfo(UUID id);
 }
