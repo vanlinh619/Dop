@@ -1,5 +1,6 @@
 package org.dop.config;
 
+import jakarta.annotation.Nullable;
 import org.dop.config.property.RoleDefaultProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,7 @@ public class Oauth2ResourceServerConfig {
         return jwtAuthenticationConverter;
     }
 
+    @Nullable
     private String getAuthoritiesClaimName(Jwt jwt) {
         for (String claimName : WELL_KNOWN_AUTHORITIES_CLAIM_NAMES) {
             if (jwt.hasClaim(claimName)) {
@@ -57,6 +59,9 @@ public class Oauth2ResourceServerConfig {
     }
 
     private Collection<String> getAuthorities(Jwt jwt, String roleClaim) {
+        if (!StringUtils.hasText(roleClaim)) {
+            return Collections.emptyList();
+        }
         Object authorities = jwt.getClaim(roleClaim);
         if (authorities instanceof String) {
             if (StringUtils.hasText((String) authorities)) {

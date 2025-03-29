@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -37,6 +36,10 @@ public class Oauth2RegisteredClientStarterImpl implements Oauth2RegisteredClient
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .scope(clientMasterProperties.getScopeMaster())
                 .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .scope(OidcScopes.EMAIL)
+                .scope(OidcScopes.PHONE)
+                .scope(OidcScopes.ADDRESS)
                 .redirectUri(clientMasterProperties.getRedirectUrl())
                 .clientSettings(ClientSettings.builder()
                         .requireProofKey(true)

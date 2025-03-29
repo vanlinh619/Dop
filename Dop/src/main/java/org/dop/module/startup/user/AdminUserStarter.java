@@ -6,12 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.config.property.UserAdminProperties;
 import org.dop.entity.*;
+import org.dop.entity.embeded.AddressEmbedded;
 import org.dop.entity.embeded.EmailEmbedded;
+import org.dop.entity.embeded.PhoneEmbedded;
+import org.dop.entity.state.Gender;
 import org.dop.entity.state.Provider;
-import org.dop.module.startup.StartupName;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.startup.Starter;
-import org.dop.repository.*;
+import org.dop.module.startup.StartupName;
+import org.dop.repository.RoleRepository;
+import org.dop.repository.UserPrimaryRepository;
+import org.dop.repository.UserProfileRepository;
+import org.dop.repository.UserProviderRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -19,6 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Set;
 
@@ -66,12 +74,29 @@ public class AdminUserStarter implements Starter {
 
         /// Add profile
         Language language = entityManager.find(Language.class, userAdminProperties.getLanguageCode());
+        AddressEmbedded address = AddressEmbedded.builder()
+                .addressLine1("Admin Address Line 1")
+                .city("Hồ Chí Minh")
+                .country("Việt Nam")
+                .build();
+        PhoneEmbedded phone = PhoneEmbedded.builder()
+                .number("0000000000")
+                .verified(false)
+                .build();
         UserProfile userProfile = UserProfile.builder()
                 .id(userPrimary.getId())
                 .givenName(userAdminProperties.getName())
                 .fullName(userAdminProperties.getName())
                 .language(language)
                 .locale(Locale.of(userAdminProperties.getLanguageCode().name()))
+                .birthDate(Instant.now())
+                .profile("https://github.com/vanlinh619")
+                .website("https://github.com/vanlinh619")
+                .zoneInfo(ZoneId.systemDefault())
+                .gender(Gender.MALE)
+                .address(address)
+                .phone(phone)
+                .picture("https://avatars.githubusercontent.com/u/71812422?v=4")
                 .build();
         userProfileRepository.save(userProfile);
     }
