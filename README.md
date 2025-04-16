@@ -17,5 +17,8 @@ docker compose -f compose.yml up -d
 ## Advanced Config
 See document: [link](https://github.com/vanlinh619/Dop/blob/add-document/Dop/doc/CONFIG.md)
 
+## Contributing
+Contributions are welcome!
+
 ## License
 Dop is an Open Source project released under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
