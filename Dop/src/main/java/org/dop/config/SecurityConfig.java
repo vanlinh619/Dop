@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
             HttpSecurity http,
-            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
+//            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             UserInfoEndpointService userInfoEndpointService
     ) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
