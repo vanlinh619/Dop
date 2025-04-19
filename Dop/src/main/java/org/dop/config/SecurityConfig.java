@@ -19,8 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,7 +28,6 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @Configuration
@@ -92,9 +90,9 @@ public class SecurityConfig {
             SecurityRememberMeProperties securityRememberMeProperties,
             Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             Oauth2LoginProperties oauth2LoginProperties,
-            List<Supplier<ClientRegistration>> clientRegistrationSuppliers,
-            Supplier<OidcUserService> dopOidcUserServiceSupplier,
-            Supplier<OAuth2AuthorizationRequestResolver> authorizationRequestResolverSupplier
+            ClientRegistrationRepository clientRegistrationRepository,
+            OidcUserService dopOidcUserService,
+            OAuth2AuthorizationRequestResolver authorizationRequestResolver
     ) throws Exception {
         http
                 .securityMatcher(Stream.of(
@@ -125,23 +123,19 @@ public class SecurityConfig {
                 );
 
         if (oauth2LoginProperties.anySocialEnable()) {
-            List<ClientRegistration> clientRegistrations = clientRegistrationSuppliers.stream()
-                    .map(Supplier::get)
-                    .filter(Objects::nonNull)
-                    .toList();
 
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
                     .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                             .baseUri(oauth2LoginProperties.getAuthorizationEndpoint())
-                            .authorizationRequestResolver(authorizationRequestResolverSupplier.get())
+                            .authorizationRequestResolver(authorizationRequestResolver)
                     )
                     .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig
                             .baseUri("/*/login/oauth2/code/*")
                     )
-                    .clientRegistrationRepository(new InMemoryClientRegistrationRepository(clientRegistrations))
+                    .clientRegistrationRepository(clientRegistrationRepository)
                     .loginPage("/{issuer}/login")
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                            .oidcUserService(dopOidcUserServiceSupplier.get())
+                            .oidcUserService(dopOidcUserService)
                     )
             );
         }

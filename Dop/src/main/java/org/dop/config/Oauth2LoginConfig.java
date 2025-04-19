@@ -14,90 +14,69 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.SupplierClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 @Configuration
 public class Oauth2LoginConfig {
 
-    private ClientRegistration googleClientRegistration;
-    private ClientRegistrationRepository clientRegistrationRepository;
-    private OidcUserService oidcUserService;
-
     @Bean
-    public Supplier<ClientRegistration> googleClientRegistrations(Oauth2LoginProperties oauth2LoginProperties) {
-        return () -> {
-            if (oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)) {
-                if (googleClientRegistration == null) {
-                    Oauth2LoginProperties.SocialProperties googleProperties = oauth2LoginProperties.getSocials()
-                            .get(Provider.GOOGLE.getProvider());
-                    googleClientRegistration = CommonOAuth2Provider.GOOGLE.getBuilder(Provider.GOOGLE.getProvider())
-                            .clientId(googleProperties.getClientId())
-                            .clientSecret(googleProperties.getClientSecret())
-                            .redirectUri(String.format(
-                                    "{baseUrl}/%s/login/oauth2/code/{registrationId}",
-                                    TenantOAuth2AuthorizationRequestResolver.TENANT_DELIMITER
-                            ))
-                            .build();
-                }
-                return googleClientRegistration;
-            }
-            return null;
-        };
-    }
+    public ClientRegistrationRepository clientRegistrationRepository(Oauth2LoginProperties oauth2LoginProperties) {
 
-    @Bean
-    public Supplier<ClientRegistrationRepository> clientRegistrationRepository(
-            Oauth2LoginProperties oauth2LoginProperties,
-            Supplier<ClientRegistration> googleClientRegistrations
-    ) {
-        return () -> {
+        Supplier<InMemoryClientRegistrationRepository> supplierClientRegistrationRepository = () -> {
             if (oauth2LoginProperties.anySocialEnable()) {
-                if (clientRegistrationRepository == null) {
-                    clientRegistrationRepository = new InMemoryClientRegistrationRepository(
-                            googleClientRegistrations.get()
-                    );
-                }
-                return clientRegistrationRepository;
+                List<ClientRegistration> clientRegistrations = oauth2LoginProperties.getSocials().entrySet().stream()
+                        .map(socialPropertiesEntry -> {
+                            if (socialPropertiesEntry.getKey().equals(Provider.GOOGLE.getProvider())) {
+                                Oauth2LoginProperties.SocialProperties googleProperties = socialPropertiesEntry.getValue();
+                                return googleClientRegistrations(googleProperties);
+                            }
+                            return null;
+                        })
+                        .filter(Objects::nonNull)
+                        .toList();
+                return new InMemoryClientRegistrationRepository(clientRegistrations);
             }
             return null;
         };
+        return new SupplierClientRegistrationRepository(supplierClientRegistrationRepository);
     }
 
     @Bean
-    public Supplier<OidcUserService> dopOidcUserService(
-            Oauth2LoginProperties oauth2LoginProperties,
+    public OidcUserService dopOidcUserService(
             UserInfoService userInfoService,
             RoleDefaultProperties roleDefaultProperties
     ) {
-        return () -> {
-            if (oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)) {
-                if (oidcUserService == null) {
-                    oidcUserService = new DopOidcUserService(userInfoService, roleDefaultProperties);
-                }
-                return oidcUserService;
-            }
-            return null;
-        };
+        return new DopOidcUserService(userInfoService, roleDefaultProperties);
     }
 
     @Bean
-    public Supplier<OAuth2AuthorizationRequestResolver> authorizationRequestResolver(
+    public OAuth2AuthorizationRequestResolver authorizationRequestResolver(
             Oauth2LoginProperties oauth2LoginProperties,
-            Supplier<ClientRegistrationRepository> clientRegistrationRepositorySupplier,
+            ClientRegistrationRepository clientRegistrationRepository,
             TenantExtractService tenantExtractService
     ) {
         DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
-                clientRegistrationRepositorySupplier.get(),
+                clientRegistrationRepository,
                 oauth2LoginProperties.getAuthorizationEndpoint()
         );
-        return () -> {
-            if (oauth2LoginProperties.anySocialEnable()) {
-                return new TenantOAuth2AuthorizationRequestResolver(resolver, tenantExtractService);
-            }
-            return null;
-        };
+        return new TenantOAuth2AuthorizationRequestResolver(resolver, tenantExtractService);
+    }
+
+    private ClientRegistration googleClientRegistrations(Oauth2LoginProperties.SocialProperties googleProperties) {
+
+        return CommonOAuth2Provider.GOOGLE.getBuilder(Provider.GOOGLE.getProvider())
+                .clientId(googleProperties.getClientId())
+                .clientSecret(googleProperties.getClientSecret())
+                .redirectUri(String.format(
+                        "{baseUrl}/%s/login/oauth2/code/{registrationId}",
+                        TenantOAuth2AuthorizationRequestResolver.TENANT_DELIMITER
+                ))
+                .build();
     }
 }
