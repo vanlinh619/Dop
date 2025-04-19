@@ -20,13 +20,13 @@ public class UserInfoController {
 
 
     @GetMapping
-    public List<UserInfoResponse> getAllUser() {
+    public List<UserInfoResponse> getAllUser(@PathVariable String issuer) {
 
         return List.of();
     }
 
     @PostMapping
-    public UserInfoResponse createUser(@RequestBody @Valid UserInfoRequest userInfoRequest) {
+    public UserInfoResponse createUser(@RequestBody @Valid UserInfoRequest userInfoRequest, @PathVariable String issuer) {
         return userInfoService.createUserPrimary(userInfoRequest);
     }
 

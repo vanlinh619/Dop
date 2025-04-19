@@ -37,7 +37,6 @@ public interface UserInfoMapper {
 
     @Mappings({
             @Mapping(target = "address", ignore = true),
-            @Mapping(target = "avatar", ignore = true),
             @Mapping(target = "birthDate", ignore = true),
             @Mapping(target = "createdDate", ignore = true),
             @Mapping(target = "fullName", source = "userInfoRequest", qualifiedByName = "toFullName"),
@@ -48,7 +47,11 @@ public interface UserInfoMapper {
             @Mapping(target = "locale", ignore = true),
             @Mapping(target = "middleName", ignore = true),
             @Mapping(target = "phone", ignore = true),
-            @Mapping(target = "story", ignore = true)
+            @Mapping(target = "story", ignore = true),
+            @Mapping(target = "picture", ignore = true),
+            @Mapping(target = "profile", ignore = true),
+            @Mapping(target = "website", ignore = true),
+            @Mapping(target = "zoneInfo", ignore = true)
     })
     UserProfile toUserProfile(UserInfoRequest userInfoRequest);
 

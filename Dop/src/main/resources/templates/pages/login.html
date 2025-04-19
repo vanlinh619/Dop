@@ -13,7 +13,7 @@
       <div class="w-full max-w-xs">
         <form method="post" th:action="'/' + ${issuer} + '/login'" class="bg-white shadow rounded px-8 pt-6 pb-8 mb-4">
           <div th:if="${googleEnable}" class="flex">
-            <a href="/oauth2/authorization/google"
+            <a th:href="${'/' + issuer + '/login/oauth2/authorization/google'}"
                class="py-2 px-4 border rounded bg-slate-100 hover:bg-slate-200 flex items-center justify-center w-full">
               <label class="pr-1">
                 <span th:text="#{login.login-by-google}"></span>

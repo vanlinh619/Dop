@@ -4,6 +4,7 @@ import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.GsonBuilder;
 import org.dop.module.helper.gsonadapter.InstantTypeAdapter;
 import org.dop.module.setting.service.TenantCollectionService;
+import org.dop.module.tenant.TenantExtractService;
 import org.dop.module.tenant.filter.TenantContextRequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,12 @@ public class DopConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<TenantContextRequestFilter> routingDataSourceRequestFilter(TenantCollectionService tenantCollectionService) {
+    public FilterRegistrationBean<TenantContextRequestFilter> routingDataSourceRequestFilter(
+            TenantCollectionService tenantCollectionService,
+            TenantExtractService tenantExtractService
+    ) {
         FilterRegistrationBean<TenantContextRequestFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new TenantContextRequestFilter(tenantCollectionService));
+        registrationBean.setFilter(new TenantContextRequestFilter(tenantCollectionService, tenantExtractService));
         registrationBean.addUrlPatterns("/*");
         registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registrationBean;
