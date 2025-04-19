@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("{issuer}/login")
-public class Oauth2Controller {
+public class OauthController {
 
     private final SecurityRememberMeProperties securityRememberMeProperties;
     private final Oauth2LoginProperties oauth2LoginProperties;

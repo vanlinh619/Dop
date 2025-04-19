@@ -5,7 +5,6 @@ import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.authorizationserver.service.UserInfoEndpointService;
-import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.dop.module.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -37,7 +38,7 @@ import java.util.stream.Stream;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -48,7 +49,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
             HttpSecurity http,
-            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
+//            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             UserInfoEndpointService userInfoEndpointService
     ) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
@@ -59,15 +60,15 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
-                        /// Enable OpenID Connect 1.0
-                        .oidc(oidc -> {
-                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
-                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
-                            });
-                        })
+                                /// Enable OpenID Connect 1.0
+                                .oidc(oidc -> {
+                                    oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
+                                        oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
+                                    });
+                                })
                         /// Add custom consent page
                         ///.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                                ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+                        ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
                         /// Todo: using default consent page
                         ///)
                 )
@@ -92,14 +93,15 @@ public class SecurityConfig {
             Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             Oauth2LoginProperties oauth2LoginProperties,
             List<Supplier<ClientRegistration>> clientRegistrationSuppliers,
-            Supplier<DopOidcUserService> dopOidcUserServiceSupplier
+            Supplier<OidcUserService> dopOidcUserServiceSupplier,
+            Supplier<OAuth2AuthorizationRequestResolver> authorizationRequestResolverSupplier
     ) throws Exception {
         http
                 .securityMatcher(Stream.of(
                         oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
                         "/{issuer}/login/**",
                         oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)
-                                ? oauth2LoginProperties.getGoogleAuthorizationEndpoint()
+                                ? oauth2LoginProperties.getAuthorizationSecure()
                                 : null
                 ).filter(Objects::nonNull).toArray(String[]::new))
                 .authorizeHttpRequests((authorize) -> authorize
@@ -129,6 +131,13 @@ public class SecurityConfig {
                     .toList();
 
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
+                    .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                            .baseUri(oauth2LoginProperties.getAuthorizationEndpoint())
+                            .authorizationRequestResolver(authorizationRequestResolverSupplier.get())
+                    )
+                    .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig
+                            .baseUri("/*/login/oauth2/code/*")
+                    )
                     .clientRegistrationRepository(new InMemoryClientRegistrationRepository(clientRegistrations))
                     .loginPage("/{issuer}/login")
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
