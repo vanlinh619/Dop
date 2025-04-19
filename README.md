@@ -15,7 +15,7 @@ docker compose -f compose.yml up -d
 3. Use Postman to test the project's APIs: [Dop](https://www.postman.com/planetary-desert-10407/dop/collection/e0rpwvt/dop)
 
 ## Advanced Config
-See document: [link](https://github.com/vanlinh619/Dop/blob/add-document/Dop/doc/CONFIG.md)
+See document: [link](https://github.com/vanlinh619/Dop/blob/main/Dop/doc/CONFIG.md)
 
 ## Contributing
 Contributions are welcome!
