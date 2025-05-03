@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from "../views/Home.vue";
-import Test from "../views/Test.vue";
+import OidcCallback from "../views/OidcCallback.vue";
+import Login from "../views/Login.vue";
 
 const routes = [
     { path: '/', name: 'Home', component: Home },
-    { path: '/test', name: 'Test', component: Test },
+    { path: '/login', name: 'Login', component: Login},
+    { path: '/login/oauth2/code', name: 'OidcCallback', component: OidcCallback },
 ]
 
 const router = createRouter({
