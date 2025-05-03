@@ -7,6 +7,7 @@ onMounted(async () => {
     const user = await oidc.signinRedirectCallback()
     // useAuthStore().setUser(user)
     // ✅ Sau khi login, redirect về home hoặc trang yêu cầu
+    console.log('Login callback success', user)
     window.location.href = '/'
   } catch (err) {
     console.error('Login callback failed', err)
