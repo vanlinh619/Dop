@@ -3,7 +3,7 @@
 </script>
 
 <template>
-Home
+<div class="text-3xl font-bold underline">Home</div>
 </template>
 
 <style scoped>
