@@ -2,6 +2,7 @@ package org.dop.config;
 
 import org.dop.config.property.Oauth2AuthorizationServerProperties;
 import org.dop.config.property.Oauth2LoginProperties;
+import org.dop.config.property.SecurityProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.authorizationserver.service.UserInfoEndpointService;
@@ -48,7 +49,8 @@ public class SecurityConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
             HttpSecurity http,
 //            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
-            UserInfoEndpointService userInfoEndpointService
+            UserInfoEndpointService userInfoEndpointService,
+            SecurityProperties securityProperties
     ) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
 
@@ -69,6 +71,16 @@ public class SecurityConfig {
                         ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
                         /// Todo: using default consent page
                         ///)
+                )
+                .csrf(Customizer.withDefaults())
+                .cors(corsConfigurer -> corsConfigurer
+                        .configurationSource(request -> {
+                            CorsConfiguration config = new CorsConfiguration();
+                            config.setAllowedOrigins(securityProperties.getAllowedOrigins());
+                            config.setAllowedMethods(List.of("GET", "POST"));
+                            config.setAllowedHeaders(List.of("*"));
+                            return config;
+                        })
                 )
                 /// Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
@@ -92,7 +104,8 @@ public class SecurityConfig {
             Oauth2LoginProperties oauth2LoginProperties,
             ClientRegistrationRepository clientRegistrationRepository,
             OidcUserService dopOidcUserService,
-            OAuth2AuthorizationRequestResolver authorizationRequestResolver
+            OAuth2AuthorizationRequestResolver authorizationRequestResolver,
+            SecurityProperties securityProperties
     ) throws Exception {
         http
                 .securityMatcher(Stream.of(
@@ -111,6 +124,7 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer
                         .configurationSource(request -> {
                             CorsConfiguration config = new CorsConfiguration();
+                            config.setAllowedOrigins(securityProperties.getAllowedOrigins());
                             config.setAllowedMethods(List.of("GET", "POST"));
                             config.setAllowedHeaders(List.of("*"));
                             return config;
@@ -155,7 +169,10 @@ public class SecurityConfig {
      */
     @Bean
     @Order(3)
-    public SecurityFilterChain securityFilterChainApi(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChainApi(
+            HttpSecurity http,
+            SecurityProperties securityProperties
+    ) throws Exception {
         http
                 .securityMatcher(
                         "/{issuer}/api/v1/**",
@@ -174,6 +191,7 @@ public class SecurityConfig {
                 .cors(corsConfigurer -> corsConfigurer
                         .configurationSource(request -> {
                             CorsConfiguration config = new CorsConfiguration();
+                            config.setAllowedOrigins(securityProperties.getAllowedOrigins());
                             config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
                             config.setAllowedHeaders(List.of("*"));
                             return config;
