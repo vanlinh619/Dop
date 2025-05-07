@@ -1,7 +1,11 @@
 <script setup>
 import {oidc} from "../services/oauth-2-client/dop-oidc.js";
+import {onMounted} from "vue";
 
-oidc.signinRedirect()
+onMounted(async () => {
+  await oidc.signinRedirect()
+})
+
 </script>
 
 <template>

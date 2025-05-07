@@ -2,7 +2,7 @@ import {UserManager} from 'oidc-client-ts'
 import oidcProperties from '../../properties/oidc-properties.js'
 
 const oidcConfig = {
-    authority: `${oidcProperties.baseURL}/dop/oauth2/authorize`,
+    authority: `${oidcProperties.baseURL}/dop/`,
     client_id: oidcProperties.clientId,
     redirect_uri: 'http://localhost:3000/login/oauth2/code',
     // post_logout_redirect_uri: 'http://localhost:3000',
