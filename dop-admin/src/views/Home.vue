@@ -1,6 +1,12 @@
+<script setup>
+import { ref } from 'vue'
+
+const sidebarOpen = ref(false)
+</script>
+
 <template>
   <div class="flex h-screen bg-gray-100 flex-col lg:flex-row">
-    <!-- Sidebar (collapsible on small screens) -->
+
     <aside
         class="lg:w-64 w-full bg-white text-gray-700 flex flex-col shadow-md"
         :class="{ hidden: !sidebarOpen, 'lg:flex': true }"
@@ -129,9 +135,3 @@
     </main>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const sidebarOpen = ref(false)
-</script>

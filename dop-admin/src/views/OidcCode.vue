@@ -1,11 +1,12 @@
 <script setup>
-import {oidc} from "../services/oauth-2-client/dop-oidc.js";
+import {getCurrentUserManager} from "../services/oauth-2-client/user-manager.js";
 import router from "../router/index.js";
 import {onMounted} from "vue";
 
 onMounted(async () => {
   try {
-    const user = await oidc.signinCallback()
+    const userManager = getCurrentUserManager()
+    const user = await userManager.signinCallback()
     console.log('Login callback success', user)
     await router.push({name: 'Home'})
   } catch (err) {
