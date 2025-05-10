@@ -19,7 +19,7 @@ public class LogExceptionHandlerAop {
     private final FormatHelper formatHelper;
 
     @Pointcut("""
-            execution(* org.dop.module.exception.advice.DopExceptionAdvice.*(..))
+            execution(* org.dop.module.exception.advice.DopRestControllerExceptionAdvice.*(..))
             && @annotation(org.springframework.web.bind.annotation.ExceptionHandler)
             """
     )
@@ -31,7 +31,7 @@ public class LogExceptionHandlerAop {
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
             if (arg instanceof Exception e) {
-                log.error("[Dop - Exception Advice] Return error.{}\n - message: {}", formatHelper.formatProperties(result), e.getMessage());
+                log.error("[Dop - Exception Advice] Return error.{}\n - message: {}", formatHelper.formatProperties(result), e.getMessage(), e);
             }
         }
     }

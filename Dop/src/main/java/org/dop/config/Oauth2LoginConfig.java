@@ -5,7 +5,7 @@ import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.dop.module.security.oauth2login.service.TenantOAuth2AuthorizationRequestResolver;
-import org.dop.module.tenant.TenantExtractService;
+import org.dop.module.tenant.service.TenantExtractService;
 import org.dop.module.user.service.UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

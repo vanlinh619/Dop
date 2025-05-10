@@ -1,15 +1,17 @@
 <script setup lang="ts">
-
+import SelectTenant from "../conponents/SelectTenant.vue";
 </script>
 
 <template>
   <!-- Header -->
   <header class="h-16 bg-white shadow px-6 flex items-center justify-between">
-    <div class="flex items-center space-x-6">
-      <div class="text-sm text-slate-600">Chào, Admin</div>
+    <div class="w-48">
+      <SelectTenant/>
     </div>
+
     <!-- User icon on the top right -->
     <div class="flex items-center space-x-4">
+      <div class="text-sm text-slate-600">Chào, Admin</div>
       <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
           <path fill-rule="evenodd"

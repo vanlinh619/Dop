@@ -8,6 +8,7 @@ import org.dop.module.exception.pojo.ErrorResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,6 +61,14 @@ public class DopRestControllerExceptionAdvice {
     public ErrorResponse handleValidationExceptions(Exception ex) {
         return getErrorResponseBuilder()
                 .code(ErrorCode.UNKNOWN.name())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({AuthorizationDeniedException.class})
+    public ErrorResponse handleValidationExceptions(AuthorizationDeniedException ex) {
+        return getErrorResponseBuilder()
+                .code(ErrorCode.FORBIDDEN.name())
                 .build();
     }
 

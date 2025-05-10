@@ -1,16 +1,14 @@
 <script setup>
-import {getCurrentUserManager} from "../services/oauth-2-client/user-manager.js";
+import auth from "../services/oauth-2-client/user-manager.js";
 import router from "../router/index.js";
+import {authStore} from "../stores/auth-store.js";
 import {onMounted} from "vue";
 
 onMounted(async () => {
-  try {
-    const userManager = getCurrentUserManager()
-    const user = await userManager.signinCallback()
-    console.log('Login callback success', user)
-    await router.push({name: 'Home'})
-  } catch (err) {
-    console.error('Login callback failed', err)
-  }
+  const userManager = auth.getCurrentUserManager()
+  const user = await userManager.signinCallback()
+  console.log('Login callback success', user)
+  console.log(user.access_token)
+  await router.push({name: 'Home'})
 })
 </script>

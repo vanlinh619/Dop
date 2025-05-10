@@ -1,11 +1,9 @@
 import {UserManager} from 'oidc-client-ts'
 import oidcProperties from '../../properties/oidc-properties.js'
+import tenantService from "../tenant/tenant-service.js";
+import {authStore} from "../../stores/auth-store.js";
 
-const self = {
-    userManager: null,
-}
-
-export const createUserManager = (tenant) => {
+const createUserManager = (tenant) => {
     const oidcConfig = {
         authority: `${oidcProperties.serverBaseURL}/${tenant}/`,
         client_id: oidcProperties.clientId,
@@ -16,11 +14,23 @@ export const createUserManager = (tenant) => {
         // state: '1234567890',
         // code_challenge: '1234567890',
         // code_challenge_method: 'S256',
+
     }
-    self.userManager = new UserManager(oidcConfig)
-    return self.userManager
+    return new UserManager(oidcConfig)
 }
 
-export const getCurrentUserManager = () => {
-    return self.userManager
+const getCurrentUserManager = () => {
+    return createUserManager(tenantService.getCurrentTenant())
 }
+
+const getUser = () => {
+    return  getCurrentUserManager().getUser()
+}
+
+const auth = {
+    createUserManager: createUserManager,
+    getCurrentUserManager: getCurrentUserManager,
+    getUser: getUser,
+}
+
+export default auth

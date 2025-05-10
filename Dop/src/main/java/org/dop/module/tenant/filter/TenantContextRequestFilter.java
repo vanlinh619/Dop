@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dop.module.setting.service.TenantCollectionService;
-import org.dop.module.tenant.TenantExtractService;
+import org.dop.module.tenant.service.TenantExtractService;
 import org.dop.module.tenant.context.TenantContext;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;

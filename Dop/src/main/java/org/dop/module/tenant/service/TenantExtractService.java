@@ -1,4 +1,4 @@
-package org.dop.module.tenant;
+package org.dop.module.tenant.service;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;

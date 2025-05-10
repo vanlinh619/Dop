@@ -1,9 +1,18 @@
 <script setup>
-import {ref} from 'vue'
 import AsideMenu from "../views/AsideMenu.vue";
 import Header from "../views/Header.vue";
+import {onMounted} from "vue";
+import api from "../services/api/dop-api.js";
 
-
+onMounted(() => {
+  api.get("/api/v1/manage/tenant")
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+})
 </script>
 
 <template>
