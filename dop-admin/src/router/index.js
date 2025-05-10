@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from "../views/Home.vue";
-import OidcCode from "../views/OidcCode.vue";
-import Login from "../views/Login.vue";
-import Test from "../views/Test.vue";
+import Home from "../pages/Home.vue";
+import OidcCode from "../pages/OidcCode.vue";
+import Login from "../pages/Login.vue";
+import Test from "../pages/Test.vue";
 import tenantProperties from "../properties/tenant-properties.js";
 
 const routes = [
