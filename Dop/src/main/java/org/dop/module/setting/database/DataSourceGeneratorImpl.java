@@ -21,7 +21,6 @@ public class DataSourceGeneratorImpl implements DataSourceGenerator {
     private final @Qualifier(SettingPersistenceConfig.SETTING_DATASOURCE) DataSource dataSource;
     private final DatabaseStructure databaseStructure;
 
-    @CacheEvict(value = RedisKey.CACHE_TENANT, key = "'schemas'")
     @Override
     public DataSource newDatasource(String schema) {
         if (!schema.matches(dopSettingProperties.getDatasource().getSchemaPattern())) {
