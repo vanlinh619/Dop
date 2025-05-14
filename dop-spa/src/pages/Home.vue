@@ -3,11 +3,15 @@ import AsideMenu from "../views/AsideMenu.vue";
 import Header from "../views/Header.vue";
 import {onMounted} from "vue";
 import api from "../services/api/dop-api.js";
+import {useTenantStore} from "../stores/tenant-store.js";
+let tenantsStore = useTenantStore()
 
 onMounted(() => {
   api.get("/api/v1/manage/tenant")
       .then(response => {
         console.log(response)
+        let tenants = response.data
+        tenantsStore.setTenants(tenants)
       })
       .catch(error => {
         console.log(error)

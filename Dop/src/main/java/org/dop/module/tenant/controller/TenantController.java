@@ -27,7 +27,7 @@ public class TenantController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void startTenant(@Valid StartTenantRequest request) {
+    public void startTenant(@Valid @RequestBody StartTenantRequest request) {
         startupManager.startNewTenant(request.getName());
     }
 }
