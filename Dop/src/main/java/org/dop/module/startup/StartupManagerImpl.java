@@ -29,8 +29,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class StartupManagerImpl implements StartupManager {
 
-    private final int MAX_TENANT_NUMBER = 9;
-
     private final List<Starter> starters;
     private final StartupRepository startupRepository;
     private final DataSourceGenerator dataSourceGenerator;
@@ -64,6 +62,7 @@ public class StartupManagerImpl implements StartupManager {
         if (ByPassFilterUrl.blackListTenant.contains(tenant)) {
             throw new BadRequestException(StarterError.TENANT_IN_BLACK_LIST.name(), "tenant is in black list.");
         }
+        int MAX_TENANT_NUMBER = 9;
         if (tenantCollectionService.getTenants().size() >= MAX_TENANT_NUMBER) {
             throw new BadRequestException(StarterError.TENANT_MAX_LIMIT.name(), "Tenant limit reached.");
         }
