@@ -1,7 +1,6 @@
 import {UserManager} from 'oidc-client-ts'
 import oidcProperties from '../../properties/oidc-properties.js'
 import tenantService from "../tenant/tenant-service.js";
-import {authStore} from "../../stores/auth-store.js";
 
 const createUserManager = (tenant) => {
     const oidcConfig = {

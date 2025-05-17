@@ -7,11 +7,19 @@ export const useTenantStore = defineStore('tenant', {
         tenants: [tenantProperties.tenantDefault]
     }),
     actions: {
-        setTenantSelected: (tenant) => state => {
-            state.tenantSelected = tenant
+        setTenantSelected(tenant) {
+            this.tenantSelected = tenant
         },
-        setTenants: (tenants) => state => {
-            state.tenants = tenants
+        setTenants(tenants) {
+            this.tenants = tenants
+        }
+    },
+    getters: {
+        getTenantSelected(state) {
+            return state.tenantSelected;
+        },
+        getTenants(state) {
+            return state.tenants;
         }
     },
     persist: true,

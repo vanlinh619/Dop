@@ -9,5 +9,10 @@ export const useAdminViewStore = defineStore('adminView', {
         switchView(viewName) {
             this.currentView = viewName;
         },
+    },
+    getters: {
+        getCurrentView(state) {
+            return state.currentView;
+        }
     }
 })

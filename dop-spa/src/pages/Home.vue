@@ -18,12 +18,10 @@ let adminViewStore = useAdminViewStore()
 onMounted(() => {
   api.get("/api/v1/manage/tenant")
       .then(response => {
-        console.log(response)
         let tenants = response.data
         tenantsStore.setTenants(tenants)
       })
       .catch(error => {
-        console.log(error)
       })
 })
 </script>

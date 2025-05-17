@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useAdminViewStore} from "../stores/admin-view-store.js";
 import {adminViewProperties} from "../properties/admin-view-properties.js";
 
@@ -9,6 +9,15 @@ const adminViewStore = useAdminViewStore()
 const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value;
 }
+
+const currentView = computed({
+  get: () => {
+    return adminViewStore.getCurrentView
+  },
+  set: (value) => {
+    adminViewStore.switchView(value)
+  }
+})
 </script>
 
 <template>
@@ -37,7 +46,7 @@ const toggleSidebar = () => {
 
     <!-- Menu -->
     <nav :class="['flex-1 py-4 space-y-2 transition-all duration-300', isCollapsed ? 'px-2' : 'px-4']">
-      <button @click="adminViewStore.currentView = adminViewProperties.userView"
+      <button @click="currentView = adminViewProperties.userView"
           :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +61,7 @@ const toggleSidebar = () => {
         <span
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Người dùng</span>
       </button>
-      <button @click="adminViewStore.currentView = adminViewProperties.clientView"
+      <button @click="currentView = adminViewProperties.clientView"
           :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +76,7 @@ const toggleSidebar = () => {
         <span
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Clients</span>
       </button>
-      <button @click="adminViewStore.currentView = adminViewProperties.roleView"
+      <button @click="currentView = adminViewProperties.roleView"
           :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +91,7 @@ const toggleSidebar = () => {
         <span
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Roles</span>
       </button>
-      <button @click="adminViewStore.currentView = adminViewProperties.sessionView"
+      <button @click="currentView = adminViewProperties.sessionView"
           :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
