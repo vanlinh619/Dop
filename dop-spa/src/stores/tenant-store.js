@@ -14,9 +14,5 @@ export const useTenantStore = defineStore('tenant', {
             state.tenants = tenants
         }
     },
-    getters: {
-        getTenantSelected: () => state => state.tenantSelected,
-        getTenants: () => state => state.tenants,
-    },
     persist: true,
 })

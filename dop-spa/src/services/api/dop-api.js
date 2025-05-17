@@ -2,6 +2,7 @@ import axios from 'axios'
 import tenantService from "../tenant/tenant-service.js";
 import auth from "../oauth-2-client/user-manager.js";
 import router from "../../router/index.js";
+import {useErrorStore} from "../../stores/error-store.js";
 
 const api = axios.create({baseURL: `http://localhost:8080/`})
 
@@ -27,6 +28,8 @@ api.interceptors.response.use(response => {
         await currentUser.clearStaleState()
         return  router.push({name: 'Login'})
     }
+    let errorStore = useErrorStore()
+    errorStore.addError(error.response.data.code, error.response.data.path, error.response.data)
     return Promise.reject(error)
 })
 

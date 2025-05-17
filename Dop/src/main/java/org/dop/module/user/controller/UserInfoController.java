@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("hasRole(@roleDefaultProperties.roleSuper) and hasAuthority(@clientMasterProperties.scopeMaster)")
-@RequestMapping("{issuer}/api/v1/manage/user-info")
+@RequestMapping("*/api/v1/manage/user-info")
 @RequiredArgsConstructor
 public class UserInfoController {
 
@@ -20,13 +20,13 @@ public class UserInfoController {
 
 
     @GetMapping
-    public List<UserInfoResponse> getAllUser(@PathVariable String issuer) {
+    public List<UserInfoResponse> getAllUser() {
 
         return List.of();
     }
 
     @PostMapping
-    public UserInfoResponse createUser(@RequestBody @Valid UserInfoRequest userInfoRequest, @PathVariable String issuer) {
+    public UserInfoResponse createUser(@RequestBody @Valid UserInfoRequest userInfoRequest) {
         return userInfoService.createUserPrimary(userInfoRequest);
     }
 

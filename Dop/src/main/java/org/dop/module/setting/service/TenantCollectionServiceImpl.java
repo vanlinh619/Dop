@@ -1,7 +1,7 @@
 package org.dop.module.setting.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dop.module.constant.RedisKey;
+import org.dop.module.common.constant.RedisKey;
 import org.dop.module.setting.entity.TenantCollection;
 import org.dop.module.setting.repository.TenantCollectionRepository;
 import org.springframework.cache.annotation.CacheEvict;

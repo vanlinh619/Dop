@@ -3,12 +3,10 @@ package org.dop.module.setting.database;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.database.SettingPersistenceConfig;
 import org.dop.config.property.DopSettingProperties;
-import org.dop.module.constant.RedisKey;
 import org.dop.module.setting.exception.SchemaNameException;
 import org.dop.module.setting.pojo.error.DopSettingError;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;

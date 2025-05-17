@@ -6,12 +6,12 @@ export const authStore = defineStore("auth", {
         user: {},
     }),
     actions: {
-        setAccessToken: (accessToken) => state => {state.accessToken = accessToken},
-        setUser: (user) => state => {state.user = user},
-    },
-    getters: {
-        getAccessToken: () => state => state.accessToken,
-        getUser: () => state => state.user,
+        setAccessToken(accessToken) {
+            this.accessToken = accessToken
+        },
+        setUser(user) {
+            this.user = user
+        },
     },
     persist: true,
 })
