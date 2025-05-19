@@ -1,45 +1,27 @@
 <script setup>
-import AsideMenu from "../views/AsideMenu.vue";
-import Header from "../views/Header.vue";
-import {onMounted} from "vue";
-import api from "../services/api/dop-api.js";
-import {useTenantStore} from "../stores/tenant-store.js";
-import {useAdminViewStore} from "../stores/admin-view-store.js";
-import UserView from "../views/UserView.vue";
-import {adminViewProperties} from "../properties/admin-view-properties.js";
-import ClientView from "../views/ClientView.vue";
-import SessionView from "../views/SessionView.vue";
-import RoleView from "../views/RoleView.vue";
+import HomeAdmin from "./HomeAdmin.vue";
+import auth from "../services/oauth-2-client/user-manager.js";
+import {jwtDecode} from "jwt-decode";
+import {onMounted, ref} from "vue";
+import {roleProperties} from "../properties/role-properties.js";
+import HomeUser from "./HomeUser.vue";
+import router from "../router/index.js";
 
+const role = ref([])
 
-let tenantsStore = useTenantStore()
-let adminViewStore = useAdminViewStore()
+onMounted(async () => {
+  const user = await auth.getUser()
+  if (!user) {
+    await router.push({name: 'Login'})
+  }
+  const token = user.access_token
 
-onMounted(() => {
-  api.get("/api/v1/manage/tenant")
-      .then(response => {
-        let tenants = response.data
-        tenantsStore.setTenants(tenants)
-      })
-      .catch(error => {
-      })
+  let payload = jwtDecode(token)
+  role.value = payload.role
 })
 </script>
 
 <template>
-  <div class="flex text-slate-700 h-screen overflow-auto bg-gray-100">
-
-    <AsideMenu/>
-
-    <!-- Main -->
-    <main class="flex-1 flex flex-col">
-
-      <Header/>
-
-      <UserView v-if="adminViewStore.currentView === adminViewProperties.userView"/>
-      <ClientView v-if="adminViewStore.currentView === adminViewProperties.clientView"/>
-      <RoleView v-if="adminViewStore.currentView === adminViewProperties.roleView"/>
-      <SessionView v-if="adminViewStore.currentView === adminViewProperties.sessionView"/>
-    </main>
-  </div>
+  <HomeAdmin v-if="role.some(item => item === roleProperties.roleSuper)"/>
+  <HomeUser v-else/>
 </template>
