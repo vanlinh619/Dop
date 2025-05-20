@@ -2,6 +2,7 @@ package org.dop.config.property;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.dop.module.common.pojo.error.CommonError;
 import org.dop.module.exception.DopException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -66,7 +67,7 @@ public class DopSettingProperties {
                     return entry.getValue();
                 }
             }
-            throw new DopException("Database not supported.");
+            throw new DopException(CommonError.DATABASE_EXCEPTION, "Database not supported.");
         }
         public String scriptInitSchemaStructure() {
             for (Map.Entry<String, String> entry : initSchemaStructure.entrySet()) {
@@ -74,7 +75,7 @@ public class DopSettingProperties {
                     return entry.getValue();
                 }
             }
-            throw new DopException("Database not supported.");
+            throw new DopException(CommonError.DATABASE_EXCEPTION, "Database not supported.");
         }
     }
 

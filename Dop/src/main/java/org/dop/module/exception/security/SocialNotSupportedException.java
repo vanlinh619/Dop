@@ -4,7 +4,7 @@ import org.dop.module.exception.DopException;
 
 public class SocialNotSupportedException extends DopException {
 
-    public SocialNotSupportedException(String message) {
-        super(message);
+    public SocialNotSupportedException(Enum<?> code, String message) {
+        super(code, message);
     }
 }

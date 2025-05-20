@@ -22,7 +22,7 @@ public class DataSourceGeneratorImpl implements DataSourceGenerator {
     @Override
     public DataSource newDatasource(String schema) {
         if (!schema.matches(dopSettingProperties.getDatasource().getSchemaPattern())) {
-            throw new SchemaNameException(DopSettingError.SCHEMA_MISMATCH.name(), "Schema mismatch pattern.");
+            throw new SchemaNameException(DopSettingError.SCHEMA_MISMATCH, "Schema mismatch pattern.");
         }
 
         databaseStructure.generateJdbcSchemaStructure(dataSource, schema);
