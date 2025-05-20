@@ -1,5 +1,6 @@
 package org.dop.module.common.pojo.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PageRq<T> {
 
+    @NotNull
     private Integer page;
     private Integer size;
     private String sort;
