@@ -2,17 +2,17 @@ package org.dop.module.common.validation.anotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.dop.module.common.validation.validator.SortAllowValidator;
+import org.dop.module.common.validation.validator.AllowSortNameValidator;
 
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = SortAllowValidator.class)
+@Constraint(validatedBy = AllowSortNameValidator.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SortAllow {
+public @interface AllowSortName {
     
-    String[] sortFields() default {};
+    String[] allowSortFields() default {};
     
     String message() default "Invalid sort field.";
     Class<?>[] groups() default {};

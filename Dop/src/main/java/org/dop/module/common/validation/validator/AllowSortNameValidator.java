@@ -2,16 +2,16 @@ package org.dop.module.common.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.dop.module.common.validation.anotation.SortAllow;
+import org.dop.module.common.validation.anotation.AllowSortName;
 
 import java.util.Arrays;
 
-public class SortAllowValidator implements ConstraintValidator<SortAllow, String> {
+public class AllowSortNameValidator implements ConstraintValidator<AllowSortName, String> {
 
-    private SortAllow constraintAnnotation;
+    private AllowSortName constraintAnnotation;
 
     @Override
-    public void initialize(SortAllow constraintAnnotation) {
+    public void initialize(AllowSortName constraintAnnotation) {
         this.constraintAnnotation = constraintAnnotation;
     }
 
@@ -20,7 +20,7 @@ public class SortAllowValidator implements ConstraintValidator<SortAllow, String
         if (value == null) {
             return false;
         }
-        String[] sortField = constraintAnnotation.sortFields();
-        return Arrays.asList(sortField).contains(value);
+        String[] allowSortFields = constraintAnnotation.allowSortFields();
+        return Arrays.asList(allowSortFields).contains(value);
     }
 }

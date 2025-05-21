@@ -19,10 +19,14 @@ import org.dop.module.user.mapper.UserInfoMapper;
 import org.dop.module.user.pojo.data.UserJitData;
 import org.dop.module.user.pojo.projection.*;
 import org.dop.module.user.pojo.request.UserInfoRequest;
+import org.dop.module.user.pojo.request.UserPageRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
 import org.dop.repository.UserProviderRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.oauth2.core.oidc.AddressStandardClaim;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
@@ -42,7 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final RoleService roleService;
     private final UserInfoMapper userInfoMapper;
     private final DateTimeHelper dateTimeHelper;
-    private final LanguageService  languageService;
+    private final LanguageService languageService;
     private final Gson gson;
 
     private final RoleDefaultProperties roleDefaultProperties;
@@ -208,6 +212,19 @@ public class UserInfoServiceImpl implements UserInfoService {
     public PhoneUserInfoProjection getPhoneInfo(String identifier) {
         UUID id = UUID.fromString(identifier);
         return userProfileRepository.getPhoneInfo(id);
+    }
+
+    @Override
+    public List<UserInfoResponse> listUserPage(UserPageRequest userPageRequest) {
+
+        int page = userPageRequest.getPage() - 1;
+        Pageable pageable = PageRequest.of(
+                page,
+                userPageRequest.getSize(),
+                Sort.by(userPageRequest.getDirection(), userPageRequest.getSortName())
+        );
+
+        return userPrimaryRepository.listUserPage(userPageRequest.getSearch(), pageable);
     }
 
 

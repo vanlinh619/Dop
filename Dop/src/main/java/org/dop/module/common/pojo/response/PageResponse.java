@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageRp<T> {
+public class PageResponse<T> {
+    private Integer page;
+    private Integer size;
     private Long total;
     private T content;
 }

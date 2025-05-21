@@ -3,9 +3,11 @@ package org.dop.module.user.service;
 import org.dop.module.user.pojo.data.UserJitData;
 import org.dop.module.user.pojo.projection.*;
 import org.dop.module.user.pojo.request.UserInfoRequest;
+import org.dop.module.user.pojo.request.UserPageRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -39,4 +41,6 @@ public interface UserInfoService {
     AddressUserInfoProjection getAddressInfo(String identifier);
 
     PhoneUserInfoProjection getPhoneInfo(String identifier);
+
+    List<UserInfoResponse> listUserPage(UserPageRequest userPageRequest);
 }

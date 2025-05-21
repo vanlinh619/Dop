@@ -3,6 +3,7 @@ package org.dop.module.user.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dop.module.user.pojo.request.UserInfoRequest;
+import org.dop.module.user.pojo.request.UserPageRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.module.user.service.UserInfoService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,9 +21,9 @@ public class UserInfoController {
 
 
     @GetMapping
-    public List<UserInfoResponse> getAllUser() {
+    public List<UserInfoResponse> getAllUser(UserPageRequest userPageRequest) {
 
-        return List.of();
+        return userInfoService.listUserPage(userPageRequest);
     }
 
     @PostMapping
