@@ -21,6 +21,7 @@ import org.dop.module.user.pojo.projection.*;
 import org.dop.module.user.pojo.request.UserInfoRequest;
 import org.dop.module.user.pojo.request.UserPageRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
+import org.dop.repository.UserPrimaryDslRepository;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
 import org.dop.repository.UserProviderRepository;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 public class UserInfoServiceImpl implements UserInfoService {
 
     private final UserPrimaryRepository userPrimaryRepository;
+    private final UserPrimaryDslRepository userPrimaryDslRepository;
     private final UserProfileRepository userProfileRepository;
     private final UserProviderRepository userProviderRepository;
     private final RoleService roleService;
@@ -224,7 +226,7 @@ public class UserInfoServiceImpl implements UserInfoService {
                 Sort.by(userPageRequest.getDirection(), userPageRequest.getSortName())
         );
 
-        return userPrimaryRepository.listUserPage(userPageRequest.getSearch(), pageable);
+        return userPrimaryDslRepository.listUserPage(userPageRequest.getSearch(), pageable);
     }
 
 

@@ -4,13 +4,10 @@ import org.dop.entity.UserPrimary;
 import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
 import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
 import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
-import org.dop.module.user.pojo.response.UserInfoResponse;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -57,6 +54,4 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> 
     where u.id = :id
     """)
     EmailUserInfoProjection getEmailInfo(UUID id);
-
-    List<UserInfoResponse> listUserPage(String search, Pageable pageable);
 }
