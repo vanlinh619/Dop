@@ -17,7 +17,7 @@ public class ErrorResponse {
     private String trace;
 
     /// Always include response
-    private String code;
+    private Enum<?> code;
     private Object detail;
 
     private String path;

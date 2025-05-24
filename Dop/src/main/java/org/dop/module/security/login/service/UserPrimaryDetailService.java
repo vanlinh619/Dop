@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
-import org.dop.module.user.service.UserInfoService;
+import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,15 +19,15 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserPrimaryDetailService implements UserDetailsService {
 
-    private final UserInfoService userInfoService;
+    private final Oauth2UserInfoService oauth2UserInfoService;
     private final RoleDefaultProperties roleDefaultProperties;
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-        UserAuthenticatedProjection userAuthority = userInfoService.findUserCredential(identifier)
+        UserAuthenticatedProjection userAuthority = oauth2UserInfoService.findUserCredential(identifier)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 
-        Collection<? extends GrantedAuthority> authorities = userInfoService.findRoles(userAuthority.id()).stream()
+        Collection<? extends GrantedAuthority> authorities = oauth2UserInfoService.findRoles(userAuthority.id()).stream()
                 .map(role -> new SimpleGrantedAuthority(roleDefaultProperties.addPrefix(role)))
                 .toList();
         boolean enabled = userAuthority.status() == UserPrimaryStatus.ENABLED;

@@ -7,7 +7,7 @@ import org.dop.module.security.oauth2login.pojo.data.DopOidcUser;
 import org.dop.module.security.oauth2login.pojo.data.UserAuthenticatedData;
 import org.dop.module.user.pojo.data.UserJitData;
 import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
-import org.dop.module.user.service.UserInfoService;
+import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -15,13 +15,15 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class DopOidcUserService extends OidcUserService {
 
-    private final UserInfoService userInfoService;
+    private final Oauth2UserInfoService oauth2UserInfoService;
     private final RoleDefaultProperties roleDefaultProperties;
 
     @Override
@@ -42,19 +44,19 @@ public class DopOidcUserService extends OidcUserService {
 
     private UserAuthenticatedData findAuthenticatedUser(OidcUser oidcUser, String registrationId) {
         String subject = oidcUser.getSubject();
-        Optional<Auth2UserAuthenticatedProjection> userCredentialOptional = userInfoService.findAuth2UserAuthenticated(subject);
+        Optional<Auth2UserAuthenticatedProjection> userCredentialOptional = oauth2UserInfoService.findAuth2UserAuthenticated(subject);
 
         if (userCredentialOptional.isPresent()) {
             /// User exists
             Auth2UserAuthenticatedProjection userCredential = userCredentialOptional.get();
             if (userCredential.status() == UserPrimaryStatus.ENABLED) {
-                return new UserAuthenticatedData(userCredential.id(), userInfoService.findRoles(userCredential.id()));
+                return new UserAuthenticatedData(userCredential.id(), oauth2UserInfoService.findRoles(userCredential.id()));
             } else {
                 return new UserAuthenticatedData(userCredential.id(), Set.of());
             }
         } else {
             /// User does not exist
-            UserJitData userJitData = userInfoService.persistUserOidc(oidcUser, registrationId);
+            UserJitData userJitData = oauth2UserInfoService.persistUserOidc(oidcUser, registrationId);
             return new UserAuthenticatedData(userJitData.getId(), userJitData.getRoles());
         }
     }

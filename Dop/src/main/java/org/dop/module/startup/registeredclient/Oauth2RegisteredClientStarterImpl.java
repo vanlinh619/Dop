@@ -40,7 +40,9 @@ public class Oauth2RegisteredClientStarterImpl implements Oauth2RegisteredClient
                 .scope(OidcScopes.EMAIL)
                 .scope(OidcScopes.PHONE)
                 .scope(OidcScopes.ADDRESS)
-                .redirectUri(clientMasterProperties.getRedirectUrl())
+                .redirectUris((redirectUrl) -> {
+                    redirectUrl.addAll(clientMasterProperties.getRedirectUrls());
+                })
                 .clientSettings(ClientSettings.builder()
                         .requireProofKey(true)
                         .requireAuthorizationConsent(true)

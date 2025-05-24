@@ -2,19 +2,13 @@ package org.dop.module.user.service;
 
 import org.dop.module.user.pojo.data.UserJitData;
 import org.dop.module.user.pojo.projection.*;
-import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public interface UserInfoService {
-    /**
-     * Create user primary by super account.
-     */
-    UserInfoResponse createUserPrimary(UserInfoRequest userInfoRequest);
+public interface Oauth2UserInfoService {
 
     UserJitData persistUserOidc(OidcUser oidcUser, String registrationId);
 
@@ -39,4 +33,5 @@ public interface UserInfoService {
     AddressUserInfoProjection getAddressInfo(String identifier);
 
     PhoneUserInfoProjection getPhoneInfo(String identifier);
+
 }

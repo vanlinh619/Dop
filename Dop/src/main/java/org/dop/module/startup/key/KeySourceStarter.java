@@ -4,7 +4,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.KeySource;
 import org.dop.entity.state.AlgorithmKey;
-import org.dop.module.constant.RedisKey;
+import org.dop.module.common.constant.RedisKey;
 import org.dop.module.startup.Starter;
 import org.dop.module.startup.StartupName;
 import org.dop.repository.KeySourceRepository;

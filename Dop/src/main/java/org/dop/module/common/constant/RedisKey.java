@@ -1,4 +1,4 @@
-package org.dop.module.constant;
+package org.dop.module.common.constant;
 
 public class RedisKey {
     /// Cache key source

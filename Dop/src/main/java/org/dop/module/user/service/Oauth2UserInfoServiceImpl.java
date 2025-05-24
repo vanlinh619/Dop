@@ -9,17 +9,12 @@ import org.dop.entity.embeded.AddressEmbedded;
 import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.embeded.PhoneEmbedded;
 import org.dop.entity.state.Gender;
-import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.helper.DateTimeHelper;
 import org.dop.module.language.service.LanguageService;
-import org.dop.module.role.service.RoleService;
-import org.dop.module.user.mapper.UserInfoMapper;
 import org.dop.module.user.pojo.data.UserJitData;
 import org.dop.module.user.pojo.projection.*;
-import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
 import org.dop.repository.UserProviderRepository;
@@ -34,57 +29,18 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserInfoServiceImpl implements UserInfoService {
+public class Oauth2UserInfoServiceImpl implements Oauth2UserInfoService {
 
     private final UserPrimaryRepository userPrimaryRepository;
     private final UserProfileRepository userProfileRepository;
     private final UserProviderRepository userProviderRepository;
-    private final RoleService roleService;
-    private final UserInfoMapper userInfoMapper;
     private final DateTimeHelper dateTimeHelper;
-    private final LanguageService  languageService;
+    private final LanguageService languageService;
     private final Gson gson;
 
     private final RoleDefaultProperties roleDefaultProperties;
     private final EntityManager entityManager;
 
-
-    @Transactional
-    @Override
-    public UserInfoResponse createUserPrimary(UserInfoRequest userInfoRequest) {
-        UserPrimary userPrimary = userInfoMapper.toUserPrimary(userInfoRequest);
-        UserProfile userProfile = userInfoMapper.toUserProfile(userInfoRequest);
-
-        /// Create user primary
-        userPrimary.setStatus(userInfoRequest.getStatus() == null ? UserPrimaryStatus.DISABLED : userInfoRequest.getStatus());
-        /// Find user authority
-        if (userInfoRequest.getRoles() != null) {
-            Set<Role> verifiedRoles = roleService.verifyRole(userInfoRequest.getRoles()).stream()
-                    .map(roleId -> entityManager.getReference(Role.class, roleId))
-                    .collect(Collectors.toSet());
-            userPrimary.setRoles(verifiedRoles);
-        }
-        userPrimaryRepository.save(userPrimary);
-
-        /// Create user profile
-        userProfile.setId(userPrimary.getId());
-        if (userInfoRequest.getLanguageCode() != null) {
-            userProfile.setLanguage(entityManager.getReference(Language.class, userInfoRequest.getLanguageCode()));
-        } else {
-            userProfile.setLanguage(entityManager.getReference(Language.class, LanguageCode.vi));
-        }
-        userProfileRepository.save(userProfile);
-
-        /// Create user provider
-        UserProvider userProvider = UserProvider.builder()
-                .id(userPrimary.getId())
-                .providerId(userPrimary.getId().toString())
-                .provider(Provider.LOCAL)
-                .build();
-        userProviderRepository.save(userProvider);
-
-        return userInfoMapper.toUserInfoResponse(userPrimary, userProfile, userProvider);
-    }
 
     @Transactional
     @Override

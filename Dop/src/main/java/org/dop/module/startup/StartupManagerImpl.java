@@ -60,7 +60,11 @@ public class StartupManagerImpl implements StartupManager {
     @Override
     public void startNewTenant(String tenant) {
         if (ByPassFilterUrl.blackListTenant.contains(tenant)) {
-            throw new BadRequestException(StarterError.TENANT_IN_BLACK_LIST.name(), "tenant is in black list.");
+            throw new BadRequestException(StarterError.TENANT_IN_BLACK_LIST, "tenant is in black list.");
+        }
+        int MAX_TENANT_NUMBER = 9;
+        if (tenantCollectionService.getTenants().size() >= MAX_TENANT_NUMBER) {
+            throw new BadRequestException(StarterError.TENANT_MAX_LIMIT, "Tenant limit reached.");
         }
         DataSource dataSource = dataSourceGenerator.newDatasource(tenant);
         /// Init entity manager factory to create tables

@@ -6,7 +6,7 @@ import com.nimbusds.jose.jwk.JWKSelector;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
-import org.dop.module.constant.RedisKey;
+import org.dop.module.common.constant.RedisKey;
 import org.dop.repository.KeySourceRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

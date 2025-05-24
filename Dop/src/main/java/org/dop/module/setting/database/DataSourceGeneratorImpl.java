@@ -3,12 +3,10 @@ package org.dop.module.setting.database;
 import lombok.RequiredArgsConstructor;
 import org.dop.config.database.SettingPersistenceConfig;
 import org.dop.config.property.DopSettingProperties;
-import org.dop.module.constant.RedisKey;
 import org.dop.module.setting.exception.SchemaNameException;
 import org.dop.module.setting.pojo.error.DopSettingError;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -21,11 +19,10 @@ public class DataSourceGeneratorImpl implements DataSourceGenerator {
     private final @Qualifier(SettingPersistenceConfig.SETTING_DATASOURCE) DataSource dataSource;
     private final DatabaseStructure databaseStructure;
 
-    @CacheEvict(value = RedisKey.CACHE_TENANT, key = "'schemas'")
     @Override
     public DataSource newDatasource(String schema) {
         if (!schema.matches(dopSettingProperties.getDatasource().getSchemaPattern())) {
-            throw new SchemaNameException(DopSettingError.SCHEMA_MISMATCH.name(), "Schema mismatch pattern.");
+            throw new SchemaNameException(DopSettingError.SCHEMA_MISMATCH, "Schema mismatch pattern.");
         }
 
         databaseStructure.generateJdbcSchemaStructure(dataSource, schema);

@@ -1,8 +1,12 @@
-package org.dop.module.tenant;
+package org.dop.module.tenant.service;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.dop.module.setting.repository.TenantCollectionRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TenantExtractServiceImpl implements TenantExtractService {

@@ -2,7 +2,6 @@ package org.dop.module.user.mapper;
 
 import org.dop.entity.UserPrimary;
 import org.dop.entity.UserProfile;
-import org.dop.entity.UserProvider;
 import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.module.user.pojo.request.UserInfoRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
@@ -18,11 +17,10 @@ public interface UserInfoMapper {
             @Mapping(target = "email", source = "userPrimary.email"),
             @Mapping(target = "status", source = "userPrimary.status"),
             @Mapping(target = "roles", ignore = true),
-            @Mapping(target = "provider", source = "userProvider.provider"),
             @Mapping(target = "createdDate", source = "userPrimary.createdDate"),
             @Mapping(target = "lastModifiedDate", source = "userPrimary.lastModifiedDate")
     })
-    UserInfoResponse toUserInfoResponse(UserPrimary userPrimary, UserProfile userProfile, UserProvider userProvider);
+    UserInfoResponse toUserInfoResponse(UserPrimary userPrimary, UserProfile userProfile);
 
     @Mappings({
             @Mapping(target = "roles", ignore = true),

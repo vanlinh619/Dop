@@ -5,7 +5,7 @@ import org.dop.module.user.pojo.projection.AddressUserInfoProjection;
 import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
 import org.dop.module.user.pojo.projection.PhoneUserInfoProjection;
 import org.dop.module.user.pojo.projection.ProfileUserInfoProjection;
-import org.dop.module.user.service.UserInfoService;
+import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -23,7 +23,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
 
-    private final UserInfoService userInfoService;
+    private final Oauth2UserInfoService oauth2UserInfoService;
 
 
     @Override
@@ -44,7 +44,7 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
                     .subject(identifier);
 
             if (scopes.contains(OidcScopes.PROFILE)) {
-                ProfileUserInfoProjection profileUserInfo = userInfoService.getProfileInfo(identifier);
+                ProfileUserInfoProjection profileUserInfo = oauth2UserInfoService.getProfileInfo(identifier);
                 builder
                         .name(profileUserInfo.fullName())
                         .familyName(profileUserInfo.familyName())
@@ -61,20 +61,20 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
             }
 
             if (scopes.contains(OidcScopes.EMAIL)) {
-                EmailUserInfoProjection emailUserInfo = userInfoService.getEmailInfo(identifier);
+                EmailUserInfoProjection emailUserInfo = oauth2UserInfoService.getEmailInfo(identifier);
                 builder
                         .email(emailUserInfo.email())
                         .emailVerified(emailUserInfo.verified());
             }
 
             if (scopes.contains(OidcScopes.ADDRESS)) {
-                AddressUserInfoProjection addressUserInfo = userInfoService.getAddressInfo(identifier);
+                AddressUserInfoProjection addressUserInfo = oauth2UserInfoService.getAddressInfo(identifier);
                 builder
                         .address(addressUserInfo.address());
             }
 
             if (scopes.contains(OidcScopes.PHONE)) {
-                PhoneUserInfoProjection profileUserInfo = userInfoService.getPhoneInfo(identifier);
+                PhoneUserInfoProjection profileUserInfo = oauth2UserInfoService.getPhoneInfo(identifier);
                 builder
                         .phoneNumber(profileUserInfo.phone())
                         .phoneNumberVerified(profileUserInfo.verified());

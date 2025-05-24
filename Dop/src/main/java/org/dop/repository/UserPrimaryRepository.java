@@ -4,10 +4,12 @@ import org.dop.entity.UserPrimary;
 import org.dop.module.user.pojo.projection.Auth2UserAuthenticatedProjection;
 import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
 import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
+import org.dop.module.user.pojo.projection.UserIdAndRoleProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -54,4 +56,13 @@ public interface UserPrimaryRepository extends JpaRepository<UserPrimary, UUID> 
     where u.id = :id
     """)
     EmailUserInfoProjection getEmailInfo(UUID id);
+
+    @Query("""
+    select
+        new org.dop.module.user.pojo.projection.UserIdAndRoleProjection(u.id, r.id)
+    from UserPrimary u
+    join u.roles as r
+    where u.id in :ids
+    """)
+    List<UserIdAndRoleProjection> findAllIdAndRole(List<UUID> ids);
 }
