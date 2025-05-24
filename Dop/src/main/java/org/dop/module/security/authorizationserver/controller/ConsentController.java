@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.dop.config.Oauth2ResourceServerConfig;
 import org.dop.module.security.authorizationserver.service.ConsentService;
 import org.dop.module.user.pojo.projection.UserConsentProjection;
-import org.dop.module.user.service.UserInfoService;
+import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -31,7 +34,7 @@ public class ConsentController {
 
     private final RegisteredClientRepository registeredClientRepository;
     private final OAuth2AuthorizationConsentService authorizationConsentService;
-    private final UserInfoService userInfoService;
+    private final Oauth2UserInfoService oauth2UserInfoService;
     private final ConsentService consentService;
 
 
@@ -68,7 +71,7 @@ public class ConsentController {
         }
 
         String uuid = authentication.getName();
-        UserConsentProjection userConsent = userInfoService.getUserConsentInfo(uuid);
+        UserConsentProjection userConsent = oauth2UserInfoService.getUserConsentInfo(uuid);
 
         model.addAttribute("clientName", registeredClient.getClientName());
         model.addAttribute("clientId", clientId);

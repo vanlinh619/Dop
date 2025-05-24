@@ -6,7 +6,7 @@ import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
 import org.dop.module.security.oauth2login.service.TenantOAuth2AuthorizationRequestResolver;
 import org.dop.module.tenant.service.TenantExtractService;
-import org.dop.module.user.service.UserInfoService;
+import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
@@ -49,10 +49,10 @@ public class Oauth2LoginConfig {
 
     @Bean
     public OidcUserService dopOidcUserService(
-            UserInfoService userInfoService,
+            Oauth2UserInfoService oauth2UserInfoService,
             RoleDefaultProperties roleDefaultProperties
     ) {
-        return new DopOidcUserService(userInfoService, roleDefaultProperties);
+        return new DopOidcUserService(oauth2UserInfoService, roleDefaultProperties);
     }
 
     @Bean
