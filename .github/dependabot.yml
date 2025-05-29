@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/Dop"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/dop-spa"
+    schedule:
+      interval: "daily"
