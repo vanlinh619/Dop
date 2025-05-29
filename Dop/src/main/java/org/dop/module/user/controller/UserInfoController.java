@@ -20,7 +20,7 @@ public class UserInfoController {
 
 
     @GetMapping
-    public PageResponse<UserInfoResponse> getAllUser(@Valid UserPageRequest userPageRequest) throws InterruptedException {
+    public PageResponse<UserInfoResponse> getAllUser(@Valid UserPageRequest userPageRequest) {
         return UserManageService.listAllUserPage(userPageRequest);
     }
 
