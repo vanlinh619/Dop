@@ -14,7 +14,7 @@
     "axios": "^1.9.0",
     "jwt-decode": "^4.0.0",
     "oidc-client-ts": "^3.2.1",
-    "pinia": "^3.0.2",
+    "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.3.0",
     "tailwindcss": "^4.1.8",
     "vue": "^3.5.13",
