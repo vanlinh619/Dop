@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-dop-db:/var/lib/postgresql/data
+      - postgres-dop-db:/var/lib/postgresql/MAJOR/docker
 
   redis-dop:
     image: redis
