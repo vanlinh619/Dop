@@ -13,7 +13,7 @@ import org.dop.module.setting.service.TenantCollectionService;
 import org.dop.module.tenant.context.TenantContext;
 import org.dop.module.tenant.filter.ByPassFilterUrl;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.boot.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class StartupManagerImpl implements StartupManager {
             throw new BadRequestException(StarterError.TENANT_MAX_LIMIT, "Tenant limit reached.");
         }
         DataSource dataSource = dataSourceGenerator.newDatasource(tenant);
-        /// Init entity manager factory to create tables
+        // Init entity manager factory to create tables
         LocalContainerEntityManagerFactoryBean em = entityManagerFactoryBuilder
                 .dataSource(dataSource)
                 .packages("org.dop.entity")
@@ -75,7 +75,7 @@ public class StartupManagerImpl implements StartupManager {
                 .build();
         em.afterPropertiesSet();
         datasourceService.addDataSource(tenant, dataSource);
-        /// Change schema context and start all data
+        // Change schema context and start all data
         TenantContext.setCurrent(tenant);
         startAll();
         tenantCollectionService.save(tenant);
@@ -84,7 +84,7 @@ public class StartupManagerImpl implements StartupManager {
 
     @Override
     public void startTenantDefault() {
-        /// Init data source
+        // Init data source
         Set<String> tenant = tenantCollectionService.getTenants();
         String schemaDefault = dopSettingProperties.getDatasource().getSchemaDefault();
         tenant.add(schemaDefault);
@@ -92,7 +92,7 @@ public class StartupManagerImpl implements StartupManager {
             if (!schema.equals(schemaDefault)) {
                 datasourceService.addDataSource(schema);
             }
-            /// Change schema context and start all data
+            // Change schema context and start all data
             TenantContext.setCurrent(schema);
             startAll();
             tenantCollectionService.save(schema);

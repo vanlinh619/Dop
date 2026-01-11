@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -52,25 +51,28 @@ public class SecurityConfig {
             UserInfoEndpointService userInfoEndpointService,
             SecurityProperties securityProperties
     ) throws Exception {
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
-
         http
-                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
+                .securityMatcher(
+                        "/{issuer}/oauth2/**",
+                        "/{issuer}/.well-known/openid-configuration"
                 )
-                .with(authorizationServerConfigurer, (authorizationServer) -> authorizationServer
-                                /// Enable OpenID Connect 1.0
+                .oauth2AuthorizationServer(authorizationServer ->
+                        authorizationServer
+                                // Enable OpenID Connect 1.0
                                 .oidc(oidc -> {
                                     oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
                                         oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
                                     });
                                 })
-                        /// Add custom consent page
-                        ///.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                        ///.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                        /// Todo: using default consent page
-                        ///)
+                        // Add custom consent page
+                        //.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                        //.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+                        // Todo: using default consent page
+                        //)
+                )
+//                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
                 )
                 .csrf(Customizer.withDefaults())
                 .cors(corsConfigurer -> corsConfigurer
@@ -82,7 +84,7 @@ public class SecurityConfig {
                             return config;
                         })
                 )
-                /// Redirect to the login page when not authenticated from the authorization endpoint
+                // Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new TenantLoginUrlAuthenticationEntryPoint("/{issuer}/login"),
