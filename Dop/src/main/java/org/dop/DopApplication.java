@@ -15,7 +15,7 @@ public class DopApplication {
     private final DopSettingProperties dopSettingProperties;
     private final StartupManager startupManager;
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(DopApplication.class, args);
     }
 
