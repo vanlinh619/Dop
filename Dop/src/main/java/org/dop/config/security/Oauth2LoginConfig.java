@@ -1,4 +1,4 @@
-package org.dop.config;
+package org.dop.config.security;
 
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.RoleDefaultProperties;

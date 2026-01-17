@@ -1,4 +1,4 @@
-package org.dop.config;
+package org.dop.config.security;
 
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;

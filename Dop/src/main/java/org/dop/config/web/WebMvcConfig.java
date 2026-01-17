@@ -1,4 +1,4 @@
-package org.dop.config;
+package org.dop.config.web;
 
 import org.dop.config.property.LanguageProperties;
 import org.dop.entity.state.LanguageCode;

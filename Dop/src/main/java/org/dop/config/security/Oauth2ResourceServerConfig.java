@@ -1,4 +1,4 @@
-package org.dop.config;
+package org.dop.config.security;
 
 import jakarta.annotation.Nullable;
 import org.dop.config.property.RoleDefaultProperties;

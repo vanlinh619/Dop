@@ -2,7 +2,7 @@ package org.dop.module.security.authorizationserver.controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.dop.config.Oauth2ResourceServerConfig;
+import org.dop.config.security.Oauth2ResourceServerConfig;
 import org.dop.module.security.authorizationserver.service.ConsentService;
 import org.dop.module.user.pojo.projection.UserConsentProjection;
 import org.dop.module.user.service.Oauth2UserInfoService;

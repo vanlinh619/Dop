@@ -1,4 +1,4 @@
-package org.dop.config;
+package org.dop.config.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
