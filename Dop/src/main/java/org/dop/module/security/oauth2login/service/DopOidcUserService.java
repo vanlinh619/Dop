@@ -29,16 +29,16 @@ public class DopOidcUserService extends OidcUserService {
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
 
-        /// 1) Fetch the authority information from the protected resource using accessToken
+        // 1) Fetch the authority information from the protected resource using accessToken
         OidcUser oidcUser = super.loadUser(userRequest);
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        /// 2) Map the authority information to one or more GrantedAuthority's and add it to mappedAuthorities
+        // 2) Map the authority information to one or more GrantedAuthority's and add it to mappedAuthorities
         UserAuthenticatedData userAuthenticated = findAuthenticatedUser(oidcUser, registrationId);
         Collection<? extends GrantedAuthority> mappedAuthorities = mappingAuthorities(userAuthenticated.getRoles());
 
 
-        /// 3) Create a copy of oidcUser but use the mappedAuthorities instead
+        // 3) Create a copy of oidcUser but use the mappedAuthorities instead
         return new DopOidcUser(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), userAuthenticated.getId().toString());
     }
 
@@ -47,7 +47,7 @@ public class DopOidcUserService extends OidcUserService {
         Optional<Auth2UserAuthenticatedProjection> userCredentialOptional = oauth2UserInfoService.findAuth2UserAuthenticated(subject);
 
         if (userCredentialOptional.isPresent()) {
-            /// User exists
+            // User exists
             Auth2UserAuthenticatedProjection userCredential = userCredentialOptional.get();
             if (userCredential.status() == UserPrimaryStatus.ENABLED) {
                 return new UserAuthenticatedData(userCredential.id(), oauth2UserInfoService.findRoles(userCredential.id()));
@@ -55,7 +55,7 @@ public class DopOidcUserService extends OidcUserService {
                 return new UserAuthenticatedData(userCredential.id(), Set.of());
             }
         } else {
-            /// User does not exist
+            // User does not exist
             UserJitData userJitData = oauth2UserInfoService.persistUserOidc(oidcUser, registrationId);
             return new UserAuthenticatedData(userJitData.getId(), userJitData.getRoles());
         }

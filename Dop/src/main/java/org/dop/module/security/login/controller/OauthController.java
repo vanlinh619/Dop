@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("{issuer}/login")
+@RequestMapping("login")
 public class OauthController {
 
     private final SecurityRememberMeProperties securityRememberMeProperties;
@@ -20,11 +20,10 @@ public class OauthController {
 
 
     @GetMapping
-    public String login(Model model, @PathVariable String issuer) {
+    public String login(Model model) {
         model.addAttribute("rememberMeEnable", securityRememberMeProperties.isEnable());
         model.addAttribute("anySocialEnable", oauth2LoginProperties.anySocialEnable());
         model.addAttribute("googleEnable", oauth2LoginProperties.isSocialEnable(Provider.GOOGLE));
-        model.addAttribute("issuer", issuer);
 
         return "login";
     }

@@ -5,6 +5,7 @@ import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.user.pojo.projection.UserAuthenticatedProjection;
 import org.dop.module.user.service.Oauth2UserInfoService;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,7 +24,7 @@ public class UserPrimaryDetailService implements UserDetailsService {
     private final RoleDefaultProperties roleDefaultProperties;
 
     @Override
-    public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NonNull String identifier) throws UsernameNotFoundException {
         UserAuthenticatedProjection userAuthority = oauth2UserInfoService.findUserCredential(identifier)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", identifier)));
 

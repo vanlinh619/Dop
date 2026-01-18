@@ -19,8 +19,8 @@ public class Oauth2LoginProperties {
 
     private Map<String, SocialProperties> socials;
 
-    private String authorizationSecure = "/{issuer}/login/oauth2/authorization/**";
-    private String authorizationEndpoint = "/*/login/oauth2/authorization";
+    private String authorizationSecure = "/login/oauth2/authorization/**";
+    private String authorizationEndpoint = "/login/oauth2/authorization";
 
     public boolean anySocialEnable() {
         if (socials == null) {

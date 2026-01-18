@@ -53,7 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        /// For language
+        // For language
         registry.addInterceptor(localeChangeInterceptor());
     }
 }

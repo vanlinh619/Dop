@@ -29,7 +29,7 @@ public class KeySourceStarter implements Starter {
 
     private final KeySourceRepository keySourceRepository;
 
-    @CacheEvict(value = RedisKey.CACHE_KEY_SOURCE, key = "T(org.dop.module.tenant.context.TenantContext).getTenant()")
+    @CacheEvict(value = RedisKey.CACHE_KEY_SOURCE, key = "1")
     @Override
     public void start() {
         KeyPair keyPair = generateRsaKey();
@@ -42,7 +42,7 @@ public class KeySourceStarter implements Starter {
 
         String json = rsaKey.toJSONString();
 
-        /// Save the key to the database
+        // Save the key to the database
         KeySource keySource = KeySource.builder()
                 .algorithm(AlgorithmKey.RSA)
                 .source(json)

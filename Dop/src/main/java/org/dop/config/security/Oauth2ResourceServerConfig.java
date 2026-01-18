@@ -29,12 +29,12 @@ public class Oauth2ResourceServerConfig {
             RoleDefaultProperties roleDefaultProperties
     ) {
         Converter<Jwt, Collection<GrantedAuthority>> delegateConverter = jwt -> {
-            /// Extract scope authorities from JWT
+            // Extract scope authorities from JWT
             Collection<GrantedAuthority> scopeAuthorities = new ArrayList<>();
             for (String scope : getAuthorities(jwt, getAuthoritiesClaimName(jwt))) {
                 scopeAuthorities.add(new SimpleGrantedAuthority(scope));
             }
-            /// Extract role authorities from JWT
+            // Extract role authorities from JWT
             Collection<GrantedAuthority> roleAuthorities = new ArrayList<>();
             for (String authority : getAuthorities(jwt, roleDefaultProperties.getRoleClaim())) {
                 roleAuthorities.add(new SimpleGrantedAuthority(roleDefaultProperties.addPrefix(authority)));

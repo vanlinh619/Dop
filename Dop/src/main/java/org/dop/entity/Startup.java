@@ -1,4 +1,4 @@
-package org.dop.module.setting.entity;
+package org.dop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -12,10 +12,6 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(
-        indexes = @Index(name = "index_startup_name", columnList = Startup.Fields.name),
-        uniqueConstraints = @UniqueConstraint(name = "unique_startup_name_schema", columnNames = {Startup.Fields.name, Startup.Fields.schema})
-)
 public class Startup {
 
     @Id
@@ -23,10 +19,8 @@ public class Startup {
     private Long id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
-
-    @NotBlank
-    private String schema;
 
     private Integer priority;
 }

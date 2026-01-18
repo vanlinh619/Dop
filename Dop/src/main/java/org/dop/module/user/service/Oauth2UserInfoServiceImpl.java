@@ -47,7 +47,7 @@ public class Oauth2UserInfoServiceImpl implements Oauth2UserInfoService {
     public UserJitData persistUserOidc(OidcUser oidcUser, String registrationId) {
         Map<String, Object> claims = oidcUser.getClaims();
 
-        /// User primary
+        // User primary
         UserPrimary userPrimary = UserPrimary.builder()
                 .username(UUID.randomUUID().toString())
                 .status(UserPrimaryStatus.ENABLED)
@@ -62,7 +62,7 @@ public class Oauth2UserInfoServiceImpl implements Oauth2UserInfoService {
         }
         userPrimaryRepository.save(userPrimary);
 
-        /// User profile
+        // User profile
         UserProfile userProfile = UserProfile.builder()
                 .id(userPrimary.getId())
                 .familyName(oidcUser.getFamilyName())
@@ -98,7 +98,7 @@ public class Oauth2UserInfoServiceImpl implements Oauth2UserInfoService {
         }
         userProfileRepository.save(userProfile);
 
-        /// User provider
+        // User provider
         UserProvider userProvider = UserProvider.builder()
                 .id(userPrimary.getId())
                 .provider(Provider.parse(registrationId))
@@ -107,7 +107,7 @@ public class Oauth2UserInfoServiceImpl implements Oauth2UserInfoService {
                 .build();
         userProviderRepository.save(userProvider);
 
-        /// UserJitData
+        // UserJitData
         return UserJitData.builder()
                 .id(userPrimary.getId())
                 .roles(userPrimary.getRoles().stream()

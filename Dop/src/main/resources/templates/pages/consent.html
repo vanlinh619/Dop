@@ -39,7 +39,7 @@
       </div>
       <div class="mt-4">
         <div>
-          <form name="consent_form" method="post" th:action="'/' + ${issuer} + '/oauth2/authorize'">
+          <form name="consent_form" method="post" th:action="@{/oauth2/authorize}">
             <input type="hidden" name="client_id" th:value="${clientId}">
             <input type="hidden" name="state" th:value="${state}">
 
@@ -60,7 +60,8 @@
             </div>
 
             <div class="mt-8">
-              <p th:if="${not #lists.isEmpty(approvedScopes)}" th:text="#{consent.description-approved-scopes}"></p>
+              <p th:if="${not #lists.isEmpty(approvedScopes)}"
+                 th:text="#{consent.description-approved-scopes}"></p>
               <div class="mt-4" th:each="scope: ${approvedScopes}">
                 <label class="flex items-start">
                   <input class="mt-[0.4rem]" type="checkbox" th:id="${scope.id()}" disabled checked>

@@ -6,7 +6,6 @@ import org.dop.config.property.SecurityProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.authorizationserver.service.UserInfoEndpointService;
-import org.dop.module.tenant.registry.TenantLoginUrlAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,8 +20,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -53,17 +52,17 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .securityMatcher(
-                        "/{issuer}/oauth2/**",
-                        "/{issuer}/.well-known/openid-configuration"
+                        "/oauth2/**",
+                        "/.well-known/openid-configuration"
                 )
                 .oauth2AuthorizationServer(authorizationServer ->
-                        authorizationServer
-                                // Enable OpenID Connect 1.0
-                                .oidc(oidc -> {
-                                    oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
-                                        oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
-                                    });
-                                })
+                                authorizationServer
+                                        // Enable OpenID Connect 1.0
+                                        .oidc(oidc -> {
+                                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
+                                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
+                                            });
+                                        })
                         // Add custom consent page
                         //.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                         //.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
@@ -87,7 +86,7 @@ public class SecurityConfig {
                 // Redirect to the login page when not authenticated from the authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
-                                new TenantLoginUrlAuthenticationEntryPoint("/{issuer}/login"),
+                                new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 );
@@ -106,20 +105,19 @@ public class SecurityConfig {
             Oauth2LoginProperties oauth2LoginProperties,
             ClientRegistrationRepository clientRegistrationRepository,
             OidcUserService dopOidcUserService,
-            OAuth2AuthorizationRequestResolver authorizationRequestResolver,
             SecurityProperties securityProperties
     ) throws Exception {
         http
                 .securityMatcher(Stream.of(
                         oauth2AuthorizationServerProperties.getConsentPageEndpoint(),
-                        "/{issuer}/login/**",
+                        "/login/**",
                         oauth2LoginProperties.isSocialEnable(Provider.GOOGLE)
                                 ? oauth2LoginProperties.getAuthorizationSecure()
                                 : null
                 ).filter(Objects::nonNull).toArray(String[]::new))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(oauth2AuthorizationServerProperties.getConsentPageEndpoint()).authenticated()
-                        .requestMatchers("/{issuer}/login/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .csrf(Customizer.withDefaults())
@@ -133,7 +131,7 @@ public class SecurityConfig {
                         })
                 )
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/{issuer}/login")
+                        .loginPage("/login")
                         .usernameParameter("identifier")
                         .passwordParameter("password")
                 );
@@ -143,13 +141,12 @@ public class SecurityConfig {
             http.oauth2Login(oauth2LoginConfigurer -> oauth2LoginConfigurer
                     .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                             .baseUri(oauth2LoginProperties.getAuthorizationEndpoint())
-                            .authorizationRequestResolver(authorizationRequestResolver)
                     )
                     .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig
-                            .baseUri("/*/login/oauth2/code/*")
+                            .baseUri("/login/oauth2/code/*")
                     )
                     .clientRegistrationRepository(clientRegistrationRepository)
-                    .loginPage("/{issuer}/login")
+                    .loginPage("/login")
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                             .oidcUserService(dopOidcUserService)
                     )
@@ -177,12 +174,12 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .securityMatcher(
-                        "/{issuer}/api/v1/**",
+                        "/api/v1/**",
                         "/css/**",
                         "/js/**"
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/{issuer}/api/v1/manage/**").authenticated()
+                        .requestMatchers("/api/v1/manage/**").authenticated()
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**"

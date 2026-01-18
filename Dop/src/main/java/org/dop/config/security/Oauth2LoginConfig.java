@@ -4,8 +4,6 @@ import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.Provider;
 import org.dop.module.security.oauth2login.service.DopOidcUserService;
-import org.dop.module.security.oauth2login.service.TenantOAuth2AuthorizationRequestResolver;
-import org.dop.module.tenant.service.TenantExtractService;
 import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +13,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.SupplierClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,28 +51,12 @@ public class Oauth2LoginConfig {
         return new DopOidcUserService(oauth2UserInfoService, roleDefaultProperties);
     }
 
-    @Bean
-    public OAuth2AuthorizationRequestResolver authorizationRequestResolver(
-            Oauth2LoginProperties oauth2LoginProperties,
-            ClientRegistrationRepository clientRegistrationRepository,
-            TenantExtractService tenantExtractService
-    ) {
-        DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
-                clientRegistrationRepository,
-                oauth2LoginProperties.getAuthorizationEndpoint()
-        );
-        return new TenantOAuth2AuthorizationRequestResolver(resolver, tenantExtractService);
-    }
-
     private ClientRegistration googleClientRegistrations(Oauth2LoginProperties.SocialProperties googleProperties) {
 
         return CommonOAuth2Provider.GOOGLE.getBuilder(Provider.GOOGLE.getProvider())
                 .clientId(googleProperties.getClientId())
                 .clientSecret(googleProperties.getClientSecret())
-                .redirectUri(String.format(
-                        "{baseUrl}/%s/login/oauth2/code/{registrationId}",
-                        TenantOAuth2AuthorizationRequestResolver.TENANT_DELIMITER
-                ))
+                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .build();
     }
 }

@@ -72,7 +72,7 @@ public class Oauth2AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings(Oauth2AuthorizationServerProperties properties) {
         return AuthorizationServerSettings.builder()
-                .multipleIssuersAllowed(properties.isMultipleTenant())
+                .multipleIssuersAllowed(false) // only support single tenant
                 .authorizationEndpoint(properties.getAuthorizationEndpoint())
                 .deviceAuthorizationEndpoint(properties.getDeviceAuthorizationEndpoint())
                 .deviceVerificationEndpoint(properties.getDeviceVerificationEndpoint())

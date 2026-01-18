@@ -29,7 +29,7 @@ import java.util.Set;
 @Controller
 @PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
-@RequestMapping("{issuer}/oauth2/consent")
+@RequestMapping("oauth2/consent")
 public class ConsentController {
 
     private final RegisteredClientRepository registeredClientRepository;
@@ -45,8 +45,7 @@ public class ConsentController {
             @RequestParam(OAuth2ParameterNames.STATE) String state,
             Authentication authentication,
             Locale locale,
-            Model model,
-            @PathVariable String issuer
+            Model model
     ) {
 
         RegisteredClient registeredClient = registeredClientRepository.findByClientId(clientId);
@@ -79,7 +78,6 @@ public class ConsentController {
         model.addAttribute("needApproveScopes", consentService.withDescription(needApproveScopes, locale));
         model.addAttribute("approvedScopes", consentService.withDescription(approvedScopes, locale));
         model.addAttribute("userConsent", userConsent);
-        model.addAttribute("issuer", issuer);
 
         return "consent";
     }
