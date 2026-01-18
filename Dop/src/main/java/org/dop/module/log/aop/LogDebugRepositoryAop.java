@@ -6,7 +6,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.dop.module.tenant.context.TenantContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,6 +24,6 @@ public class LogDebugRepositoryAop {
 
     @Before("logPointcut()")
     public void logBefore(JoinPoint joinPoint) {
-        log.debug("[Dop - Execute query] tenant: {} signature {}", TenantContext.getTenant(), joinPoint.getSignature().toString());
+        log.debug("[Dop - Execute query] signature {}", joinPoint.getSignature().toString());
     }
 }

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import tenantService from "../tenant/tenant-service.js";
 import auth from "../oauth-2-client/user-manager.js";
 import router from "../../router/index.js";
 import {useErrorStore} from "../../stores/error-store.js";
@@ -7,8 +6,7 @@ import {useErrorStore} from "../../stores/error-store.js";
 const api = axios.create({baseURL: `http://localhost:8080/`})
 
 api.interceptors.request.use(async config => {
-    const tenant = tenantService.getCurrentTenant()
-    config.url = `/${tenant}${config.url}`
+    config.url = `${config.url}`
     const user = await auth.getUser()
     if (!user || !user.access_token || user.access_token.length === 0) {
         await router.push({name: 'Login'})

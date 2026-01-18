@@ -10,11 +10,9 @@ import org.dop.module.user.service.UserManageService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.TimeUnit;
-
 @RestController
 @PreAuthorize("hasRole(@roleDefaultProperties.roleSuper) and hasAuthority(@clientMasterProperties.scopeMaster)")
-@RequestMapping("*/api/v1/manage/user-info")
+@RequestMapping("api/v1/manage/user-info")
 @RequiredArgsConstructor
 public class UserInfoController {
 
@@ -23,7 +21,6 @@ public class UserInfoController {
 
     @GetMapping
     public PageResponse<UserInfoResponse> getAllUser(@Valid UserPageRequest userPageRequest) throws InterruptedException {
-        TimeUnit.SECONDS.sleep(5);
         return UserManageService.listAllUserPage(userPageRequest);
     }
 

@@ -7,8 +7,8 @@ import org.dop.entity.Language;
 import org.dop.entity.Oauth2RegisteredClient;
 import org.dop.entity.ScopeDescription;
 import org.dop.entity.state.LanguageCode;
-import org.dop.module.startup.StartupName;
 import org.dop.module.startup.Starter;
+import org.dop.module.startup.StartupName;
 import org.dop.module.startup.language.LanguageSupportStarter;
 import org.dop.module.startup.registeredclient.Oauth2RegisteredClientStarter;
 import org.dop.repository.ScopeDescriptionRepository;
@@ -41,7 +41,7 @@ public class ScopeDescriptionStarter implements Starter {
     @Override
     public void start() {
         String clientMasterId = oauth2RegisteredClientStarter.getIdRegisteredClientMaster();
-        /// Add Scope Master
+        // Add Scope Master
         String masterViDescription = messageSource.getMessage("scope.description.master", null, Locale.of(LanguageCode.vi.name()));
         String masterEnDescription = messageSource.getMessage("scope.description.master", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeMaster = org.dop.entity.Scope.builder()
@@ -52,7 +52,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopeMaster);
 
-        /// Add Scope OpenId
+        // Add Scope OpenId
         String openIdViDescription = messageSource.getMessage("scope.description.open-id", null, Locale.of(LanguageCode.vi.name()));
         String openIdEnDescription = messageSource.getMessage("scope.description.open-id", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeOpenId = org.dop.entity.Scope.builder()
@@ -62,7 +62,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopeOpenId);
 
-        /// Add Scope Profile
+        // Add Scope Profile
         String profileViDescription = messageSource.getMessage("scope.description.profile", null, Locale.of(LanguageCode.vi.name()));
         String profileEnDescription = messageSource.getMessage("scope.description.profile", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeProfile = org.dop.entity.Scope.builder()
@@ -72,7 +72,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopeProfile);
 
-        /// Add Scope Email
+        // Add Scope Email
         String emailViDescription = messageSource.getMessage("scope.description.email", null, Locale.of(LanguageCode.vi.name()));
         String emailEnDescription = messageSource.getMessage("scope.description.email", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeEmail = org.dop.entity.Scope.builder()
@@ -82,7 +82,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopeEmail);
 
-        /// Add Scope Address
+        // Add Scope Address
         String addressViDescription = messageSource.getMessage("scope.description.address", null, Locale.of(LanguageCode.vi.name()));
         String addressEnDescription = messageSource.getMessage("scope.description.address", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopeAddress = org.dop.entity.Scope.builder()
@@ -92,7 +92,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopeAddress);
 
-        /// Add Scope Phone
+        // Add Scope Phone
         String phoneViDescription = messageSource.getMessage("scope.description.phone", null, Locale.of(LanguageCode.vi.name()));
         String phoneEnDescription = messageSource.getMessage("scope.description.phone", null, Locale.of(LanguageCode.en.name()));
         org.dop.entity.Scope scopePhone = org.dop.entity.Scope.builder()
@@ -102,7 +102,7 @@ public class ScopeDescriptionStarter implements Starter {
                 .build();
         scopeRepository.save(scopePhone);
 
-        /// Add Scope Description
+        // Add Scope Description
         List<ScopeDescription> descriptions = List.of(
                 ScopeDescription.builder()
                         .scope(scopeMaster)

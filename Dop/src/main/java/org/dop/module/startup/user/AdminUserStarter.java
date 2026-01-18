@@ -52,7 +52,7 @@ public class AdminUserStarter implements Starter {
     @Transactional
     @Override
     public void start() {
-        /// Create user
+        // Create user
         Role role = roleRepository.findById(roleDefaultProperties.getRoleSuper())
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Role %s not found", roleDefaultProperties.getRoleSuper())));
         UserPrimary userPrimary = UserPrimary.builder()
@@ -64,7 +64,7 @@ public class AdminUserStarter implements Starter {
                 .build();
         userPrimaryRepository.save(userPrimary);
 
-        /// Add provider
+        // Add provider
         UserProvider userProvider = UserProvider.builder()
                 .id(userPrimary.getId())
                 .provider(Provider.LOCAL)
@@ -72,7 +72,7 @@ public class AdminUserStarter implements Starter {
                 .build();
         userProviderRepository.save(userProvider);
 
-        /// Add profile
+        // Add profile
         Language language = entityManager.find(Language.class, userAdminProperties.getLanguageCode());
         AddressEmbedded address = AddressEmbedded.builder()
                 .addressLine1("Admin Address Line 1")

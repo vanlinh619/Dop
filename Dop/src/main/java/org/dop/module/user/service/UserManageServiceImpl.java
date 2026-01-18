@@ -50,9 +50,9 @@ public class UserManageServiceImpl implements UserManageService {
         UserPrimary userPrimary = userInfoMapper.toUserPrimary(userInfoRequest);
         UserProfile userProfile = userInfoMapper.toUserProfile(userInfoRequest);
 
-        /// Create user primary
+        // Create user primary
         userPrimary.setStatus(userInfoRequest.getStatus() == null ? UserPrimaryStatus.DISABLED : userInfoRequest.getStatus());
-        /// Find user authority
+        // Find user authority
         if (userInfoRequest.getRoles() != null) {
             Set<Role> verifiedRoles = roleService.verifyRole(userInfoRequest.getRoles()).stream()
                     .map(roleId -> entityManager.getReference(Role.class, roleId))
@@ -61,7 +61,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
         userPrimaryRepository.save(userPrimary);
 
-        /// Create user profile
+        // Create user profile
         userProfile.setId(userPrimary.getId());
         if (userInfoRequest.getLanguageCode() != null) {
             userProfile.setLanguage(entityManager.getReference(Language.class, userInfoRequest.getLanguageCode()));
@@ -70,7 +70,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
         userProfileRepository.save(userProfile);
 
-        /// Create user provider
+        // Create user provider
         UserProvider userProvider = UserProvider.builder()
                 .id(userPrimary.getId())
                 .providerId(userPrimary.getId().toString())

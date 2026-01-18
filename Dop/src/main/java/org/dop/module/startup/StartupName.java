@@ -7,5 +7,4 @@ public class StartupName {
     public static final String ROLE_DEFAULT = "ROLE_DEFAULT";
     public static final String KEY_SOURCE = "KEY_SOURCE";
     public static final String SCOPE_DESCRIPTION = "SCOPE_DESCRIPTION";
-    public static final String JDBC_SESSION_STRUCTURE = "JDBC_SESSION_STRUCTURE";
 }
