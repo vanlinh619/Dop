@@ -1,5 +1,5 @@
 <script setup>
-import ErrorAlert from "./conponents/ErrorAlert.vue";
+import ErrorAlert from "./templates/conponents/ErrorAlert.vue";
 </script>
 
 <template>

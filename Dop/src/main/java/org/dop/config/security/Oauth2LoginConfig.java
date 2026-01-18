@@ -3,7 +3,7 @@ package org.dop.config.security;
 import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.RoleDefaultProperties;
 import org.dop.entity.state.Provider;
-import org.dop.module.security.oauth2login.service.DopOidcUserService;
+import org.dop.module.security.service.DopOidcUserService;
 import org.dop.module.user.service.Oauth2UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

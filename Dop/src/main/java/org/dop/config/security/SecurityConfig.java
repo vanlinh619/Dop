@@ -5,7 +5,7 @@ import org.dop.config.property.Oauth2LoginProperties;
 import org.dop.config.property.SecurityProperties;
 import org.dop.config.property.SecurityRememberMeProperties;
 import org.dop.entity.state.Provider;
-import org.dop.module.security.authorizationserver.service.UserInfoEndpointService;
+import org.dop.module.security.service.UserInfoEndpointService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -46,7 +46,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChainCustom(
             HttpSecurity http,
-//            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
+            Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             UserInfoEndpointService userInfoEndpointService,
             SecurityProperties securityProperties
     ) throws Exception {
@@ -55,21 +55,20 @@ public class SecurityConfig {
                         "/oauth2/**",
                         "/.well-known/openid-configuration"
                 )
-                .oauth2AuthorizationServer(authorizationServer ->
-                                authorizationServer
-                                        // Enable OpenID Connect 1.0
-                                        .oidc(oidc -> {
-                                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
-                                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
-                                            });
-                                        })
+                //.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+                .oauth2AuthorizationServer(authorizationServer -> authorizationServer
+                        // Enable OpenID Connect 1.0
+                        .oidc(oidc -> {
+                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
+                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
+                            });
+                        })
                         // Add custom consent page
-                        //.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
-                        //.consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                        // Todo: using default consent page
-                        //)
+                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
+
+                        )
                 )
-//                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
