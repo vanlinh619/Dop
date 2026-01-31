@@ -8,7 +8,7 @@ const createUserManager = () => {
     authority: `${oidcProperties.serverBaseURL}/`,
     client_id: oidcProperties.clientId,
     redirect_uri: `${oidcProperties.baseURL}/login/oauth2/code`,
-    // post_logout_redirect_uri: 'http://localhost:3000',
+    post_logout_redirect_uri: oidcProperties.baseURL,
     response_type: 'code',
     scope: 'address phone openid profile email master',
     // state: '1234567890',

@@ -1,9 +1,20 @@
-<script setup lang="ts">
+<script setup>
+import auth from "../../services/oauth-2-client/user-manager.js";
+
+const userManager = auth.getCurrentUserManager()
+
+const logout = async () => {
+  await userManager.signoutRedirect()
+  // await userManager.removeUser()
+}
+
 </script>
 
 <template>
   <!-- Header -->
   <header class="h-16 bg-white shadow px-6 flex items-center justify-between">
+
+    <a class="flex items-center" @click="logout">Sing out</a>
 
     <!-- User icon on the top right -->
     <div class="flex items-center space-x-4">

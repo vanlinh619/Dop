@@ -1,4 +1,4 @@
-<script setup type="ts">
+<script setup>
 
 import {adminViewProperties} from "../../properties/admin-view-properties.js";
 import AsideMenu from "../views/AsideMenu.vue";

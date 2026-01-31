@@ -9,7 +9,8 @@ import java.util.List;
 
 /**
  * Default config for master client, which interact with authorization server to manage user
- * */
+ *
+ */
 @Getter
 @Setter
 @Component
@@ -19,6 +20,7 @@ public class ClientMasterProperties {
     private String scopePrefix = "SCOPE_";
 
     private List<String> redirectUrls;
+    private List<String> postLogoutRedirectUris;
     private String clientId = "master-client";
     private String clientName = "Master Client";
     private String scopeMaster = "master";

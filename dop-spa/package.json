@@ -11,7 +11,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/vite": "^4.1.16",
-    "axios": "^1.9.0",
+    "axios": "1.12.0",
     "jwt-decode": "^4.0.0",
     "oidc-client-ts": "^3.2.1",
     "pinia": "^3.0.3",
@@ -22,6 +22,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^6.3.5"
+    "vite": "7.1.11"
   }
 }

@@ -15,11 +15,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.oidc.authentication.OidcLogoutAuthenticationProvider;
+import org.springframework.security.oauth2.server.authorization.oidc.web.authentication.OidcLogoutAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.oidc.web.authentication.OidcLogoutAuthenticationSuccessHandler;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ErrorAuthenticationFailureHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -48,21 +56,33 @@ public class SecurityConfig {
             HttpSecurity http,
             Oauth2AuthorizationServerProperties oauth2AuthorizationServerProperties,
             UserInfoEndpointService userInfoEndpointService,
-            SecurityProperties securityProperties
+            SecurityProperties securityProperties,
+            RegisteredClientRepository registeredClientRepository,
+            OAuth2AuthorizationService authorizationService,
+            SessionRegistry sessionRegistry
     ) throws Exception {
+        OAuth2AuthorizationServerConfigurer oauth2AuthorizationServer = new OAuth2AuthorizationServerConfigurer();
         http
                 .securityMatcher(
-                        "/oauth2/**",
-                        "/.well-known/openid-configuration"
+                        oauth2AuthorizationServer.getEndpointsMatcher()
                 )
-                //.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-                .oauth2AuthorizationServer(authorizationServer -> authorizationServer
+                .with(oauth2AuthorizationServer, authorizationServer -> authorizationServer
                         // Enable OpenID Connect 1.0
-                        .oidc(oidc -> {
-                            oidc.userInfoEndpoint(oidcUserInfoEndpoint -> {
-                                oidcUserInfoEndpoint.userInfoMapper(userInfoEndpointService.getUserInfoMapper());
-                            });
-                        })
+                        .oidc(oidc -> oidc
+                                .userInfoEndpoint(oidcUserInfoEndpoint -> oidcUserInfoEndpoint
+                                        .userInfoMapper(userInfoEndpointService.getUserInfoMapper())
+                                )
+                                .logoutEndpoint(logoutEndpoint -> logoutEndpoint
+                                        .logoutRequestConverter(new OidcLogoutAuthenticationConverter())
+                                        .authenticationProvider(new OidcLogoutAuthenticationProvider(
+                                                registeredClientRepository,
+                                                authorizationService,
+                                                sessionRegistry
+                                        ))
+                                        .logoutResponseHandler(new OidcLogoutAuthenticationSuccessHandler())
+                                        .errorResponseHandler(new OAuth2ErrorAuthenticationFailureHandler())
+                                )
+                        )
                         // Add custom consent page
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
@@ -130,7 +150,7 @@ public class SecurityConfig {
                         })
                 )
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
-                        .loginPage("/login")
+                        .loginPage(securityProperties.getLoginUrl())
                         .usernameParameter("identifier")
                         .passwordParameter("password")
                 );
@@ -145,7 +165,7 @@ public class SecurityConfig {
                             .baseUri("/login/oauth2/code/*")
                     )
                     .clientRegistrationRepository(clientRegistrationRepository)
-                    .loginPage("/login")
+                    .loginPage(securityProperties.getLoginUrl())
                     .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                             .oidcUserService(dopOidcUserService)
                     )
