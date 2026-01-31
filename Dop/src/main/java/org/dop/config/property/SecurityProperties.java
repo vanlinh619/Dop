@@ -13,4 +13,5 @@ import java.util.List;
 @ConfigurationProperties(prefix = "dop.security")
 public class SecurityProperties {
     private List<String> allowedOrigins;
+    private String loginUrl = "/login";
 }

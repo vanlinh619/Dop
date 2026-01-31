@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {computed, onMounted, ref} from "vue";
 import api from "../../services/api/dop-api";
 

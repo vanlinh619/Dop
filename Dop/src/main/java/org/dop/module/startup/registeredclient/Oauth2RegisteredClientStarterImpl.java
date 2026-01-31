@@ -43,6 +43,9 @@ public class Oauth2RegisteredClientStarterImpl implements Oauth2RegisteredClient
                 .redirectUris((redirectUrl) -> {
                     redirectUrl.addAll(clientMasterProperties.getRedirectUrls());
                 })
+                .postLogoutRedirectUris((postLogoutRedirectUris) -> {
+                    postLogoutRedirectUris.addAll(clientMasterProperties.getPostLogoutRedirectUris());
+                })
                 .clientSettings(ClientSettings.builder()
                         .requireProofKey(true)
                         .requireAuthorizationConsent(true)

@@ -23,4 +23,7 @@ public class Oauth2AuthorizationServerProperties {
     private String oidcUserInfoEndpoint = "/connect/userinfo";
     private String oidcClientRegistrationEndpoint = "/connect/register";
     private String consentPageEndpoint = "/oauth2/consent";
+
+    // Request param
+    private String postLogoutRedirectUri = "post_logout_redirect_uri";
 }
