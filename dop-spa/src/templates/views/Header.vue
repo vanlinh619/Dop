@@ -1,30 +1,96 @@
 <script setup>
 import auth from "../../services/oauth-2-client/user-manager.js";
+import {onBeforeUnmount, ref, watch} from "vue";
+import UserIcon from "../icon/UserIcon.vue";
+import ProfileIcon from "../icon/ProfileIcon.vue";
+import SettingIcon from "../icon/SettingIcon.vue";
+import LogoutIcon from "../icon/LogoutIcon.vue";
 
 const userManager = auth.getCurrentUserManager()
+const openMenu = ref(false);
+const menuRef = ref();
+
 
 const logout = async () => {
   await userManager.signoutRedirect()
-  // await userManager.removeUser()
 }
 
+const toggleMenu = () => {
+  openMenu.value = !openMenu.value;
+};
+
+const handleClickOutside = (e) => {
+  if (!menuRef.value) return;
+  if (!menuRef.value.contains(e.target)) {
+    openMenu.value = false;
+  }
+};
+
+watch(openMenu, (value) => {
+  if (value) {
+    document.addEventListener("pointerdown", handleClickOutside);
+  } else {
+    document.removeEventListener("pointerdown", handleClickOutside);
+  }
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>
   <!-- Header -->
   <header class="h-16 bg-white shadow px-6 flex items-center justify-between">
+    <div>Dop</div>
+    <!-- User area -->
+    <div class="relative" ref="menuRef">
+      <div @click="toggleMenu" class="flex items-center gap-2 cursor-pointer select-none">
+        <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+          <UserIcon/>
+        </div>
+      </div>
 
-    <a class="flex items-center" @click="logout">Sing out</a>
+      <!-- Dropdown -->
+      <div v-if="openMenu"
+           class="absolute border-[1.5px] right-0 mt-2 w-52 bg-white rounded-lg shadow-md border-slate-200 z-50">
 
-    <!-- User icon on the top right -->
-    <div class="flex items-center space-x-4">
-      <div class="text-sm text-slate-600">Chào, Admin</div>
-      <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-          <path fill-rule="evenodd"
-                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                clip-rule="evenodd"/>
-        </svg>
+        <!-- User info -->
+        <div class="px-2 pt-3">
+          <div class="px-2 pb-2 border-b-[1.5px] border-slate-200">
+            <div class="text-sm font-medium text-slate-800">user name</div>
+            <div class="text-xs text-slate-500">user</div>
+          </div>
+        </div>
+
+        <!-- Menu -->
+        <div class="px-2">
+          <ul class="py-1 border-b-[1.5px] border-slate-200 text-sm text-slate-700">
+            <li class="px-2 py-2 rounded-lg hover:bg-slate-50 cursor-pointer flex items-center gap-2">
+              <!-- Profile icon -->
+              <ProfileIcon/>
+              Profile
+            </li>
+
+            <li class="px-2 py-2 rounded-lg hover:bg-slate-50 cursor-pointer flex items-center gap-2">
+              <!-- Settings icon -->
+              <SettingIcon/>
+              Settings
+            </li>
+          </ul>
+        </div>
+
+        <!-- Sign out -->
+        <div class="px-2 pt-1 pb-2">
+          <button
+              @click="logout"
+              class="w-full flex items-center gap-2 text-left text-rose-700 px-2 py-2 rounded-lg text-sm hover:bg-slate-50"
+          >
+            <!-- Logout icon -->
+            <LogoutIcon/>
+            Sign out
+          </button>
+        </div>
       </div>
     </div>
   </header>
