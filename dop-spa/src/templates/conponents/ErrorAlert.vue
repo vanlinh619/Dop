@@ -1,10 +1,10 @@
-<script setup>
-import {useErrorStore} from "../../stores/error-store.js";
-import {onMounted, onBeforeUnmount} from "vue";
+<script setup lang="ts">
+import {useErrorStore} from "../../stores/error-store";
+import {onBeforeUnmount} from "vue";
 
 const errorStore = useErrorStore()
 
-const copyToClipboard = (paramError) => {
+const copyToClipboard = (paramError: unknown): void => {
   let text = JSON.stringify(paramError, null, 2)
   navigator.clipboard.writeText(text)
 }

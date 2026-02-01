@@ -1,5 +1,5 @@
 <script setup>
-import auth from "../../services/oauth-2-client/user-manager.js";
+import auth from "../../services/oauth-2-client/user-manager.ts";
 
 const userManager = auth.getCurrentUserManager()
 
@@ -11,7 +11,7 @@ const logout = () => {
 
 <template>
   <a @click="logout">Logout</a>
-User view
+  User view
 </template>
 
 <style scoped>

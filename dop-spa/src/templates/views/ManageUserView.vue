@@ -1,26 +1,26 @@
-<script setup>
+<script setup lang="ts">
 
 import {adminViewProperties} from "../../properties/admin-view-properties.js";
-import AsideMenu from "../views/AsideMenu.vue";
-import Header from "../views/Header.vue";
-import ClientView from "../views/ClientView.vue";
-import UserView from "../views/UserView.vue";
-import RoleView from "../views/RoleView.vue";
-import SessionView from "../views/SessionView.vue";
-import {useAdminViewStore} from "../../stores/admin-view-store.js";
+import AsideMenuView from "./AsideMenuView.vue";
+import HeaderView from "./HeaderView.vue";
+import ClientView from "./ClientView.vue";
+import UserView from "./UserView.vue";
+import RoleView from "./RoleView.vue";
+import SessionView from "./SessionView.vue";
+import {useManageUserItemMenuViewStore} from "../../stores/admin-view-store.js";
 
-let adminViewStore = useAdminViewStore()
+let adminViewStore = useManageUserItemMenuViewStore()
 </script>
 
 <template>
   <div class="flex text-slate-700 h-screen overflow-auto bg-gray-100">
 
-    <AsideMenu/>
+    <AsideMenuView/>
 
     <!-- Main -->
     <main class="flex-1 flex flex-col">
 
-      <Header/>
+      <HeaderView/>
 
       <UserView v-if="adminViewStore.currentView === adminViewProperties.userView"/>
       <ClientView v-if="adminViewStore.currentView === adminViewProperties.clientView"/>

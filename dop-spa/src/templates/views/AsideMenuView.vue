@@ -1,10 +1,10 @@
 <script setup>
 import {computed, ref} from "vue";
-import {useAdminViewStore} from "../../stores/admin-view-store.js";
-import {adminViewProperties} from "../../properties/admin-view-properties.js";
+import {useManageUserItemMenuViewStore} from "../../stores/admin-view-store.ts";
+import {adminViewProperties} from "../../properties/admin-view-properties.ts";
 
 const isCollapsed = ref(false);
-const adminViewStore = useAdminViewStore()
+const manageUserItemMenuViewStore = useManageUserItemMenuViewStore()
 
 const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value;
@@ -12,17 +12,17 @@ const toggleSidebar = () => {
 
 const currentView = computed({
   get: () => {
-    return adminViewStore.getCurrentView
+    return manageUserItemMenuViewStore.getCurrentView
   },
   set: (value) => {
-    adminViewStore.switchView(value)
+    manageUserItemMenuViewStore.switchView(value)
   }
 })
 </script>
 
 <template>
   <aside class="h-screen bg-white text-slate-700 flex flex-col shadow-md transition-all duration-300"
-      :class="[isCollapsed ? 'w-20' : 'w-64']">
+         :class="[isCollapsed ? 'w-20' : 'w-64']">
     <!-- Mobile toggle button -->
     <div class="flex justify-between items-center py-5 bg-white shadow">
       <div
@@ -47,7 +47,7 @@ const currentView = computed({
     <!-- Menu -->
     <nav :class="['flex-1 py-4 space-y-2 transition-all duration-300', isCollapsed ? 'px-2' : 'px-4']">
       <button @click="currentView = adminViewProperties.userView"
-          :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
+              :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="w-5 h-5"
@@ -62,7 +62,7 @@ const currentView = computed({
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Người dùng</span>
       </button>
       <button @click="currentView = adminViewProperties.clientView"
-          :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
+              :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="w-5 h-5"
@@ -77,7 +77,7 @@ const currentView = computed({
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Clients</span>
       </button>
       <button @click="currentView = adminViewProperties.roleView"
-          :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
+              :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="w-5 h-5"
@@ -92,7 +92,7 @@ const currentView = computed({
             :class="['transition-all duration-300 whitespace-nowrap', isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-2']">Roles</span>
       </button>
       <button @click="currentView = adminViewProperties.sessionView"
-          :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
+              :class="['w-full h-10 text-left py-2 px-3 rounded hover:bg-emerald-600 active:hover:bg-emerald-700 hover:text-white transition-all duration-300 inline-flex', isCollapsed ? 'justify-center' : 'items-center']">
         <span class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="w-5 h-5"

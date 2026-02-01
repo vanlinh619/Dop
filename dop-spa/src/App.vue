@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ErrorAlert from "./templates/conponents/ErrorAlert.vue";
 </script>
 
