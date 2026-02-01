@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": [
+      "DOM",
+      "ES2024"
+    ],
+    "strict": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ]
+}

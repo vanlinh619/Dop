@@ -1,10 +1,10 @@
 <script setup>
-import auth from "../../services/oauth-2-client/user-manager.js";
+import auth from "../../services/oauth-2-client/user-manager.ts";
 import {onBeforeUnmount, ref, watch} from "vue";
-import UserIcon from "../icon/UserIcon.vue";
-import ProfileIcon from "../icon/ProfileIcon.vue";
-import SettingIcon from "../icon/SettingIcon.vue";
-import LogoutIcon from "../icon/LogoutIcon.vue";
+import UserIcon from "../icons/UserIcon.vue";
+import ProfileIcon from "../icons/ProfileIcon.vue";
+import SettingIcon from "../icons/SettingIcon.vue";
+import LogoutIcon from "../icons/LogoutIcon.vue";
 
 const userManager = auth.getCurrentUserManager()
 const openMenu = ref(false);
@@ -40,7 +40,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <!-- Header -->
+  <!-- HeaderView -->
   <header class="h-16 bg-white shadow px-6 flex items-center justify-between">
     <div>Dop</div>
     <!-- User area -->

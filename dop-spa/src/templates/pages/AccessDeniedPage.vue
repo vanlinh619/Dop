@@ -1,0 +1,36 @@
+<script setup lang="ts">
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n()
+</script>
+
+<template>
+  <div class="max-w-8xl mx-auto px-4">
+    <main class="text-slate-700">
+      <section class="bg-white dark:bg-gray-900 ">
+        <div class="container flex align-middle min-h-screen px-6 mx-auto">
+          <div class="flex flex-col items-center max-w-sm mx-auto mt-20 text-center">
+            <p class="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                   stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+              </svg>
+            </p>
+            <h1 class="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
+              {{ t('accessDenied.consentDenied.title') }}
+            </h1>
+            <p class="mt-4 text-gray-500 dark:text-gray-400">
+              {{ t('accessDenied.consentDenied.description') }}
+            </p>
+            <p class="mt-4">
+              <a class="text-emerald-600 hover:text-emerald-500" href="/login">
+                {{ t('accessDenied.consentDenied.actionRetryLogin') }}
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</template>

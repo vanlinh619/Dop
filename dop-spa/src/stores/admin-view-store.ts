@@ -1,12 +1,12 @@
 import {defineStore} from "pinia";
-import {adminViewProperties} from "../properties/admin-view-properties.js";
+import {adminViewProperties} from "../properties/admin-view-properties";
 
-export const useAdminViewStore = defineStore('adminView', {
+export const useManageUserItemMenuViewStore = defineStore('adminView', {
     state: () => ({
         currentView: adminViewProperties.userView,
     }),
     actions: {
-        switchView(viewName) {
+        switchView(viewName: string) {
             this.currentView = viewName;
         },
     },

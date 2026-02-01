@@ -86,7 +86,7 @@ public class SecurityConfig {
                         // Add custom consent page
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-
+                                
                         )
                 )
                 .authorizeHttpRequests(authorize -> authorize

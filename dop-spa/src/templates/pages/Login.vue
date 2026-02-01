@@ -1,4 +1,7 @@
-<script setup>
+<!--
+  page: /login
+-->
+<script setup lang="ts">
 import {onMounted} from "vue";
 import auth from "../../services/oauth-2-client/user-manager.js";
 
@@ -8,11 +11,3 @@ onMounted(async () => {
 })
 
 </script>
-
-<template>
-
-</template>
-
-<style scoped>
-
-</style>

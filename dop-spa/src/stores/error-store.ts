@@ -2,11 +2,11 @@ import {defineStore} from "pinia";
 
 export const useErrorStore = defineStore('error', {
     state: () => ({
-        errors: []
+        errors: [] as ErrorStore[]
     }),
     actions: {
-        addError(title, message, paramError) {
-            let error = {
+        addError(title: string, message: string, paramError: unknown) {
+            let error: ErrorStore = {
                 title: title,
                 message: message,
                 paramError: paramError
@@ -20,15 +20,20 @@ export const useErrorStore = defineStore('error', {
                 this.removeError(error);
             }, 20000);
         },
-        removeError(error) {
+        removeError(error: ErrorStore) {
             const index = this.errors.indexOf(error);
             if (index > -1) {
                 this.errors.splice(index, 1);
             }
         },
         clearErrors() {
-            this.message = '';
-            this.paramError = {};
+            this.errors = []
         }
     },
 });
+
+export interface ErrorStore {
+    title: string,
+    message: string,
+    paramError: unknown
+}

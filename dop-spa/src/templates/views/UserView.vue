@@ -1,6 +1,6 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
-import api from "../../services/api/dop-api";
+import {onMounted, ref} from "vue";
+import api from "../../services/api/dop-api.ts";
 
 const page = ref(1)
 const size = 25
