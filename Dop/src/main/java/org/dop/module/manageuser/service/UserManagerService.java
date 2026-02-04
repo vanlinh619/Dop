@@ -1,9 +1,9 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
 import org.dop.module.common.pojo.response.PageResponse;
-import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.request.UserPageRequest;
-import org.dop.module.user.pojo.response.UserInfoResponse;
+import org.dop.module.manageuser.pojo.request.UserInfoRequest;
+import org.dop.module.manageuser.pojo.request.UserPageRequest;
+import org.dop.module.manageuser.pojo.response.UserInfoResponse;
 
 
 public interface UserManagerService {

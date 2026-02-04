@@ -15,7 +15,7 @@ const loading = ref(false)
 
 const listPage = () => {
   loading.value = true
-  api.get('/api/v1/manage/user-manage', {
+  api.get('/api/v1/manage/user', {
     params: {
       page: page.value,
       size: size,

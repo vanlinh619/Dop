@@ -1,10 +1,10 @@
-package org.dop.module.user.mapper;
+package org.dop.module.manageuser.mapper;
 
 import org.dop.entity.UserPrimary;
 import org.dop.entity.UserProfile;
 import org.dop.entity.embeded.EmailEmbedded;
-import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.response.UserInfoResponse;
+import org.dop.module.manageuser.pojo.request.UserInfoRequest;
+import org.dop.module.manageuser.pojo.response.UserInfoResponse;
 import org.mapstruct.*;
 
 

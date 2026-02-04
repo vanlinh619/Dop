@@ -1,11 +1,11 @@
 package org.dop.module.security.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dop.module.user.pojo.projection.AddressUserInfoProjection;
-import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
-import org.dop.module.user.pojo.projection.PhoneUserInfoProjection;
-import org.dop.module.user.pojo.projection.ProfileUserInfoProjection;
-import org.dop.module.user.service.Oauth2UserInfoService;
+import org.dop.module.manageuser.pojo.projection.AddressUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.EmailUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.PhoneUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.ProfileUserInfoProjection;
+import org.dop.module.manageuser.service.Oauth2UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;

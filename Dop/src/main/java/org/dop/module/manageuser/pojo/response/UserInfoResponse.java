@@ -1,4 +1,4 @@
-package org.dop.module.user.pojo.response;
+package org.dop.module.manageuser.pojo.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;

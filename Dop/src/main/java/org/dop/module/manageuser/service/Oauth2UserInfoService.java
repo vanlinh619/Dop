@@ -1,7 +1,7 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
-import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.*;
+import org.dop.module.manageuser.pojo.data.UserJitData;
+import org.dop.module.manageuser.pojo.projection.*;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import java.util.Optional;

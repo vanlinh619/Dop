@@ -1,4 +1,4 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
 import com.nimbusds.jose.shaded.gson.Gson;
 import jakarta.persistence.EntityManager;
@@ -13,8 +13,8 @@ import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.helper.DateTimeHelper;
 import org.dop.module.language.service.LanguageService;
-import org.dop.module.user.pojo.data.UserJitData;
-import org.dop.module.user.pojo.projection.*;
+import org.dop.module.manageuser.pojo.data.UserJitData;
+import org.dop.module.manageuser.pojo.projection.*;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
 import org.dop.repository.UserProviderRepository;

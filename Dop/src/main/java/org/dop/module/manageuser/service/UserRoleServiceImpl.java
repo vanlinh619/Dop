@@ -1,7 +1,7 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dop.module.user.pojo.projection.UserIdAndRoleProjection;
+import org.dop.module.manageuser.pojo.projection.UserIdAndRoleProjection;
 import org.dop.repository.UserPrimaryRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
-import org.dop.module.user.pojo.projection.UserIdAndRoleProjection;
+import org.dop.module.manageuser.pojo.projection.UserIdAndRoleProjection;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.dop.module.user.pojo.projection;
+package org.dop.module.manageuser.pojo.projection;
 
 import org.dop.entity.state.Gender;
 
@@ -19,4 +19,5 @@ public record ProfileUserInfoProjection(
         Locale locale,
         ZoneId zoneInfo,
         Instant lastModifiedDate
-) {}
+) {
+}

@@ -1,6 +1,9 @@
-package org.dop.module.user.pojo.data;
+package org.dop.module.manageuser.pojo.data;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 import java.util.UUID;

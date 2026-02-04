@@ -1,4 +1,4 @@
-package org.dop.module.user.pojo.request;
+package org.dop.module.manageuser.pojo.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

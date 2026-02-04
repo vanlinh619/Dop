@@ -1,4 +1,4 @@
-package org.dop.module.user.pojo.projection;
+package org.dop.module.manageuser.pojo.projection;
 
 import org.dop.entity.state.UserPrimaryStatus;
 
@@ -8,4 +8,5 @@ public record UserAuthenticatedProjection(
         UUID id,
         String password,
         UserPrimaryStatus status
-) {}
+) {
+}

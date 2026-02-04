@@ -1,9 +1,12 @@
-package org.dop.module.user.pojo.request;
+package org.dop.module.manageuser.pojo.request;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.dop.module.common.validation.anotation.AllowSortName;
-import org.dop.module.user.pojo.response.UserInfoResponse;
+import org.dop.module.manageuser.pojo.response.UserInfoResponse;
 import org.springframework.data.domain.Sort;
 
 @Data

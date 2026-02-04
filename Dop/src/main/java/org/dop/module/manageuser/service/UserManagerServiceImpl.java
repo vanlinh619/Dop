@@ -1,4 +1,4 @@
-package org.dop.module.user.service;
+package org.dop.module.manageuser.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -8,12 +8,12 @@ import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.common.pojo.response.PageResponse;
+import org.dop.module.manageuser.mapper.UserInfoMapper;
+import org.dop.module.manageuser.pojo.projection.UserIdAndRoleProjection;
+import org.dop.module.manageuser.pojo.request.UserInfoRequest;
+import org.dop.module.manageuser.pojo.request.UserPageRequest;
+import org.dop.module.manageuser.pojo.response.UserInfoResponse;
 import org.dop.module.role.service.RoleService;
-import org.dop.module.user.mapper.UserInfoMapper;
-import org.dop.module.user.pojo.projection.UserIdAndRoleProjection;
-import org.dop.module.user.pojo.request.UserInfoRequest;
-import org.dop.module.user.pojo.request.UserPageRequest;
-import org.dop.module.user.pojo.response.UserInfoResponse;
 import org.dop.repository.UserPrimaryDslRepository;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
