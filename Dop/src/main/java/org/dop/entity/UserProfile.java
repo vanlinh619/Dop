@@ -46,6 +46,7 @@ public class UserProfile {
 
     private Instant birthDate;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private PhoneEmbedded phone;
