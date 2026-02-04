@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @PreAuthorize("hasRole(@roleDefaultProperties.roleSuper) and hasAuthority(@clientMasterProperties.scopeMaster)")
-@RequestMapping("api/v1/manage/user-info")
+@RequestMapping("api/v1/manage/user-manage")
 @RequiredArgsConstructor
 public class UserManagerController {
 
