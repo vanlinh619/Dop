@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserManageServiceImpl implements UserManageService {
+public class UserManagerServiceImpl implements UserManagerService {
 
     private final UserPrimaryRepository userPrimaryRepository;
     private final UserPrimaryDslRepository userPrimaryDslRepository;

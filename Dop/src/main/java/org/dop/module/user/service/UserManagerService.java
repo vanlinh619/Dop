@@ -6,7 +6,7 @@ import org.dop.module.user.pojo.request.UserPageRequest;
 import org.dop.module.user.pojo.response.UserInfoResponse;
 
 
-public interface UserManageService {
+public interface UserManagerService {
 
     /**
      * Create user primary by super account.
