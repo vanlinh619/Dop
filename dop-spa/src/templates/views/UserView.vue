@@ -15,7 +15,7 @@ const loading = ref(false)
 
 const listPage = () => {
   loading.value = true
-  api.get('/api/v1/manage/user-info', {
+  api.get('/api/v1/manage/user', {
     params: {
       page: page.value,
       size: size,
@@ -29,6 +29,7 @@ const listPage = () => {
         total.value = response.data.total
       })
       .catch(error => {
+        console.error('Error loading users', error)
       })
       .finally(() => {
         loading.value = false
@@ -51,7 +52,7 @@ onMounted(() => {
       <div>
         <div v-if="loading">
           <div class="w-full h-full bg-white bg-opacity-75 flex items-center justify-center">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-700"></div>
+            <div class="animate-spin h-8 w-8 rounded-full border-2 border-emerald-700 border-t-transparent"></div>
           </div>
         </div>
         <!-- Table for users without border -->

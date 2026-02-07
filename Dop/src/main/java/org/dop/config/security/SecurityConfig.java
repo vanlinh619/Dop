@@ -86,7 +86,7 @@ public class SecurityConfig {
                         // Add custom consent page
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
                                 .consentPage(oauth2AuthorizationServerProperties.getConsentPageEndpoint())
-                                
+
                         )
                 )
                 .authorizeHttpRequests(authorize -> authorize
@@ -199,6 +199,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/v1/manage/**").authenticated()
+                        .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**"

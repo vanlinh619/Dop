@@ -5,8 +5,8 @@ import jakarta.annotation.Nullable;
 import org.dop.entity.QUserPrimary;
 import org.dop.entity.QUserProfile;
 import org.dop.entity.UserPrimary;
-import org.dop.module.user.pojo.response.QUserInfoResponse;
-import org.dop.module.user.pojo.response.UserInfoResponse;
+import org.dop.module.manageuser.pojo.response.QUserInfoResponse;
+import org.dop.module.manageuser.pojo.response.UserInfoResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -38,7 +38,7 @@ public interface UserPrimaryDslRepository extends JpaRepository<UserPrimary, UUI
                 .on(userPrimary.id.eq(userProfile.id));
         if (StringUtils.hasText(search)) {
             sql.where(userPrimary.email.value.likeIgnoreCase("%%%s%%".formatted(search))
-                            .or(userProfile.fullName.likeIgnoreCase("%%%s%%".formatted(search)))
+                    .or(userProfile.fullName.likeIgnoreCase("%%%s%%".formatted(search)))
             );
         }
         sql

@@ -1,11 +1,11 @@
 package org.dop.module.security.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dop.module.user.pojo.projection.AddressUserInfoProjection;
-import org.dop.module.user.pojo.projection.EmailUserInfoProjection;
-import org.dop.module.user.pojo.projection.PhoneUserInfoProjection;
-import org.dop.module.user.pojo.projection.ProfileUserInfoProjection;
-import org.dop.module.user.service.Oauth2UserInfoService;
+import org.dop.module.manageuser.pojo.projection.AddressUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.EmailUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.PhoneUserInfoProjection;
+import org.dop.module.manageuser.pojo.projection.ProfileUserInfoProjection;
+import org.dop.module.manageuser.service.Oauth2UserInfoService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -25,7 +25,6 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
 
     private final Oauth2UserInfoService oauth2UserInfoService;
 
-
     @Override
     public Function<OidcUserInfoAuthenticationContext, OidcUserInfo> getUserInfoMapper() {
         return context -> {
@@ -39,7 +38,7 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
                     .map(GrantedAuthority::getAuthority)
                     .toList();
 
-            /// Create user info builder
+            // Create user info builder
             OidcUserInfo.Builder builder = OidcUserInfo.builder()
                     .subject(identifier);
 
