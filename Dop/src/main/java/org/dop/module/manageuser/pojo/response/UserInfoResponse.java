@@ -1,6 +1,5 @@
 package org.dop.module.manageuser.pojo.response;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,21 +25,4 @@ public class UserInfoResponse {
     private List<String> roles;
     private Instant createdDate;
     private Instant lastModifiedDate;
-
-    @QueryProjection
-    public UserInfoResponse(
-            UUID id,
-            String fullName,
-            EmailEmbedded email,
-            UserPrimaryStatus status,
-            Instant createdDate,
-            Instant lastModifiedDate) {
-
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.status = status;
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
-    }
 }
