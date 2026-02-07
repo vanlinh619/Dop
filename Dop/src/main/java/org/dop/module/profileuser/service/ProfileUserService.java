@@ -3,8 +3,10 @@ package org.dop.module.profileuser.service;
 import org.dop.module.profileuser.pojo.request.MyAccountRequest;
 import org.dop.module.profileuser.pojo.response.MyAccountResponse;
 
-public interface UserProfileService {
+import java.util.UUID;
 
-    MyAccountResponse getMyAccount(MyAccountRequest request);
+public interface ProfileUserService {
+
+    MyAccountResponse getMyAccount(MyAccountRequest request, UUID userId);
 
 }

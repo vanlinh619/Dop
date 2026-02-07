@@ -8,18 +8,29 @@ import {jwtDecode} from "jwt-decode";
 import {onMounted, ref} from "vue";
 import {roleProperties} from "../../properties/role-properties";
 import UserProfileView from "../views/UserProfileView.vue";
-import router from "../../router";
-import {routerPage} from "../../router/router-page";
+import api from "../../services/api/dop-api";
+import {useMyAccountStore} from "../../stores/user/my-account-store";
 
 const role = ref([])
+const myAccountStore = useMyAccountStore()
+
+
+const loadMyAccount = () => {
+  api.get('api/v1/user/my-account')
+      .then((response) => {
+        myAccountStore.setAccount(response.data);
+      })
+      .catch((error) => {
+        console.error('Error loading my account data', error)
+      })
+}
 
 onMounted(async () => {
   const user = await auth.getUser()
-  if (!user) {
-    await router.push({name: routerPage.login})
-  }
-  const token = user.access_token
 
+  loadMyAccount();
+
+  const token = user!.access_token
   let payload: any = jwtDecode(token)
   role.value = payload.role
 })

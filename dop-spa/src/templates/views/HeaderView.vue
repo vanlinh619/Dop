@@ -5,10 +5,12 @@ import UserIcon from "../icons/UserIcon.vue";
 import ProfileIcon from "../icons/ProfileIcon.vue";
 import SettingIcon from "../icons/SettingIcon.vue";
 import LogoutIcon from "../icons/LogoutIcon.vue";
+import {useMyAccountStore} from "../../stores/user/my-account-store.ts";
 
 const userManager = auth.getCurrentUserManager()
 const openMenu = ref(false);
 const menuRef = ref();
+const myAccountStore = useMyAccountStore();
 
 
 const logout = async () => {
@@ -58,8 +60,8 @@ onBeforeUnmount(() => {
         <!-- User info -->
         <div class="px-2 pt-3">
           <div class="px-2 pb-2 border-b-[1.5px] border-slate-200">
-            <div class="text-sm font-medium text-slate-800">user name</div>
-            <div class="text-xs text-slate-500">user</div>
+            <div class="text-sm font-medium text-slate-800">{{ myAccountStore.identifier }}</div>
+            <div class="text-xs text-slate-500">{{ myAccountStore.fullName }}</div>
           </div>
         </div>
 

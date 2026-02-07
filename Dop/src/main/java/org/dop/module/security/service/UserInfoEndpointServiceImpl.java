@@ -25,7 +25,6 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
 
     private final Oauth2UserInfoService oauth2UserInfoService;
 
-
     @Override
     public Function<OidcUserInfoAuthenticationContext, OidcUserInfo> getUserInfoMapper() {
         return context -> {
@@ -39,7 +38,7 @@ public class UserInfoEndpointServiceImpl implements UserInfoEndpointService {
                     .map(GrantedAuthority::getAuthority)
                     .toList();
 
-            /// Create user info builder
+            // Create user info builder
             OidcUserInfo.Builder builder = OidcUserInfo.builder()
                     .subject(identifier);
 

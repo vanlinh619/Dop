@@ -29,6 +29,7 @@ const listPage = () => {
         total.value = response.data.total
       })
       .catch(error => {
+        console.error('Error loading users', error)
       })
       .finally(() => {
         loading.value = false

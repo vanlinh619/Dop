@@ -10,12 +10,14 @@ import org.dop.entity.embeded.AddressEmbedded;
 import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.embeded.PhoneEmbedded;
 import org.dop.entity.state.Gender;
-import org.dop.entity.state.IdentifierMethod;
 import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.startup.Starter;
 import org.dop.module.startup.StartupName;
-import org.dop.repository.*;
+import org.dop.repository.RoleRepository;
+import org.dop.repository.UserPrimaryRepository;
+import org.dop.repository.UserProfileRepository;
+import org.dop.repository.UserProviderRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -25,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -40,7 +41,6 @@ public class AdminUserStarter implements Starter {
     private final UserPrimaryRepository userPrimaryRepository;
     private final UserProviderRepository userProviderRepository;
     private final UserProfileRepository userProfileRepository;
-    private final UserIdentifierMethodRepository userIdentifierMethodRepository;
     private final RoleRepository roleRepository;
     private final EntityManager entityManager;
 
@@ -71,19 +71,6 @@ public class AdminUserStarter implements Starter {
                 .providerId(userPrimary.getId().toString())
                 .build();
         userProviderRepository.save(userProvider);
-
-        // Add login methods
-        List<UserIdentifierMethod> loginMethods = List.of(
-                UserIdentifierMethod.builder()
-                        .user(userPrimary)
-                        .identifierMethod(IdentifierMethod.USERNAME)
-                        .build(),
-                UserIdentifierMethod.builder()
-                        .user(userPrimary)
-                        .identifierMethod(IdentifierMethod.EMAIL)
-                        .build()
-        );
-        userIdentifierMethodRepository.saveAll(loginMethods);
 
         // Add profile
         Language language = entityManager.find(Language.class, userAdminProperties.getLanguageCode());

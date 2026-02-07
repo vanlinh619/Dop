@@ -1,7 +1,9 @@
-import {UserManager} from 'oidc-client-ts'
-import oidcProperties from '../../properties/oidc-properties.ts'
+import {User, UserManager} from 'oidc-client-ts'
+import oidcProperties from "../../properties/oidc-properties";
+import router from "../../router";
+import {routerPage} from "../../router/router-page";
 
-let userManager;
+let userManager: UserManager;
 
 const createUserManager = () => {
   const oidcConfig = {
@@ -22,8 +24,12 @@ const getCurrentUserManager = () => {
   return userManager
 }
 
-const getUser = () => {
-  return getCurrentUserManager().getUser()
+const getUser = async (): Promise<User> => {
+  let user = await getCurrentUserManager().getUser()
+  if (!user) {
+    await router.push({name: routerPage.login});
+  }
+  return user!;
 }
 
 const auth = {
