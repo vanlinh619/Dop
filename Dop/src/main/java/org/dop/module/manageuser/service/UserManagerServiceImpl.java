@@ -4,20 +4,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.dop.entity.*;
+import org.dop.entity.embeded.EmailEmbedded;
 import org.dop.entity.state.LanguageCode;
 import org.dop.entity.state.Provider;
 import org.dop.entity.state.UserPrimaryStatus;
 import org.dop.module.common.pojo.response.PageResponse;
 import org.dop.module.manageuser.mapper.UserInfoMapper;
+import org.dop.module.manageuser.pojo.projection.ManageUserProjection;
 import org.dop.module.manageuser.pojo.projection.UserIdAndRoleProjection;
 import org.dop.module.manageuser.pojo.request.UserInfoRequest;
 import org.dop.module.manageuser.pojo.request.UserPageRequest;
 import org.dop.module.manageuser.pojo.response.UserInfoResponse;
+import org.dop.module.manageuser.repository.ManageUserRepository;
 import org.dop.module.role.service.RoleService;
-import org.dop.repository.UserPrimaryDslRepository;
 import org.dop.repository.UserPrimaryRepository;
 import org.dop.repository.UserProfileRepository;
 import org.dop.repository.UserProviderRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,7 +37,7 @@ import java.util.stream.Collectors;
 public class UserManagerServiceImpl implements UserManagerService {
 
     private final UserPrimaryRepository userPrimaryRepository;
-    private final UserPrimaryDslRepository userPrimaryDslRepository;
+    private final ManageUserRepository manageUserRepository;
     private final UserProfileRepository userProfileRepository;
     private final UserProviderRepository userProviderRepository;
     private final RoleService roleService;
@@ -91,9 +94,10 @@ public class UserManagerServiceImpl implements UserManagerService {
                 Sort.by(userPageRequest.getDirection(), userPageRequest.getSortName())
         );
 
-        List<UserInfoResponse> userInfoResponses = userPrimaryDslRepository.listUserPage(userPageRequest.getSearch(), pageable);
-        List<UUID> userIds = userInfoResponses.stream()
-                .map(UserInfoResponse::getId)
+        Page<ManageUserProjection> manageUserProjections = manageUserRepository.getUserPage(userPageRequest.getSearch(), pageable);
+
+        List<UUID> userIds = manageUserProjections.stream()
+                .map(ManageUserProjection::id)
                 .toList();
         Map<UUID, List<String>> map = userRoleService.getUserIdAndRole(userIds).stream()
                 .collect(Collectors.groupingBy(
@@ -101,12 +105,25 @@ public class UserManagerServiceImpl implements UserManagerService {
                         Collectors.mapping(UserIdAndRoleProjection::role, Collectors.toList())
                 ));
 
-        userInfoResponses.forEach(userInfoResponse -> {
-            List<String> roles = map.getOrDefault(userInfoResponse.getId(), List.of());
-            userInfoResponse.setRoles(roles);
-        });
+        List<UserInfoResponse> userInfoResponses = manageUserProjections.stream()
+                .map(manageUserProjection -> {
+                    List<String> roles = map.getOrDefault(manageUserProjection.id(), List.of());
+                    return UserInfoResponse.builder()
+                            .id(manageUserProjection.id())
+                            .fullName(manageUserProjection.fullName())
+                            .email(EmailEmbedded.builder()
+                                    .value(manageUserProjection.email())
+                                    .verified(manageUserProjection.emailVerified())
+                                    .build())
+                            .status(manageUserProjection.status())
+                            .roles(roles)
+                            .createdDate(manageUserProjection.createdDate())
+                            .lastModifiedDate(manageUserProjection.lastModifiedDate())
+                            .build();
+                })
+                .toList();
 
-        long total = userPrimaryDslRepository.countTotal(userPageRequest.getSearch());
+        long total = manageUserProjections.getTotalElements();
 
         return PageResponse.<UserInfoResponse>builder()
                 .content(userInfoResponses)
